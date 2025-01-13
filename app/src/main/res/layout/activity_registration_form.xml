@@ -72,7 +72,7 @@
             tools:ignore="VisualLintTextFieldSize" />
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/passwordOne"
             style="@style/Widget.AppCompat.AutoCompleteTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
             tools:ignore="Autofill,VisualLintTextFieldSize" />
             
          <EditText
-            android:id="@+id/passwordOne"
+            android:id="@+id/passwordTwo"
             style="@style/Widget.AppCompat.AutoCompleteTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

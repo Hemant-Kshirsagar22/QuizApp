@@ -3,5 +3,11 @@ package com.project.quizapp.database;
 public interface Status {
     int INSERT_SUCCESS = 0;
     int INSERT_FAILED = 1;
+
+    String MSG_INSERT_SUCCESS = "USER CREATED";
+    String MSG_INSERT_FAILED = "FAILED TO CREATE USER";
+    String MSG_USER_EXISTS = "USER ALREADY EXISTS";
+    String MSG_PASS_MISMATCH = "PASSWORD DOESN'T MATCH";
+    String MSG_EMPTY_FORM = "PLEASE FILL ALL DETAILS";
 }
 
