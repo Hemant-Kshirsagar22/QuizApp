@@ -60,7 +60,7 @@ public class LoginPage extends AppCompatActivity implements DatabaseStrings {
 
                 if((!userName.isEmpty()) && (!password.isEmpty()))
                 {
-                    if(userNames.contains(userName) && (pass.get(userName.indexOf(userName)).equals(password)))
+                    if(userNames.contains(userName) && (pass.get(userNames.indexOf(userName)).equals(password)))
                     {
                         if(userName.equals(ADMIN_USER_NAME)) {
                             Toast.makeText(LoginPage.this, "ADMIN " + MSG_LOGIN_SUCCESS, Toast.LENGTH_SHORT).show();
