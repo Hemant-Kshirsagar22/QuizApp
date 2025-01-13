@@ -1,15 +1,20 @@
 package com.project.quizapp;
 
 
-import android.content.Context;
+
 import android.content.Intent;
+
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.activity.EdgeToEdge;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.project.quizapp.database.DatabaseHelper;
+
+
 public class MainActivity extends AppCompatActivity {
     Button loginButton;
     Button registerButton;
@@ -45,9 +50,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//       DatabaseHelper dbHelper = new DatabaseHelper(this);
-//       SQLiteDatabase db = dbHelper.getWritableDatabase();
-//       dbHelper.onUpgrade(db,1,1);
+        /*DatabaseHelper dbHelper = new DatabaseHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        dbHelper.onUpgrade(db,1,1);*/
 
     }
 }

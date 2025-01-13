@@ -2,6 +2,7 @@ package com.project.quizapp.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.view.View;
@@ -33,7 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements DatabaseStrings,
         onCreate(db);
     }
 
-    public int addUser(String firstName,String lastName,String email, String pass)
+    public int addUser(String firstName,String lastName,String email, String pass) throws SQLiteConstraintException
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -43,16 +44,23 @@ public class DatabaseHelper extends SQLiteOpenHelper implements DatabaseStrings,
         contentValues.put(USER_COLUMN_EMAIL,email);
         contentValues.put(USER_COLUMN_PASSWORD,pass);
 
-        long result = db.insert(USER_TABLE_NAME,null,contentValues);
+        try {
+            long result = db.insert(USER_TABLE_NAME,null,contentValues);
+            if(result == -1)
+            {
+                return (INSERT_FAILED);
+            }
+            else
+            {
+                return (INSERT_SUCCESS);
+            }
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
 
-        if(result == -1)
-        {
-            return (INSERT_FAILED);
-        }
-        else
-        {
-            return (INSERT_SUCCESS);
-        }
+
     }
 
     private void createAdmin(SQLiteDatabase db)
@@ -66,11 +74,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements DatabaseStrings,
 
         if(db.insert(USER_TABLE_NAME, null, contentValues) == -1)
         {
-            Toast.makeText(context, "Admin Failed", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Admin Failed", Toast.LENGTH_SHORT).show();
         }
         else
         {
-            Toast.makeText(context, "Admin Success", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Admin Success", Toast.LENGTH_SHORT).show();
         }
     }
 

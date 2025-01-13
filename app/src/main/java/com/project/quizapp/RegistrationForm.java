@@ -1,5 +1,6 @@
 package com.project.quizapp;
 
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +17,8 @@ public class RegistrationForm extends AppCompatActivity implements Status {
     EditText firstNameEditText;
     EditText lastNameEditText;
     EditText emailEditText;
-    EditText passEditText;
+    EditText passEditTextOne;
+    EditText passEditTextTwo;
     Button registerButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +28,8 @@ public class RegistrationForm extends AppCompatActivity implements Status {
         firstNameEditText = findViewById(R.id.firstName);
         lastNameEditText = findViewById(R.id.lastName);
         emailEditText = findViewById(R.id.email);
-        passEditText = findViewById(R.id.password);
+        passEditTextOne = findViewById(R.id.passwordOne);
+        passEditTextTwo = findViewById(R.id.password);
         registerButton = findViewById(R.id.registerBtn);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -34,21 +37,23 @@ public class RegistrationForm extends AppCompatActivity implements Status {
             public void onClick(View v) {
                 DatabaseHelper databaseHelper = new DatabaseHelper(RegistrationForm.this);
 
-                int status = databaseHelper.addUser(
-                        firstNameEditText.getText().toString().trim(),
-                        lastNameEditText.getText().toString().trim(),
-                        emailEditText.getText().toString().trim(),
-                        passEditText.getText().toString().trim());
+                String firstName = firstNameEditText.getText().toString().trim();
+                String lastName = lastNameEditText.getText().toString().trim();
+                String email = emailEditText.getText().toString().trim();
+                String passOne = passEditTextOne.getText().toString().trim();
 
-                if(status == INSERT_SUCCESS)
+                if(firstName != null && lastName != null && email != null && passOne != null)
                 {
-                    Toast.makeText(RegistrationForm.this, "Insert Success", Toast.LENGTH_SHORT).show();
+                    int status = databaseHelper.addUser(firstName,lastName,email,passOne);
+                    if(status == INSERT_SUCCESS)
+                    {
+                        Toast.makeText(RegistrationForm.this, "Insert Success", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(RegistrationForm.this, "User Already Exists", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                else
-                {
-                    Toast.makeText(RegistrationForm.this, "Insert Failed", Toast.LENGTH_SHORT).show();
-                }
-
             }
         });
 
