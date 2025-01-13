@@ -92,7 +92,8 @@
         android:textColor="@color/purple"
         android:layout_marginBottom="20dp"
         android:fontFamily="sans-serif"
-
+        android:clickable="true"
+        android:onClick="RegistrationForm"
         />
 
 </LinearLayout>
