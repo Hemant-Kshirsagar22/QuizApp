@@ -13,4 +13,5 @@
     <string name="registerButton">Register</string>
     <string name="enter_first_name">Enter First Name</string>
     <string name="enter_last_name">Enter Last Name</string>
+    <string name="not_register">Not yet registered? SignUp Now</string>
 </resources>

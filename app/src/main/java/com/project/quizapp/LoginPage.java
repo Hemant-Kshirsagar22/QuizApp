@@ -3,11 +3,13 @@ import static com.project.quizapp.database.Status.MSG_EMPTY_FORM;
 import static com.project.quizapp.database.Status.MSG_LOGIN_PASS_NOT_MATCH;
 import static com.project.quizapp.database.Status.MSG_LOGIN_SUCCESS;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -23,6 +25,8 @@ public class LoginPage extends AppCompatActivity implements DatabaseStrings {
     EditText userNameEditText = null;
     EditText passwordEditText = null;
     Button loginButton = null;
+    TextView signUpNowTextView = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +41,16 @@ public class LoginPage extends AppCompatActivity implements DatabaseStrings {
         ArrayList<String> userNames = db.getColumnDataFromTable(db.readDataFromTable(USER_TABLE_NAME),USER_NAME_COLUMN_ID);
 
         ArrayList<String> pass = db.getColumnDataFromTable(db.readDataFromTable(DatabaseStrings.USER_TABLE_NAME),DatabaseStrings.USER_PASS_COLUMN_ID);
+
+        signUpNowTextView = findViewById(R.id.signUpNow);
+
+        signUpNowTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),RegistrationForm.class);
+                startActivity(intent);
+            }
+        });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
