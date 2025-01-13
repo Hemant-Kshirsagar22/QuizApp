@@ -3,6 +3,8 @@ package com.project.quizapp.database;
 public interface DatabaseStrings {
     String DATABASE_NAME = "QuizApp.db";
 
+    int USER_NAME_COLUMN_ID = 3;
+    int USER_PASS_COLUMN_ID = 4;
     // User Table
     String USER_TABLE_NAME = "users";
     String USER_COLUMN_ID = "uid";

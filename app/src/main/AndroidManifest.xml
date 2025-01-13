@@ -26,13 +26,14 @@
             android:name=".LoginPage"
             android:exported="false"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.AppCompat"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+
             android:label="Login"/>
         <activity
             android:name=".RegistrationForm"
             android:exported="false"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.AppCompat"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:label="Registarion"/>
     </application>
 
