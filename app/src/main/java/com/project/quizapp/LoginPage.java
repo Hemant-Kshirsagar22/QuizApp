@@ -80,15 +80,15 @@ public class LoginPage extends AppCompatActivity implements DatabaseStrings {
         });
 
 
-        for (String user :
-                userNames) {
-            Log.d("USERNAME",user);
-        }
-
-        for (String pwd :
-                pass) {
-            Log.d("PASS",pwd);
-        }
+//        for (String user :
+//                userNames) {
+//            Log.d("USERNAME",user);
+//        }
+//
+//        for (String pwd :
+//                pass) {
+//            Log.d("PASS",pwd);
+//        }
 
 
 
