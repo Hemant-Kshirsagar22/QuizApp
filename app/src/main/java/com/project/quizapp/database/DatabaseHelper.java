@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 import com.project.quizapp.database.DatabaseStrings;
 import com.project.quizapp.database.Status;
 
+import java.util.ArrayList;
+
 public class DatabaseHelper extends SQLiteOpenHelper implements DatabaseStrings, Status {
     private Context context;
     private static final int DATABASE_VERSION = 1;
@@ -82,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements DatabaseStrings,
         }
     }
 
-    public Cursor readUsers()
+    public Cursor readDataFromTable(String tableName)
     {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -90,9 +92,24 @@ public class DatabaseHelper extends SQLiteOpenHelper implements DatabaseStrings,
 
         if(db != null)
         {
-            cursor = db.rawQuery(USER_QUERY_READ_ALL,null);
+            if(tableName.equals(USER_TABLE_NAME)) {
+                cursor = db.rawQuery(USER_QUERY_READ_ALL, null);
+            }
         }
         return (cursor);
     }
+
+    public ArrayList<String> getColumnDataFromTable(Cursor cursor,int columnId)
+    {
+        ArrayList<String> users = new ArrayList<String>();
+
+        while (cursor.moveToNext())
+        {
+            users.add(cursor.getString(columnId));
+        }
+
+        return (users);
+    }
+
 }
 

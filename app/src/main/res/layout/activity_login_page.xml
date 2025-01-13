@@ -45,7 +45,7 @@
             android:background="#FADA7A"
             android:textColor="#353535"
             android:ems="10"
-            android:hint="@string/enter_password"
+            android:hint="@string/enter_password_one"
             android:inputType="textPassword"
             android:minHeight="48dp"
             android:padding="10dp"
@@ -54,6 +54,7 @@
             android:fontFamily="monospace"/>
 
         <Button
+            android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
