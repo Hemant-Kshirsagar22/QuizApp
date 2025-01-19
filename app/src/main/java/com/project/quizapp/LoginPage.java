@@ -37,12 +37,13 @@ public class LoginPage extends AppCompatActivity implements DatabaseStrings {
         userNameEditText = findViewById(R.id.email);
         passwordEditText = findViewById(R.id.password);
         loginButton = findViewById(R.id.loginButton);
+        signUpNowTextView = findViewById(R.id.signUpNow);
 
+        // getting all usernames from column
         ArrayList<String> userNames = db.getColumnDataFromTable(db.readDataFromTable(USER_TABLE_NAME),USER_NAME_COLUMN_ID);
 
+        // getting all pass from column
         ArrayList<String> pass = db.getColumnDataFromTable(db.readDataFromTable(DatabaseStrings.USER_TABLE_NAME),DatabaseStrings.USER_PASS_COLUMN_ID);
-
-        signUpNowTextView = findViewById(R.id.signUpNow);
 
         signUpNowTextView.setOnClickListener(new View.OnClickListener() {
             @Override
