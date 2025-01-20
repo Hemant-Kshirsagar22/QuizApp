@@ -63,11 +63,15 @@ public class LoginPage extends AppCompatActivity implements DatabaseStrings {
                 {
                     if(userNames.contains(userName) && (pass.get(userNames.indexOf(userName)).equals(password)))
                     {
+
                         if(userName.equals(ADMIN_USER_NAME)) {
                             Toast.makeText(LoginPage.this, "ADMIN " + MSG_LOGIN_SUCCESS, Toast.LENGTH_SHORT).show();
                         }
                         else {
                             Toast.makeText(LoginPage.this, MSG_LOGIN_SUCCESS, Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(),Dashboard.class);
+                            intent.putExtra("user",userName);
+                            startActivity(intent);
                         }
                     }
                     else {

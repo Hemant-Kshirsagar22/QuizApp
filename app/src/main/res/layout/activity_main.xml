@@ -5,20 +5,34 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D9D9D9"
-    tools:context=".MainActivity">
+    android:background="@drawable/loginbkg_1"
+    tools:context=".MainActivity"
+    >
+
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="350dp"
+        android:layout_height="500dp"
         android:layoutDirection="rtl"
-        android:padding="10dp">
+        android:padding="10dp"
+       android:layout_marginTop="200dp"
+        android:layout_gravity="center|center_horizontal"
+        android:orientation="vertical"
+        >
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:src="@drawable/foreground"
+
+            />
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/loginButton"
+        android:visibility="invisible"
         android:layout_marginHorizontal="5dp"/>
 
     <Button
@@ -26,6 +40,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/registerButton"
-        android:layout_marginHorizontal="5dp"/>
+        android:layout_marginHorizontal="5dp"
+        android:visibility="invisible"/>
+
+
     </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Makes your IT Journey Easy"
+        android:id="@+id/loginText"
+        android:textSize="30sp"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textColor="#0B0B0B"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="60dp"
+        android:fontFamily="sans-serif-condensed"
+
+        />
+
 </FrameLayout>

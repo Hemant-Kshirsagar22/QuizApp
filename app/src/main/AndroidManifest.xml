@@ -14,7 +14,13 @@
         android:theme="@style/Theme.QuizApp"
         tools:targetApi="31">
         <activity
-            android:name=".LoginPage"
+            android:name=".Dashboard"
+            android:exported="false" />
+        <activity
+            android:name=".ImageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
@@ -23,19 +29,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<!--        <activity-->
-<!--            android:name=".LoginPage"-->
-<!--            android:exported="false"-->
-<!--            android:parentActivityName=".MainActivity"-->
-<!--            android:theme="@style/Theme.AppCompat.NoActionBar"-->
-
-<!--            android:label="Login"/>-->
+        <activity
+            android:name=".LoginPage"
+            android:exported="false"
+            android:label="Login"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".RegistrationForm"
             android:exported="false"
+            android:label="Registarion"
             android:parentActivityName=".LoginPage"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:label="Registarion"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
     </application>
 
 </manifest>

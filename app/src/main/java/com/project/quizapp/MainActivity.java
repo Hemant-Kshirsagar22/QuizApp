@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-
+import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.project.quizapp.database.DatabaseHelper;
@@ -45,6 +45,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(registerIntent);
             }
         });
+
+        // Delay for 5 seconds (5000ms)
+        new Handler().postDelayed(() -> {
+            // Redirect to SecondActivity
+            Intent intent = new Intent(MainActivity.this, LoginPage.class);
+            startActivity(intent);
+            finish(); // Close the current activity
+        }, 2000);
+
     }
 
     @Override
