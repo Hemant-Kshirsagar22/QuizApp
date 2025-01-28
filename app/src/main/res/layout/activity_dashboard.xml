@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="25dp"
-                android:text="SUSHANT CHAVAN"
+                android:text="USER"
                 android:textAllCaps="true"
                 android:textColor="@color/purple"
                 android:textSize="16sp"
@@ -115,7 +115,8 @@
         android:layout_marginEnd="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
-        android:foregroundGravity="center_horizontal|center_vertical">
+        android:foregroundGravity="center_horizontal|center_vertical"
+        >
 
         <androidx.cardview.widget.CardView
             android:id="@+id/Education"
@@ -127,6 +128,7 @@
             android:layout_gravity="bottom"
             app:cardCornerRadius="20dp"
             app:cardElevation="10dp"
+            android:theme="@style/CardView.Light"
             >
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -163,6 +165,7 @@
             android:layout_gravity="bottom"
             app:cardCornerRadius="20dp"
             app:cardElevation="10dp"
+            android:theme="@style/CardView.Light"
             >
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -198,7 +201,8 @@
             android:layout_gravity="bottom"
             android:layout_margin="8dp"
             app:cardCornerRadius="20dp"
-            app:cardElevation="10dp">
+            app:cardElevation="10dp"
+            android:theme="@style/CardView.Light">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -234,6 +238,7 @@
             android:layout_margin="8dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="10dp"
+            android:theme="@style/CardView.Light"
             >
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -270,6 +275,7 @@
             android:layout_gravity="bottom"
             app:cardCornerRadius="20dp"
             app:cardElevation="10dp"
+            android:theme="@style/CardView.Light"
             >
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -306,6 +312,7 @@
             android:layout_gravity="bottom"
             app:cardCornerRadius="20dp"
             app:cardElevation="10dp"
+            android:theme="@style/CardView.Light"
             >
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -341,6 +348,7 @@
             android:layout_margin="8dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="10dp"
+            android:theme="@style/CardView.Light"
             >
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -377,6 +385,7 @@
             android:layout_gravity="bottom"
             app:cardCornerRadius="20dp"
             app:cardElevation="10dp"
+            android:theme="@style/CardView.Light"
             >
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -413,6 +422,7 @@
             android:layout_gravity="bottom"
             app:cardCornerRadius="20dp"
             app:cardElevation="10dp"
+            android:theme="@style/CardView.Light"
             >
             <LinearLayout
                 android:layout_width="wrap_content"

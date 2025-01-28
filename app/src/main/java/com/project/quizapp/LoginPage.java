@@ -1,27 +1,21 @@
 package com.project.quizapp;
 import static com.project.quizapp.database.Status.MSG_EMPTY_FORM;
-import static com.project.quizapp.database.Status.MSG_LOGIN_PASS_NOT_MATCH;
-import static com.project.quizapp.database.Status.MSG_LOGIN_SUCCESS;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.project.quizapp.database.DatabaseHelper;
-import com.project.quizapp.database.DatabaseStrings;
+import com.project.quizapp.database.FirebaseDBHelper;
+import com.project.quizapp.database.User;
+import com.project.quizapp.session.SessionManager;
 
-import java.util.ArrayList;
-
-public class LoginPage extends AppCompatActivity implements DatabaseStrings {
-    DatabaseHelper db = null;
+public class LoginPage extends AppCompatActivity{
     EditText userNameEditText = null;
     EditText passwordEditText = null;
     Button loginButton = null;
@@ -32,18 +26,12 @@ public class LoginPage extends AppCompatActivity implements DatabaseStrings {
         super.onCreate(savedInstanceState);
         /*EdgeToEdge.enable(this);*/
         setContentView(R.layout.activity_login_page);
-        db = new DatabaseHelper(this);
 
         userNameEditText = findViewById(R.id.email);
         passwordEditText = findViewById(R.id.password);
         loginButton = findViewById(R.id.loginButton);
         signUpNowTextView = findViewById(R.id.signUpNow);
 
-        // getting all usernames from column
-        ArrayList<String> userNames = db.getColumnDataFromTable(db.readDataFromTable(USER_TABLE_NAME),USER_NAME_COLUMN_ID);
-
-        // getting all pass from column
-        ArrayList<String> pass = db.getColumnDataFromTable(db.readDataFromTable(DatabaseStrings.USER_TABLE_NAME),DatabaseStrings.USER_PASS_COLUMN_ID);
 
         signUpNowTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,22 +49,27 @@ public class LoginPage extends AppCompatActivity implements DatabaseStrings {
 
                 if((!userName.isEmpty()) && (!password.isEmpty()))
                 {
-                    if(userNames.contains(userName) && (pass.get(userNames.indexOf(userName)).equals(password)))
-                    {
+                    FirebaseDBHelper.getUserByUserName(userName, new FirebaseDBHelper.UserQueryCallback() {
+                        @Override
+                        public void onSuccess(User user) {
+                            if (user != null)
+                            {
+                                if(user.getPassword().equals(password))
+                                {
+                                    SessionManager sessionManager = new SessionManager(LoginPage.this);
+                                    sessionManager.setUserLogin(user);
+                                    Intent intent = new Intent(LoginPage.this,Dashboard.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }
+                        }
 
-                        if(userName.equals(ADMIN_USER_NAME)) {
-                            Toast.makeText(LoginPage.this, "ADMIN " + MSG_LOGIN_SUCCESS, Toast.LENGTH_SHORT).show();
+                        @Override
+                        public void onFailure(String errMsg) {
+                            Toast.makeText(LoginPage.this,errMsg,Toast.LENGTH_SHORT).show();
                         }
-                        else {
-                            Toast.makeText(LoginPage.this, MSG_LOGIN_SUCCESS, Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(),Dashboard.class);
-                            intent.putExtra("user",userName);
-                            startActivity(intent);
-                        }
-                    }
-                    else {
-                        Toast.makeText(LoginPage.this,MSG_LOGIN_PASS_NOT_MATCH,Toast.LENGTH_SHORT).show();
-                    }
+                    });
                 }
                 else {
                     Toast.makeText(LoginPage.this,MSG_EMPTY_FORM,Toast.LENGTH_SHORT).show();

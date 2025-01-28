@@ -2,16 +2,17 @@ package com.project.quizapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.project.quizapp.database.DatabaseHelper;
+import com.project.quizapp.database.FirebaseDBHelper;
 import com.project.quizapp.database.Status;
+import com.project.quizapp.database.User;
 import com.project.quizapp.validation.EmailValidator;
 import com.project.quizapp.validation.NameValidator;
 
@@ -24,6 +25,7 @@ public class RegistrationForm extends AppCompatActivity implements Status {
     private EditText passEditTextTwo;
     private Button registerButton;
 
+    private TextView loginNow;
     // for validation
     private NameValidator firstNameValidator = null;
     private  NameValidator lastNameValidator = null;
@@ -40,6 +42,7 @@ public class RegistrationForm extends AppCompatActivity implements Status {
         passEditTextOne = findViewById(R.id.passwordOne);
         passEditTextTwo = findViewById(R.id.passwordTwo);
         registerButton = findViewById(R.id.registerBtn);
+        loginNow = findViewById(R.id.loginNow);
 
         // setting listeners for validation
         firstNameValidator = new NameValidator(firstNameEditText);
@@ -53,7 +56,6 @@ public class RegistrationForm extends AppCompatActivity implements Status {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseHelper databaseHelper = new DatabaseHelper(RegistrationForm.this);
 
                 String firstName = firstNameEditText.getText().toString().trim();
                 String lastName = lastNameEditText.getText().toString().trim();
@@ -82,21 +84,29 @@ public class RegistrationForm extends AppCompatActivity implements Status {
                         return;
                     }
 
-                    if(passOne.length() < 8)
-                    {
-                        Toast.makeText(RegistrationForm.this,MSG_PASS_LENGTH_ERROR,Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    // checking two passwords are same or not
+//                    if(passOne.length() < 8)
+//                    {
+//                        Toast.makeText(RegistrationForm.this,MSG_PASS_LENGTH_ERROR,Toast.LENGTH_SHORT).show();
+//                        return;
+//                    }
+//                    // checking two passwords are same or not
                     if(passOne.equals(passTwo)) {
-                        int status = databaseHelper.addUser(firstName, lastName, email, passOne);
-                        if (status == INSERT_SUCCESS) {
-                            Toast.makeText(RegistrationForm.this, MSG_INSERT_SUCCESS, Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(),LoginPage.class);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(RegistrationForm.this, MSG_USER_EXISTS, Toast.LENGTH_SHORT).show();
-                        }
+                        // registration code
+                        User user = new User(firstName,lastName,email,passOne);
+                        FirebaseDBHelper.insertUser(user, new FirebaseDBHelper.UserQueryCallback() {
+                            @Override
+                            public void onSuccess(User user) {
+                                Toast.makeText(RegistrationForm.this,MSG_INSERT_SUCCESS,Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(RegistrationForm.this,LoginPage.class);
+                                startActivity(intent);
+                                finish();
+                            }
+
+                            @Override
+                            public void onFailure(String errMsg) {
+                                Toast.makeText(RegistrationForm.this,errMsg,Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                     else // if password not same
                     {
@@ -110,7 +120,14 @@ public class RegistrationForm extends AppCompatActivity implements Status {
             }
         });
 
-
+        loginNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RegistrationForm.this,LoginPage.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void temp()
