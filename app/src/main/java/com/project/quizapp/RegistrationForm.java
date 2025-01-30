@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.project.quizapp.database.FirebaseDBHelper;
 import com.project.quizapp.database.Status;
-import com.project.quizapp.database.User;
+import com.project.quizapp.database.entities.User;
 import com.project.quizapp.validation.EmailValidator;
 import com.project.quizapp.validation.NameValidator;
 

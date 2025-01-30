@@ -2,19 +2,17 @@ package com.project.quizapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.project.quizapp.database.FirebaseDBHelper;
-import com.project.quizapp.database.User;
+import com.project.quizapp.database.entities.Question;
+import com.project.quizapp.database.entities.User;
 import com.project.quizapp.session.SessionManager;
 
 public class Dashboard extends AppCompatActivity {
@@ -30,6 +28,19 @@ public class Dashboard extends AppCompatActivity {
 
         nameTextView = findViewById(R.id.name);
         logoutCardView = findViewById(R.id.logout);
+
+        FirebaseDBHelper.getQuestionByCategory("number-series", new FirebaseDBHelper.QuestionQueryCallback() {
+            @Override
+            public void onSuccess(Question question) {
+                Log.d("QUESTION", question.toString());
+            }
+
+            @Override
+            public void onFailure(String errMsg) {
+                Toast.makeText(Dashboard.this,errMsg,Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
 //        String user = getIntent().getStringExtra("user");
         SessionManager sessionManager = new SessionManager(Dashboard.this);
@@ -50,8 +61,6 @@ public class Dashboard extends AppCompatActivity {
 
             }
         });
-
-
 
         logoutCardView.setOnClickListener(new View.OnClickListener() {
             @Override

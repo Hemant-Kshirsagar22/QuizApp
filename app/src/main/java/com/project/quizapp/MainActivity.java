@@ -30,27 +30,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-//        loginButton = findViewById(R.id.loginButton);
-//        registerButton = findViewById(R.id.registerButton);
-//
-//        loginButton.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view)
-//            {
-//                Intent loginIntent = new Intent(getApplicationContext(),LoginPage.class);
-//                startActivity(loginIntent);
-//            }
-//        });
-//
-//        registerButton.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View view)
-//            {
-//                Intent registerIntent = new Intent(getApplicationContext(),RegistrationForm.class);
-//                startActivity(registerIntent);
-//            }
-//        });
 
         // Delay for 5 seconds (5000ms)
         new Handler().postDelayed(() -> {
@@ -126,9 +105,18 @@ public class MainActivity extends AppCompatActivity {
             }
             else
             {
-                Intent intent = new Intent(MainActivity.this, LoginPage.class);
-                startActivity(intent);
-                finish(); // Close the current activity
+                if(SessionManager.isUserLoggedIn(this)) {
+                    Intent intent = new Intent(MainActivity.this, Dashboard.class);
+                    startActivity(intent);
+                    finish(); // Close the current activity
+
+                }
+                else
+                {
+                    Intent intent = new Intent(MainActivity.this, LoginPage.class);
+                    startActivity(intent);
+                    finish(); // Close the current activity
+                }
             }
         }
     }

@@ -3,7 +3,7 @@ package com.project.quizapp.session;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.project.quizapp.database.User;
+import com.project.quizapp.database.entities.User;
 
 public class SessionManager {
     private SharedPreferences sharedPreference = null;

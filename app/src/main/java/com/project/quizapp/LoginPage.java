@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.project.quizapp.database.FirebaseDBHelper;
-import com.project.quizapp.database.User;
+import com.project.quizapp.database.entities.User;
 import com.project.quizapp.session.SessionManager;
 
 public class LoginPage extends AppCompatActivity{
