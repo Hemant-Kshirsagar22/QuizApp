@@ -65,9 +65,8 @@ public class Dashboard extends AppCompatActivity {
         logoutCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sessionManager.setUserLogout();
-                Intent intent = new Intent(Dashboard.this,LoginPage.class);
-                startActivity(intent);
+                sessionManager.setUserLogout(Dashboard.this);
+                IntentManager.toLoginActivity(Dashboard.this);
             }
         });
 

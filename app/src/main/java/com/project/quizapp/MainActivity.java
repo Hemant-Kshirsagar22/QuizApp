@@ -22,8 +22,6 @@ import com.project.quizapp.session.SessionManager;
 
 
 public class MainActivity extends AppCompatActivity {
-//    Button loginButton;
-//    Button registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +38,13 @@ public class MainActivity extends AppCompatActivity {
             }else {
 
                 if(SessionManager.isUserLoggedIn(this)) {
-                    Intent intent = new Intent(MainActivity.this, Dashboard.class);
-                    startActivity(intent);
+                    IntentManager.toDashboardActivity(this);
                     finish(); // Close the current activity
 
                 }
                 else
                 {
-                    Intent intent = new Intent(MainActivity.this, LoginPage.class);
-                    startActivity(intent);
+                    IntentManager.toLoginActivity(this);
                     finish(); // Close the current activity
                 }
             }
@@ -106,15 +102,13 @@ public class MainActivity extends AppCompatActivity {
             else
             {
                 if(SessionManager.isUserLoggedIn(this)) {
-                    Intent intent = new Intent(MainActivity.this, Dashboard.class);
-                    startActivity(intent);
+                    IntentManager.toDashboardActivity(this);
                     finish(); // Close the current activity
 
                 }
                 else
                 {
-                    Intent intent = new Intent(MainActivity.this, LoginPage.class);
-                    startActivity(intent);
+                    IntentManager.toLoginActivity(this);
                     finish(); // Close the current activity
                 }
             }

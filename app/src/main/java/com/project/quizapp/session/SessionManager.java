@@ -1,8 +1,13 @@
 package com.project.quizapp.session;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.project.quizapp.Dashboard;
+import com.project.quizapp.LoginPage;
 import com.project.quizapp.database.entities.User;
 
 public class SessionManager {
@@ -39,8 +44,11 @@ public class SessionManager {
         return (sharedPreference.getString(USER_LOGIN_STATUS,null));
     }
 
-    public void setUserLogout()
+    public void setUserLogout(Context context)
     {
         editor.putString(USER_LOGIN_STATUS,null).commit();
+        Intent intent = new Intent(context, LoginPage.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
     }
 }

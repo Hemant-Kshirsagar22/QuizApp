@@ -97,8 +97,7 @@ public class RegistrationForm extends AppCompatActivity implements Status {
                             @Override
                             public void onSuccess(User user) {
                                 Toast.makeText(RegistrationForm.this,MSG_INSERT_SUCCESS,Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(RegistrationForm.this,LoginPage.class);
-                                startActivity(intent);
+                                IntentManager.toLoginActivity(RegistrationForm.this);
                                 finish();
                             }
 
@@ -123,15 +122,9 @@ public class RegistrationForm extends AppCompatActivity implements Status {
         loginNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(RegistrationForm.this,LoginPage.class);
-                startActivity(intent);
+                IntentManager.toLoginActivity(RegistrationForm.this);
                 finish();
             }
         });
-    }
-
-    private void temp()
-    {
-
     }
 }

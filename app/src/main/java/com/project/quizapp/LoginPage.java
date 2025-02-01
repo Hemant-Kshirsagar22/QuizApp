@@ -36,8 +36,7 @@ public class LoginPage extends AppCompatActivity{
         signUpNowTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),RegistrationForm.class);
-                startActivity(intent);
+                IntentManager.toRegistrationActivity(LoginPage.this);
             }
         });
 
@@ -58,8 +57,7 @@ public class LoginPage extends AppCompatActivity{
                                 {
                                     SessionManager sessionManager = new SessionManager(LoginPage.this);
                                     sessionManager.setUserLogin(user);
-                                    Intent intent = new Intent(LoginPage.this,Dashboard.class);
-                                    startActivity(intent);
+                                    IntentManager.toDashboardActivity(LoginPage.this);
                                     finish();
                                 }
                             }
