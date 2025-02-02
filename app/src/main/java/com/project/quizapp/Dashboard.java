@@ -29,7 +29,7 @@ public class Dashboard extends AppCompatActivity {
         nameTextView = findViewById(R.id.name);
         logoutCardView = findViewById(R.id.logout);
 
-        FirebaseDBHelper.getQuestionByCategory("number-series", new FirebaseDBHelper.QuestionQueryCallback() {
+        FirebaseDBHelper.getQuestionByCategory("Logical-Reasoning/Number-Series", new FirebaseDBHelper.QuestionQueryCallback() {
             @Override
             public void onSuccess(Question question) {
                 Log.d("QUESTION", question.toString());

@@ -21,7 +21,7 @@ public class FirebaseDBHelper {
     private static DatabaseReference userRef = null;
     private static DatabaseReference questionRef = null;
     private static String USER_COLLECTION_NAME = "Users";
-    private static String QUETION_COLLECTION_NAME = "Logical-Reasoning";
+    private static String QUETION_COLLECTION_NAME = "Questions";
 
     public interface UserQueryCallback
     {
@@ -159,13 +159,13 @@ public class FirebaseDBHelper {
         questionRef.child(category).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList questionArrayList = new ArrayList<Question>();
+                ArrayList<Question> questionArrayList = new ArrayList<Question>();
 //                Log.d("QUESTION", snapshot.getValue(""))
                 for(DataSnapshot snap : snapshot.getChildren()) {
                     Question q =(Question) snap.getValue(Question.class);
                     questionArrayList.add(q);
                 }
-                questionQueryCallback.onSuccess((Question) questionArrayList.get(0));
+               questionQueryCallback.onSuccess((Question) questionArrayList.get(0));
             }
 
             @Override
