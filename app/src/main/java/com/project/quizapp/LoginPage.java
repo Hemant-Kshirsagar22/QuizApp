@@ -1,5 +1,6 @@
 package com.project.quizapp;
 import static com.project.quizapp.database.Status.MSG_EMPTY_FORM;
+import static com.project.quizapp.database.Status.MSG_LOGIN_SUCCESS;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.project.quizapp.database.FirebaseDBHelper;
+import com.project.quizapp.database.Status;
 import com.project.quizapp.database.entities.User;
 import com.project.quizapp.session.SessionManager;
 
@@ -48,19 +50,11 @@ public class LoginPage extends AppCompatActivity{
 
                 if((!userName.isEmpty()) && (!password.isEmpty()))
                 {
-                    FirebaseDBHelper.getUserByUserName(userName, new FirebaseDBHelper.UserQueryCallback() {
+                    FirebaseDBHelper.loginUser(userName, password, new FirebaseDBHelper.UserQueryCallback() {
                         @Override
                         public void onSuccess(User user) {
-                            if (user != null)
-                            {
-                                if(user.getPassword().equals(password))
-                                {
-                                    SessionManager sessionManager = new SessionManager(LoginPage.this);
-                                    sessionManager.setUserLogin(user);
-                                    IntentManager.toDashboardActivity(LoginPage.this);
-                                    finish();
-                                }
-                            }
+                            Toast.makeText(LoginPage.this, MSG_LOGIN_SUCCESS,Toast.LENGTH_SHORT).show();
+                            IntentManager.toDashboardActivity(LoginPage.this);
                         }
 
                         @Override

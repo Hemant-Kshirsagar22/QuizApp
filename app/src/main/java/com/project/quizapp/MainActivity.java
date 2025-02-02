@@ -1,7 +1,5 @@
 package com.project.quizapp;
 
-
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,14 +8,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.view.View;
-import android.widget.Button;
 
 import android.os.Handler;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.FirebaseApp;
+import com.project.quizapp.database.FirebaseDBHelper;
 import com.project.quizapp.session.SessionManager;
 
 
@@ -29,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
         // EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        // Initialize Firebase
+        FirebaseApp.initializeApp(this);
+
         // Delay for 5 seconds (5000ms)
         new Handler().postDelayed(() -> {
             // Redirect to SecondActivity
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 //                System.exit(0);
             }else {
 
-                if(SessionManager.isUserLoggedIn(this)) {
+                if(FirebaseDBHelper.isUserLoggedIn()) {
                     IntentManager.toDashboardActivity(this);
                     finish(); // Close the current activity
 
@@ -101,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else
             {
-                if(SessionManager.isUserLoggedIn(this)) {
+                if(FirebaseDBHelper.isUserLoggedIn()) {
                     IntentManager.toDashboardActivity(this);
                     finish(); // Close the current activity
 

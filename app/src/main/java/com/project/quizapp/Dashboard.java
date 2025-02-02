@@ -43,8 +43,8 @@ public class Dashboard extends AppCompatActivity {
 
 
 //        String user = getIntent().getStringExtra("user");
-        SessionManager sessionManager = new SessionManager(Dashboard.this);
-        FirebaseDBHelper.getUserByUserName(sessionManager.getUserName(), new FirebaseDBHelper.UserQueryCallback() {
+//        SessionManager sessionManager = new SessionManager(Dashboard.this);
+        FirebaseDBHelper.getUser(new FirebaseDBHelper.UserQueryCallback() {
             @Override
             public void onSuccess(User user) {
                 if(user != null) {
@@ -65,7 +65,8 @@ public class Dashboard extends AppCompatActivity {
         logoutCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sessionManager.setUserLogout(Dashboard.this);
+//                sessionManager.setUserLogout(Dashboard.this);
+                FirebaseDBHelper.logout();
                 IntentManager.toLoginActivity(Dashboard.this);
             }
         });
