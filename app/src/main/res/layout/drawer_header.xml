@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/purple"
@@ -8,11 +9,12 @@
 
     <ImageView
         android:id="@+id/userImage"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:src="@drawable/baseline_person_24"
         android:scaleType="centerCrop"
-        android:layout_gravity="start"/>
+        android:layout_gravity="start"
+        />
 
     <TextView
         android:id="@+id/userName"
@@ -20,21 +22,41 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:layout_toEndOf="@+id/userImage"
+        android:text="sushant chavan"
+        android:layout_marginLeft="10dp"
+
+        />
 
     <TextView
         android:id="@+id/userEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="14sp"/>
+        android:textColor="@android:color/black"
+        android:textSize="14dp"
+        android:textStyle="bold"
+        android:layout_toEndOf="@+id/userImage"
+        android:layout_below="@+id/userName"
+        android:text="chavanss@gmailcom"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+
+        />
+
 
     <TextView
         android:id="@+id/userRole"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Medical"
+        android:text="Computer Science"
         android:textColor="@color/black"
         android:background="@drawable/label_background"
-        android:padding="4dp"/>
-</LinearLayout>
+        android:padding="4dp"
+        android:layout_toEndOf="@+id/userImage"
+        android:layout_below="@id/userEmail"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+
+        />
+</RelativeLayout>

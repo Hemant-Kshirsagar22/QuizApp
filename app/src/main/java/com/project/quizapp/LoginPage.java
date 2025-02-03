@@ -72,6 +72,8 @@ public class LoginPage extends AppCompatActivity{
             public void onClick(View v) {
                 String userName = userNameEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
+
+                //PtogressBar
                 progressBar.setVisibility(View.VISIBLE);
                 ProgressBar();
                 if((!userName.isEmpty()) && (!password.isEmpty()))
