@@ -3,10 +3,13 @@ package com.project.quizapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -19,38 +22,75 @@ import com.project.quizapp.database.entities.Question;
 import com.project.quizapp.database.entities.User;
 import com.project.quizapp.session.SessionManager;
 
+import java.util.Objects;
+
 public class Dashboard extends AppCompatActivity {
 
-    TextView nameTextView;
-
-    MaterialToolbar toolbar = null;
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle actionBarDrawerToggle;
-    CardView logoutCardView;
+    private MaterialToolbar toolbar = null;
+    private DrawerLayout drawerLayout = null;
+    private ActionBarDrawerToggle actionBarDrawerToggle = null;
+    private NavigationView navigationView = null;
+    private MenuItem logoutNavMenuItem = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        EdgeToEdge.enable(this);
-//        nameTextView = findViewById(R.id.name);
-//        logoutCardView = findViewById(R.id.logout);
 
         //        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_dashboard);
-
-
         toolbar = findViewById(R.id.AppBar);
         setSupportActionBar(toolbar);
-
         // Initialize DrawerLayout
         drawerLayout = findViewById(R.id.main);
-
         // Setup ActionBarDrawerToggle
         actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
-
         // Sync the state
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+
+        navigationView = findViewById(R.id.nav_view);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if(Objects.equals(item.getTitle(), "Refresh"))
+                {
+                    Toast.makeText(Dashboard.this,"REFRESH",Toast.LENGTH_SHORT).show();
+                    return (true);
+                }
+                else if(Objects.equals(item.getTitle(), "Feedback"))
+                {
+                    Toast.makeText(Dashboard.this,"Feedback",Toast.LENGTH_SHORT).show();
+                    return (true);
+                }
+                else if(Objects.equals(item.getTitle(), "Select Language"))
+                {
+                    Toast.makeText(Dashboard.this,"Select Language",Toast.LENGTH_SHORT).show();
+                    return (true);
+                }
+                else if(Objects.equals(item.getTitle(), "Help and Support"))
+                {
+                    Toast.makeText(Dashboard.this,"Help and Support",Toast.LENGTH_SHORT).show();
+                    return (true);
+                }
+                else if(Objects.equals(item.getTitle(), "About Us"))
+                {
+                    Toast.makeText(Dashboard.this,"About Us",Toast.LENGTH_SHORT).show();
+                    return (true);
+                }
+                else if(Objects.equals(item.getTitle(), "Logout"))
+                {
+                    Toast.makeText(Dashboard.this,"Logout",Toast.LENGTH_SHORT).show();
+                    FirebaseDBHelper.logout();
+                    IntentManager.toLoginActivity(Dashboard.this);
+                    return (true);
+                }
+                else {
+                    return (false);
+                }
+            }
+        });
+
 
         FirebaseDBHelper.getQuestionByCategory("Logical-Reasoning/Number-Series", new FirebaseDBHelper.QuestionQueryCallback() {
             @Override
@@ -63,36 +103,5 @@ public class Dashboard extends AppCompatActivity {
                 Toast.makeText(Dashboard.this,errMsg,Toast.LENGTH_SHORT).show();
             }
         });
-
-
-//        String user = getIntent().getStringExtra("user");
-//        SessionManager sessionManager = new SessionManager(Dashboard.this);
-        FirebaseDBHelper.getUser(new FirebaseDBHelper.UserQueryCallback() {
-            @Override
-            public void onSuccess(User user) {
-                if(user != null) {
-                   // nameTextView.setText(user.getFirstName().toUpperCase() + " " + user.getLastName().toUpperCase());
-                }
-                else
-                {
-                   // nameTextView.setText("USER NAME");
-                }
-            }
-
-            @Override
-            public void onFailure(String errMsg) {
-
-            }
-        });
-
-//        logoutCardView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                sessionManager.setUserLogout(Dashboard.this);
-//                FirebaseDBHelper.logout();
-//                IntentManager.toLoginActivity(Dashboard.this);
-//            }
-//        });
-
     }
 }
