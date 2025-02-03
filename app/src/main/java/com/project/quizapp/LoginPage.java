@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,12 +18,17 @@ import com.project.quizapp.database.Status;
 import com.project.quizapp.database.entities.User;
 import com.project.quizapp.session.SessionManager;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class LoginPage extends AppCompatActivity{
     EditText userNameEditText = null;
     EditText passwordEditText = null;
     Button loginButton = null;
     TextView signUpNowTextView = null;
+    ProgressBar progressBar=null;
 
+    int counter=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +39,7 @@ public class LoginPage extends AppCompatActivity{
         passwordEditText = findViewById(R.id.password);
         loginButton = findViewById(R.id.loginButton);
         signUpNowTextView = findViewById(R.id.signUpNow);
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
 
         signUpNowTextView.setOnClickListener(new View.OnClickListener() {
@@ -47,7 +54,8 @@ public class LoginPage extends AppCompatActivity{
             public void onClick(View v) {
                 String userName = userNameEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
-
+                progressBar.setVisibility(View.VISIBLE);
+                ProgressBar();
                 if((!userName.isEmpty()) && (!password.isEmpty()))
                 {
                     FirebaseDBHelper.loginUser(userName, password, new FirebaseDBHelper.UserQueryCallback() {
@@ -83,4 +91,19 @@ public class LoginPage extends AppCompatActivity{
 
 
     }
+        public void ProgressBar(){
+            final Timer t = new Timer();
+            TimerTask tt = new TimerTask() {
+                @Override
+                public void run() {
+                    counter++;
+                    progressBar.setProgress(counter);
+                    if(counter == 100)
+                    {
+                        t.cancel();
+                    }
+                }
+            };
+            t.schedule(tt,0,10);
+        }
 }

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 
 import android.os.Handler;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,9 +19,15 @@ import com.google.firebase.FirebaseApp;
 import com.project.quizapp.database.FirebaseDBHelper;
 import com.project.quizapp.session.SessionManager;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class MainActivity extends AppCompatActivity {
-
+    //    Button loginButton;
+//    Button registerButton;
+    ProgressBar progress=null;
+    int counter=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize Firebase
         FirebaseApp.initializeApp(this);
+
+        //progress Bar
+        progressBar();
 
         // Delay for 5 seconds (5000ms)
         new Handler().postDelayed(() -> {
@@ -39,17 +49,19 @@ public class MainActivity extends AppCompatActivity {
             }else {
 
                 if(FirebaseDBHelper.isUserLoggedIn()) {
-                    IntentManager.toDashboardActivity(this);
+                    Intent intent = new Intent(MainActivity.this, Dashboard.class);
+                    startActivity(intent);
                     finish(); // Close the current activity
 
                 }
                 else
                 {
-                    IntentManager.toLoginActivity(this);
+                    Intent intent = new Intent(MainActivity.this, LoginPage.class);
+                    startActivity(intent);
                     finish(); // Close the current activity
                 }
             }
-        }, 2000);
+        }, 3000);
 
     }
 
@@ -103,16 +115,36 @@ public class MainActivity extends AppCompatActivity {
             else
             {
                 if(FirebaseDBHelper.isUserLoggedIn()) {
-                    IntentManager.toDashboardActivity(this);
+                    Intent intent = new Intent(MainActivity.this, Dashboard.class);
+                    startActivity(intent);
                     finish(); // Close the current activity
 
                 }
                 else
                 {
-                    IntentManager.toLoginActivity(this);
+                    Intent intent = new Intent(MainActivity.this, LoginPage.class);
+                    startActivity(intent);
                     finish(); // Close the current activity
                 }
             }
         }
     }
+
+    public void progressBar(){
+        progress = (ProgressBar)findViewById(R.id.progress_bar);
+        final Timer t = new Timer();
+        TimerTask tt = new TimerTask() {
+            @Override
+            public void run() {
+                counter++;
+                progress.setProgress(counter);
+                if(counter == 100)
+                {
+                    t.cancel();
+                }
+            }
+        };
+        t.schedule(tt,0,20);
+    }
+
 }

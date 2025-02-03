@@ -257,12 +257,12 @@ public class FirebaseDBHelper {
                     Question q =(Question) snap.getValue(Question.class);
                     questionArrayList.add(q);
                 }
-               questionQueryCallback.onSuccess((Question) questionArrayList.get(0));
+//               questionQueryCallback.onSuccess((Question) questionArrayList.get(0));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-               questionQueryCallback.onFailure(Status.MSG_FIREBASE_ERROR + error.getMessage());
+     //          questionQueryCallback.onFailure(Status.MSG_FIREBASE_ERROR + error.getMessage());
             }
         });
     }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +16,9 @@ import com.project.quizapp.database.Status;
 import com.project.quizapp.database.entities.User;
 import com.project.quizapp.validation.EmailValidator;
 import com.project.quizapp.validation.NameValidator;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class RegistrationForm extends AppCompatActivity implements Status {
 
@@ -30,7 +34,8 @@ public class RegistrationForm extends AppCompatActivity implements Status {
     private NameValidator firstNameValidator = null;
     private  NameValidator lastNameValidator = null;
     private EmailValidator emailValidator = null;
-
+    ProgressBar progressBar = null;
+    int counter=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +48,7 @@ public class RegistrationForm extends AppCompatActivity implements Status {
         passEditTextTwo = findViewById(R.id.passwordTwo);
         registerButton = findViewById(R.id.registerBtn);
         loginNow = findViewById(R.id.loginNow);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         // setting listeners for validation
         firstNameValidator = new NameValidator(firstNameEditText);
@@ -57,6 +63,8 @@ public class RegistrationForm extends AppCompatActivity implements Status {
             @Override
             public void onClick(View v) {
 
+                progressBar.setVisibility(View.VISIBLE);
+                progressBar();
                 String firstName = firstNameEditText.getText().toString().trim();
                 String lastName = lastNameEditText.getText().toString().trim();
                 String email = emailEditText.getText().toString().trim();
@@ -126,5 +134,21 @@ public class RegistrationForm extends AppCompatActivity implements Status {
                 finish();
             }
         });
+    }
+
+    public void progressBar(){
+        final Timer t = new Timer();
+        TimerTask tt = new TimerTask() {
+            @Override
+            public void run() {
+                counter++;
+                progressBar.setProgress(counter);
+                if(counter == 100)
+                {
+                    t.cancel();
+                }
+            }
+        };
+        t.schedule(tt,0,10);
     }
 }
