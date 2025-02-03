@@ -18,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.project.quizapp.database.FirebaseDBHelper;
+import com.project.quizapp.database.Status;
 import com.project.quizapp.database.entities.Question;
 import com.project.quizapp.database.entities.User;
 import com.project.quizapp.session.SessionManager;
@@ -31,6 +32,9 @@ public class Dashboard extends AppCompatActivity {
     private ActionBarDrawerToggle actionBarDrawerToggle = null;
     private NavigationView navigationView = null;
     private MenuItem logoutNavMenuItem = null;
+
+    private TextView userName = null;
+    private TextView userEmail = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +52,13 @@ public class Dashboard extends AppCompatActivity {
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
+
         navigationView = findViewById(R.id.nav_view);
+
+//        userName = findViewById(R.id.userName);
+//        userEmail = findViewById(R.id.userEmail);
+
+
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -91,6 +101,29 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
+//        if(FirebaseDBHelper.isUserLoggedIn())
+//        {
+//            FirebaseDBHelper.getUser(new FirebaseDBHelper.UserQueryCallback()
+//            {
+//                @Override
+//                public void onSuccess(User user) {
+//
+//                        userName.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
+//                        userEmail.setText(user.getEmail());
+//                }
+//
+//                @Override
+//                public void onFailure(String errMsg) {
+//                    Toast.makeText(Dashboard.this, errMsg,Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//
+//        }
+//        else
+//        {
+//            userName.setText("USER");
+//            userEmail.setText("NOT FOUND");
+//        }
 
         FirebaseDBHelper.getQuestionByCategory("Logical-Reasoning/Number-Series", new FirebaseDBHelper.QuestionQueryCallback() {
             @Override
@@ -104,4 +137,5 @@ public class Dashboard extends AppCompatActivity {
             }
         });
     }
+
 }

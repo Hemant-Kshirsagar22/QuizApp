@@ -5,13 +5,16 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -138,13 +141,76 @@ public class FirebaseDBHelper {
                     }
                     else
                     {
-                        callback.onFailure(Status.MSG_FIREBASE_ERROR + task.getException().getMessage());
+                        callback.onFailure(task.getException().getMessage());
                     }
                 }
                 else
                 {
                     callback.onFailure(task.getException().getMessage());
                 }
+            }
+        });
+    }
+
+    public static void insertUserWithGoogle(GoogleSignInAccount account, UserQueryCallback callback)
+    {
+        firebaseAuth = getFirebaseAuth();
+        Log.d("GOOGLE_SIGNIN", "firebaseAuthWithGoogle:" + account.getId());
+        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+        if(credential == null)
+        {
+            Log.d("CREDITIAL","NULL");
+        }
+
+        firebaseAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            private User user;
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful())
+                {
+                    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                    if(firebaseUser != null)
+                    {
+                        String username = firebaseUser.getDisplayName();
+
+                        String[] name = username.split(" ");
+                        Log.d("NAME LENGTH", name.length + "");
+                        if(name.length >= 2) {
+                            user = new User(name[0], name[1], firebaseUser.getEmail(), null);
+                        }
+                        else
+                        {
+                            user = new User(username,null, firebaseUser.getEmail(), null);
+                        }
+                        String userId = firebaseUser.getUid();
+
+                        userRef = getUserRef();
+                        userRef.child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful())
+                                {
+                                    callback.onSuccess(user);
+                                }
+                                else
+                                {
+                                    callback.onFailure(Status.MSG_INSERT_FAILED);
+                                }
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Log.d("GOOGLE_SIGNUP_ERR",task.getException().getMessage());
+                        callback.onFailure("GOOGLE si " + task.getException().getMessage());
+                    }
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("GOOGLE_SIGNUP_ERR",e.getMessage());
+                callback.onFailure(e.getMessage());
             }
         });
     }

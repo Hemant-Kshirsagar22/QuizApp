@@ -15,4 +15,8 @@
     <string name="enter_last_name">Enter Last Name</string>
     <string name="not_register">Not yet registered? SignUp Now</string>
     <string name="login_now">Already have account? Login</string>
+
+    <string name="client_id">771158401584-4h4cag4rc5s0gdscdlc82ffbcuttpn9t.apps.googleusercontent.com</string>
+    <string name="google_login">Google login</string>
+    <string name="google_signup">Google signup</string>
 </resources>
