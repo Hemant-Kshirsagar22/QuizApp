@@ -16,6 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.project.quizapp.database.FirebaseDBHelper;
@@ -35,7 +36,7 @@ public class RegistrationForm extends AppCompatActivity implements Status {
     private EditText passEditTextOne;
     private EditText passEditTextTwo;
     private Button registerButton;
-    private Button googleSigninButton;
+    private SignInButton googleSigninButton;
 
     private GoogleSignInClient googleSignInClient;
     private static final int RC_SIGN_IN = 9001;
@@ -67,7 +68,7 @@ public class RegistrationForm extends AppCompatActivity implements Status {
         registerButton = findViewById(R.id.registerBtn);
         loginNow = findViewById(R.id.loginNow);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        googleSigninButton = findViewById(R.id.googleSignup);
+        googleSigninButton = findViewById(R.id.googleLogin);
 
         // setting listeners for validation
         firstNameValidator = new NameValidator(firstNameEditText);
