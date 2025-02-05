@@ -1,9 +1,7 @@
 package com.project.quizapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -12,16 +10,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
+
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.project.quizapp.database.FirebaseDBHelper;
-import com.project.quizapp.database.Status;
+
 import com.project.quizapp.database.entities.Question;
 import com.project.quizapp.database.entities.User;
-import com.project.quizapp.session.SessionManager;
+
 
 import java.util.Objects;
 
@@ -31,7 +29,6 @@ public class Dashboard extends AppCompatActivity {
     private DrawerLayout drawerLayout = null;
     private ActionBarDrawerToggle actionBarDrawerToggle = null;
     private NavigationView navigationView = null;
-    private MenuItem logoutNavMenuItem = null;
 
     private TextView userName = null;
     private TextView userEmail = null;
@@ -95,7 +92,7 @@ public class Dashboard extends AppCompatActivity {
                 else if(Objects.equals(item.getTitle(), "Logout"))
                 {
                     Toast.makeText(Dashboard.this,"Logout",Toast.LENGTH_SHORT).show();
-                    FirebaseDBHelper.logout();
+                    FirebaseDBHelper.logout(Dashboard.this);
                     IntentManager.toLoginActivity(Dashboard.this);
                     return (true);
                 }
@@ -125,8 +122,7 @@ public class Dashboard extends AppCompatActivity {
         }
         else
         {
-            userName.setText("USER");
-            userEmail.setText("NOT FOUND");
+            userName.setText(R.string.defautl_user_name);
         }
 
         FirebaseDBHelper.getQuestionByCategory("Logical-Reasoning/Number-Series", new FirebaseDBHelper.QuestionQueryCallback() {

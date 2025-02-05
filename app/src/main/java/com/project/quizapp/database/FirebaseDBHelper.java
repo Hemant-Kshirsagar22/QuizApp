@@ -5,7 +5,10 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -285,11 +288,19 @@ public class FirebaseDBHelper {
         });
     }
 
-    public static void logout()
+    public static void logout(Context context)
     {
         firebaseAuth = getFirebaseAuth();
 
         firebaseAuth.signOut();
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(context, GoogleSignInOptions.DEFAULT_SIGN_IN);
+        googleSignInClient.signOut().addOnCompleteListener(task -> {
+           if(task.isSuccessful())
+           {
+               Log.d("LOGOUT","GOOGLE LOGOUT SUCCESS");
+           }
+        });
+
     }
 
     public static boolean isUserLoggedIn()

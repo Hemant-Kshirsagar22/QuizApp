@@ -19,4 +19,5 @@
     <string name="client_id">771158401584-4h4cag4rc5s0gdscdlc82ffbcuttpn9t.apps.googleusercontent.com</string>
     <string name="google_login">Google login</string>
     <string name="google_signup">Google signup</string>
+    <string name="defautl_user_name">USER</string>
 </resources>

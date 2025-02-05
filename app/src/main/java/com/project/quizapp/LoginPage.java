@@ -133,7 +133,7 @@ public class LoginPage extends AppCompatActivity{
                 });
             } catch (ApiException e) {
                 // Google sign-in failed, handle the error
-                Log.w("GOOGLE_LOGIN", "Google sign-in failed" + e.getMessage(), e);
+                Log.w("GOOGLE_LOGIN", "Google sign-in failed : " + e.getMessage(), e);
                 Toast.makeText(this, "Google sign-in failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
