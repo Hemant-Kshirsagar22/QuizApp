@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.project.quizapp.admin.AdminMainActivity;
-import com.project.quizapp.admin.user.UserDisplay;
+import com.project.quizapp.admin.user.UserMain;
 
 public class IntentManager {
     private IntentManager() {}
@@ -36,7 +36,7 @@ public class IntentManager {
 
     public static void toAdminUserSection(Context context)
     {
-        Intent intent = new Intent(context, UserDisplay.class);
+        Intent intent = new Intent(context, UserMain.class);
         context.startActivity(intent);
     }
 
