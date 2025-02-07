@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Display"
+        android:icon="@drawable/admin_user"
+        android:id="@+id/displayUsers"/>
+    <item android:title="Remove"
+        android:icon="@drawable/remove_user_not_selected"
+        android:id="@+id/removeUser"/>
+
+</menu>

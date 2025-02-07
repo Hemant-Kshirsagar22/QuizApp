@@ -27,6 +27,7 @@ import com.project.quizapp.database.entities.Question;
 import com.project.quizapp.database.entities.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FirebaseDBHelper {
     private static DatabaseReference rootRef = null;
@@ -42,6 +43,12 @@ public class FirebaseDBHelper {
         void onSuccess(User user);
         void onFailure(String errMsg);
     }
+    public interface GetAllUsers
+    {
+        void onSuccess(List<User> user);
+        void onFailure(String errMsg);
+    }
+
 
     public interface QuestionQueryCallback
     {
@@ -259,6 +266,28 @@ public class FirebaseDBHelper {
 
     }
 
+    public static void getAllUsers(FirebaseDBHelper.GetAllUsers callback)
+    {
+        userRef = getUserRef();
+
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<User> users = new ArrayList<User>();
+                for(DataSnapshot snap : snapshot.getChildren()) {
+                    User user =(User) snap.getValue(User.class);
+                    users.add(user);
+                }
+                callback.onSuccess(users);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callback.onFailure(error.getMessage());
+            }
+        });
+    }
+
     public static void loginUser(String userName, String password, UserQueryCallback callback)
     {
         firebaseAuth = getFirebaseAuth();
@@ -268,12 +297,14 @@ public class FirebaseDBHelper {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful())
                 {
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-                    if(user != null)
+                    if(firebaseUser != null)
                     {
+                        User user = new User();
 
-                        callback.onSuccess(null);
+                        user.setEmail(userName);
+                        callback.onSuccess(user);
                     }
                     else
                     {
@@ -321,6 +352,8 @@ public class FirebaseDBHelper {
 
 
 
+
+    // for questions
     public static void getQuestionByCategory(String category, QuestionQueryCallback questionQueryCallback)
     {
         questionRef = getQuestionRef();
@@ -343,5 +376,4 @@ public class FirebaseDBHelper {
             }
         });
     }
-
 }

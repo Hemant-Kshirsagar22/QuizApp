@@ -19,6 +19,16 @@ public class User {
         this.firstName = firstName;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId='" + userId + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
     public String getUserId() {
         return userId;
     }

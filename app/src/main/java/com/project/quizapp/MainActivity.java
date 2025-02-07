@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 
 import android.os.Handler;
+import android.util.Log;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AlertDialog;
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.FirebaseApp;
 import com.project.quizapp.database.FirebaseDBHelper;
+import com.project.quizapp.database.entities.User;
 import com.project.quizapp.session.SessionManager;
 
 import java.util.Timer;
@@ -49,15 +51,34 @@ public class MainActivity extends AppCompatActivity {
             }else {
 
                 if(FirebaseDBHelper.isUserLoggedIn()) {
-                    Intent intent = new Intent(MainActivity.this, Dashboard.class);
-                    startActivity(intent);
-                    finish(); // Close the current activity
 
+                    FirebaseDBHelper.getUser(new FirebaseDBHelper.UserQueryCallback() {
+                        @Override
+                        public void onSuccess(User user) {
+                            if(user.getEmail().equals("admin@gmail.com"))
+                            {
+                                Log.d("LOGGEDIN",user.toString());
+                                IntentManager.toAdminMainActivity(MainActivity.this);
+                                finish();
+
+                            }
+                            else
+                            {
+                                IntentManager.toDashboardActivity(MainActivity.this);
+                                finish();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(String errMsg) {
+                            IntentManager.toDashboardActivity(MainActivity.this);
+                            finish();
+                        }
+                    });
                 }
                 else
                 {
-                    Intent intent = new Intent(MainActivity.this, LoginPage.class);
-                    startActivity(intent);
+                    IntentManager.toLoginActivity(MainActivity.this);
                     finish(); // Close the current activity
                 }
             }
@@ -115,15 +136,33 @@ public class MainActivity extends AppCompatActivity {
             else
             {
                 if(FirebaseDBHelper.isUserLoggedIn()) {
-                    Intent intent = new Intent(MainActivity.this, Dashboard.class);
-                    startActivity(intent);
-                    finish(); // Close the current activity
+                    FirebaseDBHelper.getUser(new FirebaseDBHelper.UserQueryCallback() {
+                        @Override
+                        public void onSuccess(User user) {
+                            if(user.getEmail().equals("admin@gmail.com"))
+                            {
+                                Log.d("LOGGEDIN",user.toString());
+                                IntentManager.toAdminMainActivity(MainActivity.this);
+                                finish();
 
+                            }
+                            else
+                            {
+                                IntentManager.toDashboardActivity(MainActivity.this);
+                                finish();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(String errMsg) {
+                            IntentManager.toDashboardActivity(MainActivity.this);
+                            finish();
+                        }
+                    });
                 }
                 else
                 {
-                    Intent intent = new Intent(MainActivity.this, LoginPage.class);
-                    startActivity(intent);
+                    IntentManager.toLoginActivity(this);
                     finish(); // Close the current activity
                 }
             }
