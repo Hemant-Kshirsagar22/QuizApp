@@ -56,30 +56,30 @@
 
 
                 <TextView
-                    android:id="@+id/amazonName"
+                    android:id="@+id/Description"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:layout_marginStart="18dp"
-                    android:layout_marginTop="68dp"
+                    android:layout_marginTop="8dp"
                     android:fontFamily="sans-serif-condensed"
                     android:text="BE APTITUDE MASTER OF YOUR FIELD"
                     android:textColor="@color/gray"
                     android:textSize="40sp"
-                    app:layout_constraintEnd_toStartOf="@+id/amazonImage"
+                    app:layout_constraintEnd_toStartOf="@+id/QuizImage"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
 
                     />
 
                 <ImageView
-                    android:id="@+id/amazonImage"
+                    android:id="@+id/QuizImage"
                     android:layout_width="0dp"
                     android:layout_height="140dp"
-                    android:layout_marginTop="68dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginEnd="16dp"
                     android:src="@drawable/foreground"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/amazonName"
+                    app:layout_constraintStart_toEndOf="@id/Description"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
@@ -92,7 +92,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/amazonImage">
+                    app:layout_constraintTop_toBottomOf="@id/QuizImage">
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/clothingCard"
@@ -108,10 +108,10 @@
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/clothingName"
+                                android:id="@+id/Lets_Start"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/clothingImage"
+                                android:layout_below="@+id/Lets_Start_Image"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="10dp"
                                 android:fontFamily="sans-serif-condensed"
@@ -120,7 +120,7 @@
                                 android:textSize="20sp" />
 
                             <ImageView
-                                android:id="@+id/clothingImage"
+                                android:id="@+id/Lets_Start_Image"
                                 android:layout_width="70dp"
                                 android:layout_height="70dp"
                                 android:layout_centerHorizontal="true"
@@ -143,10 +143,10 @@
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/elecName"
+                                android:id="@+id/check_updates"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/elecImage"
+                                android:layout_below="@+id/check_updates_image"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="10dp"
                                 android:fontFamily="sans-serif-condensed"
@@ -155,7 +155,7 @@
                                 android:textSize="20sp" />
 
                             <ImageView
-                                android:id="@+id/elecImage"
+                                android:id="@+id/check_updates_image"
                                 android:layout_width="70dp"
                                 android:layout_height="70dp"
                                 android:layout_centerHorizontal="true"
@@ -191,19 +191,19 @@
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/homeName"
+                                android:id="@+id/performance_dashboard"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/homeImage"
+                                android:layout_below="@+id/performance_dashboard_Image"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="10dp"
                                 android:fontFamily="sans-serif-condensed"
-                                android:text="Progess"
+                                android:text="performance"
                                 android:textColor="@color/black"
                                 android:textSize="20sp" />
 
                             <ImageView
-                                android:id="@+id/homeImage"
+                                android:id="@+id/performance_dashboard_Image"
                                 android:layout_width="70dp"
                                 android:layout_height="70dp"
                                 android:layout_centerHorizontal="true"
@@ -226,10 +226,10 @@
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/beautyName"
+                                android:id="@+id/rankers"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/beautyImage"
+                                android:layout_below="@+id/rankers_image"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="10dp"
                                 android:fontFamily="sans-serif-condensed"
@@ -238,7 +238,7 @@
                                 android:textSize="20sp" />
 
                             <ImageView
-                                android:id="@+id/beautyImage"
+                                android:id="@+id/rankers_image"
                                 android:layout_width="70dp"
                                 android:layout_height="70dp"
                                 android:layout_centerHorizontal="true"
@@ -275,10 +275,10 @@
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/pharmName"
+                                android:id="@+id/history"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/pharmImage"
+                                android:layout_below="@+id/history_image"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="10dp"
                                 android:fontFamily="sans-serif-condensed"
@@ -287,7 +287,7 @@
                                 android:textSize="20sp" />
 
                             <ImageView
-                                android:id="@+id/pharmImage"
+                                android:id="@+id/history_image"
                                 android:layout_width="70dp"
                                 android:layout_height="70dp"
                                 android:layout_centerHorizontal="true"
@@ -310,10 +310,10 @@
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/grocName"
+                                android:id="@+id/notification"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/grocImage"
+                                android:layout_below="@+id/notification_image"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="10dp"
                                 android:fontFamily="sans-serif-condensed"
@@ -322,7 +322,7 @@
                                 android:textSize="20sp" />
 
                             <ImageView
-                                android:id="@+id/grocImage"
+                                android:id="@+id/notification_image"
                                 android:layout_width="70dp"
                                 android:layout_height="70dp"
                                 android:layout_centerHorizontal="true"
