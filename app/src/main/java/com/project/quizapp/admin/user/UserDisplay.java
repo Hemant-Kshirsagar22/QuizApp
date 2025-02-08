@@ -20,7 +20,6 @@ import java.util.List;
 public class UserDisplay extends Fragment {
 
     RecyclerView recyclerView = null;
-    List<User> users = null;
 
     public UserDisplay() {
         // Required empty public constructor
@@ -30,14 +29,13 @@ public class UserDisplay extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_user_display, container, false);
+        View view =  inflater.inflate(R.layout.admin_user_display_fragment, container, false);
 
         recyclerView = view.findViewById(R.id.userRecyclerView);
 
         FirebaseDBHelper.getAllUsers(new FirebaseDBHelper.GetAllUsers() {
             @Override
             public void onSuccess(List<User> users) {
-                UserDisplay.this.users = users;
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 recyclerView.setAdapter(new UserAdapter(getContext(),users));
             }
