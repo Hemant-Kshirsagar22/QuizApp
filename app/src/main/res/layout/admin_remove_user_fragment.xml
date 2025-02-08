@@ -1,25 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".admin.user.RemoveUser"
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:cardCornerRadius="20dp"
         app:cardElevation="10dp"
         android:gravity="center_vertical|center_horizontal"
-        android:layout_margin="10dp"
-        >
-        <TextView
+        android:layout_margin="10dp">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:text="Select User To Remove"/>
-        
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="20dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="22sp"
+                    android:text="Select User To Remove"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="5dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_margin="10dp"
+                >
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/userListSpinner"
+                    tools:listitem="@layout/support_simple_spinner_dropdown_item"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="5dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_margin="10dp"
+                android:visibility="invisible"
+                android:id="@+id/userDetailsCard"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="22sp"
+                    android:layout_margin="15dp"
+                    android:id="@+id/userDetails"
+                    />
+
+            </androidx.cardview.widget.CardView>
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/loginButton"
+                android:text="Remove User"
+                android:textSize="18sp"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/purple"
+                android:background="@drawable/corner_radius_20dp"
+                android:layout_gravity="center_horizontal"
+                />
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

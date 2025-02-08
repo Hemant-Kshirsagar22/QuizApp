@@ -350,8 +350,17 @@ public class FirebaseDBHelper {
         }
     }
 
+    public static void deleteUser()
+    {
+        firebaseAuth = getFirebaseAuth();
 
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
+        if(firebaseUser != null)
+        {
+
+        }
+    }
 
     // for questions
     public static void getQuestionByCategory(String category, QuestionQueryCallback questionQueryCallback)
