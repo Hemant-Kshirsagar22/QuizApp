@@ -48,7 +48,7 @@ public class LoginPage extends AppCompatActivity{
         setContentView(R.layout.activity_login_page);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.client_id)) // Add your client ID here
+                .requestIdToken(getString(R.string.client_id))
                 .requestEmail()
                 .build();
         googleLoginClient = GoogleSignIn.getClient(this, gso);

@@ -11,7 +11,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -26,6 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.project.quizapp.database.entities.Question;
 import com.project.quizapp.database.entities.User;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,8 @@ public class FirebaseDBHelper {
     private static FirebaseAuth firebaseAuth = null;
     private static String USER_COLLECTION_NAME = "Users";
     private static String QUETION_COLLECTION_NAME = "Questions";
+
+    public static String ADMIN_USERNAME = "admin@gmail.com";
 
     public interface UserQueryCallback
     {
@@ -107,32 +110,7 @@ public class FirebaseDBHelper {
                         String userId = firebaseUser.getUid();
                         user.setUserId(userId);
 
-
                         userRef = getUserRef();
-
-                        // admin user creation
-                        userRef.addListenerForSingleValueEvent(new ValueEventListener()
-                        {
-                           @Override
-                           public void onDataChange(DataSnapshot dataSnapshot) {
-                               // Get the count of users
-                               Long[] userCount = {dataSnapshot.getChildrenCount()};
-
-                               if (userCount[0] == 0) {
-                                   User admin = new User("admin", "admin", "admin@gmail.com", "123");
-                                   user.setUserId(userCount[0].toString());
-                                   userRef.child(userCount[0].toString()).setValue(admin);
-                                   userCount[0] += 1;
-                               }
-                           }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                                callback.onFailure("ADMIN CREATION FAILED");
-                            }
-                        });
-
-                        // admin creation end
 
                         userRef.child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -160,10 +138,34 @@ public class FirebaseDBHelper {
                 }
             }
         });
+
+        createAdmin(new UserQueryCallback() {
+            @Override
+            public void onSuccess(User user) {
+                Log.d("ADMIN_CREATION", user.toString());
+            }
+
+            @Override
+            public void onFailure(String errMsg) {
+                Log.d("ADMIN_CREATETION", errMsg);
+            }
+        });
     }
 
     public static void insertUserWithGoogle(GoogleSignInAccount account, UserQueryCallback callback)
     {
+        createAdmin(new UserQueryCallback() {
+            @Override
+            public void onSuccess(User user) {
+                Log.d("ADMIN_CREATION", user.toString());
+            }
+
+            @Override
+            public void onFailure(String errMsg) {
+                Log.d("ADMIN_CREATETION", errMsg);
+            }
+        });
+
         firebaseAuth = getFirebaseAuth();
         Log.d("GOOGLE_SIGNIN", "firebaseAuthWithGoogle:" + account.getId());
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
@@ -193,7 +195,9 @@ public class FirebaseDBHelper {
                             user = new User(username,null, firebaseUser.getEmail(), null);
                         }
                         String userId = firebaseUser.getUid();
-
+                        user.setUserId(userId);
+                        user.setGoogleUser(true);
+                        Log.d("GOOGLE_LOGIN",user.toString());
                         userRef = getUserRef();
                         userRef.child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -276,6 +280,11 @@ public class FirebaseDBHelper {
                 ArrayList<User> users = new ArrayList<User>();
                 for(DataSnapshot snap : snapshot.getChildren()) {
                     User user =(User) snap.getValue(User.class);
+                    if(user.getEmail().equals(ADMIN_USERNAME))
+                    {
+                        continue;
+                    }
+
                     users.add(user);
                 }
                 callback.onSuccess(users);
@@ -350,17 +359,88 @@ public class FirebaseDBHelper {
         }
     }
 
-    public static void deleteUser()
+    public static void deleteUser(String userName,UserQueryCallback callback)
     {
         firebaseAuth = getFirebaseAuth();
+        userRef = getUserRef();
 
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        if(firebaseUser != null)
-        {
+        userRef.orderByChild("email").equalTo(userName).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
+            private User user = null;
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-        }
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                         user = userSnapshot.getValue(User.class);
+                    }
+                    Log.d("DELETE_USER",user.toString());
+
+                    if(user.getGoogleUser() == false || user.getGoogleUser() == null)
+                    {
+                        userRef.child(user.getUserId()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                firebaseAuth = getFirebaseAuth();
+                                firebaseAuth.signOut();
+                                // removing user authentication
+                                loginUser(user.getEmail(), user.getPassword(), new UserQueryCallback() {
+                                    @Override
+                                    public void onSuccess(User user) {
+                                        firebaseAuth = getFirebaseAuth();
+                                        firebaseAuth.getCurrentUser().delete().addOnCompleteListener(task1 -> {
+                                            if (task1.isSuccessful()) {
+                                                firebaseAuth.signOut();
+                                                loginUser(ADMIN_USERNAME, "123456", new UserQueryCallback() {
+                                                    @Override
+                                                    public void onSuccess(User user) {
+
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(String errMsg) {
+
+                                                    }
+                                                });
+                                                callback.onSuccess(user);
+                                            } else {
+                                                callback.onFailure("FAILED TO DELETE USER");
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onFailure(String errMsg) {
+
+                                    }
+                                });
+                            }
+
+                        });
+
+                        callback.onSuccess(user);
+                    }
+                    else
+                    {
+                        // remove google user
+                    }
+
+                } else {
+                    // Handle no user found
+                    Log.d("UserInfo", "No user found with this email.");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        // remove firebase authentication
+
     }
+
 
     // for questions
     public static void getQuestionByCategory(String category, QuestionQueryCallback questionQueryCallback)
@@ -384,5 +464,65 @@ public class FirebaseDBHelper {
      //          questionQueryCallback.onFailure(Status.MSG_FIREBASE_ERROR + error.getMessage());
             }
         });
+    }
+
+    private static void createAdmin(UserQueryCallback callback)
+    {
+        userRef = getUserRef();
+        // admin user creation
+        userRef.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get the count of users
+                Long[] userCount = {dataSnapshot.getChildrenCount()};
+
+                if (userCount[0] == 0) {
+                    User admin = new User("admin", "admin", "admin@gmail.com", "123456");
+
+                    firebaseAuth = getFirebaseAuth();
+                    firebaseAuth.createUserWithEmailAndPassword(admin.getEmail(),admin.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful())
+                            {
+                                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+                                if(firebaseUser != null) {
+                                    String uid = firebaseUser.getUid();
+                                    userRef.child(uid).setValue(admin).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            callback.onSuccess(admin);
+                                        }
+                                    });
+                                }
+                                else
+                                {
+                                    callback.onFailure("ERROR WHILE CREATEING ADMIN ");
+                                }
+                            }
+                            else
+                            {
+                                Log.d("ADMIN_ERR", task.getException().getMessage());
+                                callback.onFailure("ERROR WHILE CREATEING ADMIN ");
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            callback.onFailure(e.getMessage());
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callback.onFailure("ADMIN CREATION FAILED");
+            }
+        });
+
+        // admin creation end
     }
 }

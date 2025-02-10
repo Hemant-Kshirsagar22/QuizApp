@@ -2,11 +2,14 @@ package com.project.quizapp.admin.user;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -14,6 +17,7 @@ import com.project.quizapp.R;
 import com.project.quizapp.database.FirebaseDBHelper;
 import com.project.quizapp.database.entities.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RemoveUser extends Fragment{
@@ -23,6 +27,8 @@ public class RemoveUser extends Fragment{
     }
 
     private Spinner spinner = null;
+    private Button removeUserButton = null;
+    private String selectedUser = null;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -30,20 +36,47 @@ public class RemoveUser extends Fragment{
         View view = inflater.inflate(R.layout.admin_remove_user_fragment, container, false);
 
         spinner = view.findViewById(R.id.userListSpinner);
+        removeUserButton = view.findViewById(R.id.removeUser);
 
         fetchDataAndUpdateList();
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                String selectedUser = adapterView.getItemAtPosition(position).toString();
-                Toast.makeText(getContext(),selectedUser,Toast.LENGTH_SHORT).show();
+                selectedUser = adapterView.getItemAtPosition(position).toString();
+
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+
+
+        removeUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(selectedUser != null && (!selectedUser.equals("Please Select"))) {
+                    FirebaseDBHelper.deleteUser(selectedUser, new FirebaseDBHelper.UserQueryCallback() {
+                        @Override
+                        public void onSuccess(User user) {
+                            Log.d("REMOVE_USER", user.toString());
+                            Toast.makeText(getContext(),"USER REMOVE SUCCESS",Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(String errMsg) {
+
+                        }
+                    });
+                }
+                else
+                {
+                    Toast.makeText(getContext(),"Please Select",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
         return view;
     }
@@ -53,16 +86,24 @@ public class RemoveUser extends Fragment{
         FirebaseDBHelper.getAllUsers(new FirebaseDBHelper.GetAllUsers() {
             @Override
             public void onSuccess(List<User> user) {
-                String[] users = new String[user.size() + 1];
+                ArrayList<String> usersArrayList= new ArrayList<>();
 
-                users[0] = "Please Select";
-                for(int i = 0; i < user.size(); i++)
+                usersArrayList.add("Please Select");
+
+                for(int i = 0; i < user.size();i++)
                 {
-                    String userName = user.get(i).getEmail();
-                    users[i + 1] = userName;
+                    if(user.get(i).getGoogleUser())
+                    {
+                        continue;
+                    }
+                    else {
+                        String userName = user.get(i).getEmail();
+                        if (userName != null) {
+                            usersArrayList.add(userName);
+                        }
+                    }
                 }
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,users);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,usersArrayList.toArray(new String[0]));
                 adapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
 
                 spinner.setAdapter(adapter);

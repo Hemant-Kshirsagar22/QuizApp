@@ -55,16 +55,19 @@ public class MainActivity extends AppCompatActivity {
                     FirebaseDBHelper.getUser(new FirebaseDBHelper.UserQueryCallback() {
                         @Override
                         public void onSuccess(User user) {
-                            if(user.getEmail().equals("admin@gmail.com"))
-                            {
-                                Log.d("LOGGEDIN",user.toString());
-                                IntentManager.toAdminMainActivity(MainActivity.this);
-                                finish();
+                            if(user != null) {
+                                if (user.getEmail().equals("admin@gmail.com")) {
+                                    Log.d("LOGGEDIN", user.toString());
+                                    IntentManager.toAdminMainActivity(MainActivity.this);
+                                    finish();
 
+                                } else {
+                                    IntentManager.toDashboardActivity(MainActivity.this);
+                                    finish();
+                                }
                             }
-                            else
-                            {
-                                IntentManager.toDashboardActivity(MainActivity.this);
+                            else {
+                                IntentManager.toLoginActivity(MainActivity.this);
                                 finish();
                             }
                         }
@@ -139,16 +142,19 @@ public class MainActivity extends AppCompatActivity {
                     FirebaseDBHelper.getUser(new FirebaseDBHelper.UserQueryCallback() {
                         @Override
                         public void onSuccess(User user) {
-                            if(user.getEmail().equals("admin@gmail.com"))
-                            {
-                                Log.d("LOGGEDIN",user.toString());
-                                IntentManager.toAdminMainActivity(MainActivity.this);
-                                finish();
+                            if(user != null) {
+                                if (user.getEmail().equals("admin@gmail.com")) {
+                                    Log.d("LOGGEDIN", user.toString());
+                                    IntentManager.toAdminMainActivity(MainActivity.this);
+                                    finish();
 
+                                } else {
+                                    IntentManager.toDashboardActivity(MainActivity.this);
+                                    finish();
+                                }
                             }
-                            else
-                            {
-                                IntentManager.toDashboardActivity(MainActivity.this);
+                            else {
+                                IntentManager.toLoginActivity(MainActivity.this);
                                 finish();
                             }
                         }

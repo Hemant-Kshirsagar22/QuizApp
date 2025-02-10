@@ -36,8 +36,14 @@ public class UserDisplay extends Fragment {
         FirebaseDBHelper.getAllUsers(new FirebaseDBHelper.GetAllUsers() {
             @Override
             public void onSuccess(List<User> users) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                recyclerView.setAdapter(new UserAdapter(getContext(),users));
+                if(users.size() == 0)
+                {
+                    Toast.makeText(getContext(),"NO USER FOUND !!!",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    recyclerView.setAdapter(new UserAdapter(getContext(), users));
+                }
             }
 
             @Override

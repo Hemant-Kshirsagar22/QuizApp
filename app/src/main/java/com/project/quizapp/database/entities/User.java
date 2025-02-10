@@ -6,6 +6,7 @@ public class User {
     private String lastName;
     private String email;
     private String password;
+    private Boolean isGoogleUser = false;
 
     public User()
     {
@@ -67,5 +68,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Boolean getGoogleUser() {
+        return isGoogleUser;
+    }
+
+    public void setGoogleUser(Boolean googleUser) {
+        isGoogleUser = googleUser;
     }
 }
