@@ -61,7 +61,6 @@ public class RemoveUser extends Fragment{
                     FirebaseDBHelper.deleteUser(selectedUser, new FirebaseDBHelper.UserQueryCallback() {
                         @Override
                         public void onSuccess(User user) {
-                            Log.d("REMOVE_USER", user.toString());
                             Toast.makeText(getContext(),"USER REMOVE SUCCESS",Toast.LENGTH_SHORT).show();
                         }
 

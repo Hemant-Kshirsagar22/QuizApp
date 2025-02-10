@@ -394,7 +394,7 @@ public class FirebaseDBHelper {
                                                 loginUser(ADMIN_USERNAME, "123456", new UserQueryCallback() {
                                                     @Override
                                                     public void onSuccess(User user) {
-
+                                                        callback.onSuccess(user);
                                                     }
 
                                                     @Override
@@ -402,7 +402,7 @@ public class FirebaseDBHelper {
 
                                                     }
                                                 });
-                                                callback.onSuccess(user);
+
                                             } else {
                                                 callback.onFailure("FAILED TO DELETE USER");
                                             }
@@ -418,7 +418,6 @@ public class FirebaseDBHelper {
 
                         });
 
-                        callback.onSuccess(user);
                     }
                     else
                     {
