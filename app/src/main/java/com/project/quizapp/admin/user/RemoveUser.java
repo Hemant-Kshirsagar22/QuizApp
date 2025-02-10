@@ -29,11 +29,12 @@ public class RemoveUser extends Fragment{
     private Spinner spinner = null;
     private Button removeUserButton = null;
     private String selectedUser = null;
+    private View view = null;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.admin_remove_user_fragment, container, false);
+        view = inflater.inflate(R.layout.admin_remove_user_fragment, container, false);
 
         spinner = view.findViewById(R.id.userListSpinner);
         removeUserButton = view.findViewById(R.id.removeUser);
@@ -77,7 +78,6 @@ public class RemoveUser extends Fragment{
             }
         });
 
-
         return view;
     }
 
@@ -92,18 +92,15 @@ public class RemoveUser extends Fragment{
 
                 for(int i = 0; i < user.size();i++)
                 {
-                    if(user.get(i).getGoogleUser())
+                    if(!user.get(i).getGoogleUser())
                     {
-                        continue;
-                    }
-                    else {
                         String userName = user.get(i).getEmail();
                         if (userName != null) {
                             usersArrayList.add(userName);
                         }
                     }
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,usersArrayList.toArray(new String[0]));
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(),androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,usersArrayList.toArray(new String[0]));
                 adapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
 
                 spinner.setAdapter(adapter);
