@@ -51,6 +51,7 @@ public class Dashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Let's Start Clicked", Toast.LENGTH_SHORT).show();
+                //customised AlertDialog box
                 View view = LayoutInflater.from(Dashboard.this).inflate(R.layout.sample_dialog,null);
 
                 Button companyWise = view.findViewById(R.id.company_wise);
