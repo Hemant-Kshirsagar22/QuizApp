@@ -1,16 +1,21 @@
 package com.project.quizapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -19,6 +24,7 @@ import com.project.quizapp.database.FirebaseDBHelper;
 
 import com.project.quizapp.database.entities.Question;
 import com.project.quizapp.database.entities.User;
+import com.project.quizapp.databinding.ActivityMainBinding;
 
 
 import java.util.Objects;
@@ -32,12 +38,56 @@ public class Dashboard extends AppCompatActivity {
 
     private TextView userName = null;
     private TextView userEmail = null;
+
+    ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dashboard);
+
+        //Get card view
+        CardView getStartCard = findViewById(R.id.get_start);
+        getStartCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Let's Start Clicked", Toast.LENGTH_SHORT).show();
+                View view = LayoutInflater.from(Dashboard.this).inflate(R.layout.sample_dialog,null);
+
+                Button companyWise = view.findViewById(R.id.company_wise);
+                Button topicWise = view.findViewById(R.id.topic_wise);
+
+                AlertDialog dialog = new AlertDialog.Builder(Dashboard.this).setView(view).create();
+                dialog.show();
+
+                companyWise.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(Dashboard.this, "companyWise", Toast.LENGTH_SHORT).show();
+                         Intent intent = new Intent(Dashboard.this, CompanyWise.class);
+                         startActivity(intent);
+                    }
+                });
+
+                topicWise.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(Dashboard.this, "TopicWise", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(Dashboard.this, TopicWise.class);
+                        startActivity(intent);
+                    }
+                });
+
+                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+                // You can start a new activity here if needed
+
+            }
+        });
+        //binding
+//        binding = ActivityMainBinding.inflate((getLayoutInflater()));
+
 
         //        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_dashboard);
         toolbar = findViewById(R.id.AppBar);
         setSupportActionBar(toolbar);
         // Initialize DrawerLayout
