@@ -29,11 +29,9 @@ import com.project.quizapp.databinding.ActivityMainBinding;
 
 import java.util.Objects;
 
-public class Dashboard extends AppCompatActivity {
+public class Dashboard extends GlobalDrawerLayoutAndBottomNevigation {
 
-    private MaterialToolbar toolbar = null;
-    private DrawerLayout drawerLayout = null;
-    private ActionBarDrawerToggle actionBarDrawerToggle = null;
+
     private NavigationView navigationView = null;
 
     private TextView userName = null;
@@ -43,7 +41,8 @@ public class Dashboard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        getLayoutInflater().inflate(R.layout.activity_dashboard, findViewById(R.id.content_frame));
+
 
         //Get card view
         CardView getStartCard = findViewById(R.id.get_start);
@@ -88,22 +87,10 @@ public class Dashboard extends AppCompatActivity {
 //        binding = ActivityMainBinding.inflate((getLayoutInflater()));
 
 
-        //        EdgeToEdge.enable(this);
-        toolbar = findViewById(R.id.AppBar);
-        setSupportActionBar(toolbar);
-        // Initialize DrawerLayout
-        drawerLayout = findViewById(R.id.drawer_layout);
-        // Setup ActionBarDrawerToggle
-        actionBarDrawerToggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
-        // Sync the state
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
 
 
         navigationView = findViewById(R.id.nav_view);
         // Initialize Views
-        drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 
         // Accessing the header view inside NavigationView
@@ -111,47 +98,6 @@ public class Dashboard extends AppCompatActivity {
 
         userName = headerView.findViewById(R.id.userName);
         userEmail = headerView.findViewById(R.id.userEmail);
-
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if(Objects.equals(item.getTitle(), "Refresh"))
-                {
-                    Toast.makeText(Dashboard.this,"REFRESH",Toast.LENGTH_SHORT).show();
-                    return (true);
-                }
-                else if(Objects.equals(item.getTitle(), "Feedback"))
-                {
-                    Toast.makeText(Dashboard.this,"Feedback",Toast.LENGTH_SHORT).show();
-                    return (true);
-                }
-                else if(Objects.equals(item.getTitle(), "Select Language"))
-                {
-                    Toast.makeText(Dashboard.this,"Select Language",Toast.LENGTH_SHORT).show();
-                    return (true);
-                }
-                else if(Objects.equals(item.getTitle(), "Help and Support"))
-                {
-                    Toast.makeText(Dashboard.this,"Help and Support",Toast.LENGTH_SHORT).show();
-                    return (true);
-                }
-                else if(Objects.equals(item.getTitle(), "About Us"))
-                {
-                    Toast.makeText(Dashboard.this,"About Us",Toast.LENGTH_SHORT).show();
-                    return (true);
-                }
-                else if(Objects.equals(item.getTitle(), "Logout"))
-                {
-                    Toast.makeText(Dashboard.this,"Logout",Toast.LENGTH_SHORT).show();
-                    FirebaseDBHelper.logout(Dashboard.this);
-                    IntentManager.toLoginActivity(Dashboard.this);
-                    return (true);
-                }
-                else {
-                    return (false);
-                }
-            }
-        });
 
         if(FirebaseDBHelper.isUserLoggedIn())
         {

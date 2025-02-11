@@ -4,8 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center|center_horizontal"
     android:fitsSystemWindows="true"
+    app:layout_anchorGravity="center"
     tools:context=".TopicWise">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="TopicWise tests"
+            android:text="topicwise tests"
             android:textColor="#000000"
             android:textStyle="bold" />
     </LinearLayout>

@@ -15,7 +15,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.project.quizapp.databinding.ActivityTopicWiseBinding;
 
-public class TopicWise extends AppCompatActivity {
+public class TopicWise extends GlobalDrawerLayoutAndBottomNevigation {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityTopicWiseBinding binding;
@@ -23,9 +23,6 @@ public class TopicWise extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        binding = ActivityTopicWiseBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
+        getLayoutInflater().inflate(R.layout.activity_topic_wise, findViewById(R.id.content_frame));
     }
 }
