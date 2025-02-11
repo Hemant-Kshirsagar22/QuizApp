@@ -10,7 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.project.quizapp.databinding.ActivityCompanyWiseBinding;
 
-public class CompanyWise extends AppCompatActivity {
+public class CompanyWise extends GlobalDrawerLayoutAndBottomNevigation {
 
     private AppBarConfiguration appBarConfiguration;
 private ActivityCompanyWiseBinding binding;
@@ -18,9 +18,9 @@ private ActivityCompanyWiseBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getLayoutInflater().inflate(R.layout.activity_company_wise, findViewById(R.id.content_frame));
 
-        binding = ActivityCompanyWiseBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+
 
     }
 }
