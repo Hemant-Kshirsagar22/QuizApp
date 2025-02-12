@@ -63,7 +63,7 @@ public class Dashboard extends GlobalDrawerLayoutAndBottomNevigation {
                     @Override
                     public void onClick(View view) {
                         Toast.makeText(Dashboard.this, "companyWise", Toast.LENGTH_SHORT).show();
-                         Intent intent = new Intent(Dashboard.this, CompanyWise.class);
+                         Intent intent = new Intent(Dashboard.this, QuestionPanelView.class);
                          startActivity(intent);
                     }
                 });

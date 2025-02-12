@@ -18,6 +18,9 @@
         android:theme="@style/Theme.QuizApp"
         tools:targetApi="31">
         <activity
+            android:name=".QuestionPanelView"
+            android:exported="false" />
+        <activity
             android:name=".GlobalDrawerLayoutAndBottomNevigation"
             android:exported="false" />
         <activity
