@@ -27,6 +27,7 @@ import com.project.quizapp.database.entities.User;
 import com.project.quizapp.databinding.ActivityMainBinding;
 
 
+import java.util.List;
 import java.util.Objects;
 
 public class Dashboard extends GlobalDrawerLayoutAndBottomNevigation {
@@ -122,10 +123,11 @@ public class Dashboard extends GlobalDrawerLayoutAndBottomNevigation {
             userName.setText(R.string.defautl_user_name);
         }
 
-        FirebaseDBHelper.getQuestionByCategory("Logical-Reasoning/Number-Series", new FirebaseDBHelper.QuestionQueryCallback() {
+        FirebaseDBHelper.getQuestionByCategory("Logical-Reasoning/Analogies", new FirebaseDBHelper.QuestionQueryCallback() {
             @Override
-            public void onSuccess(Question question) {
-                Log.d("QUESTION", question.toString());
+            public void onSuccess(List<Question> questions) {
+                Log.d("QUESTION", questions.get(0).toString());
+                Log.d("ARRAY_LEN", questions.size() + "");
             }
 
             @Override

@@ -6,13 +6,15 @@ public class Question {
     private String question;
     private ArrayList<String> options;
     private String answer;
+    private String explanation;
 
     public Question() {}
 
-    public Question(String question, ArrayList<String> options, String answer) {
+    public Question(String question, ArrayList<String> options, String answer, String explanation) {
         this.question = question;
         this.options = options;
         this.answer = answer;
+        this.explanation = explanation;
     }
 
     public String getQuestion() {
@@ -39,6 +41,13 @@ public class Question {
         this.answer = answer;
     }
 
+    public String getExplanation() {
+        return explanation;
+    }
+
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
+    }
 
     @Override
     public String toString() {
@@ -46,6 +55,7 @@ public class Question {
                 "question='" + question + '\'' +
                 ", options=" + options +
                 ", answer='" + answer + '\'' +
+                ", explanation='" + explanation + '\'' +
                 '}';
     }
 }
