@@ -30,4 +30,10 @@
         android:icon="@drawable/baseline_history_24"
         android:title="History" />
 
+<!--    logout-->
+    <item
+        android:id="@+id/Logout"
+        android:icon="@drawable/baseline_logout_24"
+        android:title="Logout" />
+
 </menu>
