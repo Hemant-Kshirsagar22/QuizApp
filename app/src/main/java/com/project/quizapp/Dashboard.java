@@ -47,38 +47,40 @@ public class Dashboard extends GlobalDrawerLayoutAndBottomNevigation {
         binding.CompanyWise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
-                //Get binding with sample_dialog
-                SampleDialogBinding dialogBinding = SampleDialogBinding.inflate(LayoutInflater.from(Dashboard.this));
-                builder.setView(dialogBinding.getRoot());
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                Toast.makeText(Dashboard.this, "companyWise", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Dashboard.this, CompanyWise.class);
+                startActivity(intent);
 
-                dialogBinding.companyWise.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(Dashboard.this, "companyWise", Toast.LENGTH_SHORT).show();
-                         Intent intent = new Intent(Dashboard.this, QuestionPanelView.class);
-                         startActivity(intent);
-                    }
-                });
-
-                dialogBinding.topicWise.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(Dashboard.this, "TopicWise", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(Dashboard.this, TopicWise.class);
-                        startActivity(intent);
-                    }
-                });
-                if (dialog.getWindow() != null) {
-                    dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                }
-
+//                AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
+//                //Get binding with sample_dialog
+//                SampleDialogBinding dialogBinding = SampleDialogBinding.inflate(LayoutInflater.from(Dashboard.this));
+//                builder.setView(dialogBinding.getRoot());
+//                AlertDialog dialog = builder.create();
+//                dialog.show();
+//
+//                dialogBinding.companyWise.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Toast.makeText(Dashboard.this, "companyWise", Toast.LENGTH_SHORT).show();
+//                         Intent intent = new Intent(Dashboard.this, CompanyWise.class);
+//                         startActivity(intent);
+//                    }
+//                });
+//
+//                dialogBinding.topicWise.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Toast.makeText(Dashboard.this, "TopicWise", Toast.LENGTH_SHORT).show();
+//                        Intent intent = new Intent(Dashboard.this, TopicWise.class);
+//                        startActivity(intent);
+//                    }
+//                });
+//                if (dialog.getWindow() != null) {
+//                    dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+//                }
+//
             }
         });
-
-
 
     }
 
