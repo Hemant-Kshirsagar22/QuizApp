@@ -44,7 +44,7 @@ public class Dashboard extends GlobalDrawerLayoutAndBottomNevigation {
 
         //Get card view
 //        CardView getStartCard = findViewById(R.id.get_start);
-        binding.getStart.setOnClickListener(new View.OnClickListener() {
+        binding.CompanyWise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
