@@ -6,16 +6,6 @@
         android:icon="@drawable/baseline_refresh_24"
         android:title="Refresh" />
 
-    <item
-        android:id="@+id/nav_feedback"
-        android:icon="@drawable/baseline_question_mark_24"
-        android:title="Feedback" />
-
-    <item
-        android:id="@+id/nav_select_language"
-        android:icon="@drawable/baseline_code_24"
-        android:title="Select Language"
-        />
 
     <item
         android:id="@+id/nav_help_support"

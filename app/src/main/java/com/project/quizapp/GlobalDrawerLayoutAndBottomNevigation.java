@@ -22,6 +22,7 @@ import com.project.quizapp.database.FirebaseDBHelper;
 import com.project.quizapp.database.entities.Question;
 import com.project.quizapp.database.entities.User;
 
+import java.util.List;
 import java.util.Objects;
 
 public class GlobalDrawerLayoutAndBottomNevigation extends AppCompatActivity {
@@ -102,6 +103,49 @@ public class GlobalDrawerLayoutAndBottomNevigation extends AppCompatActivity {
             }
         });
 
-       
+
+        navigationView = findViewById(R.id.nav_view);
+        // Initialize Views
+        navigationView = findViewById(R.id.nav_view);
+
+
+        userName = headerView.findViewById(R.id.userName);
+        userEmail = headerView.findViewById(R.id.userEmail);
+
+        if(FirebaseDBHelper.isUserLoggedIn())
+        {
+            FirebaseDBHelper.getUser(new FirebaseDBHelper.UserQueryCallback()
+            {
+                @Override
+                public void onSuccess(User user) {
+
+                    userName.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
+                    userEmail.setText(user.getEmail());
+                }
+
+                @Override
+                public void onFailure(String errMsg) {
+                    Toast.makeText(GlobalDrawerLayoutAndBottomNevigation.this, errMsg,Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+        else
+        {
+            userName.setText(R.string.defautl_user_name);
+        }
+
+        FirebaseDBHelper.getQuestionByCategory("Logical-Reasoning/Analogies", new FirebaseDBHelper.QuestionQueryCallback() {
+            @Override
+            public void onSuccess(List<Question> questions) {
+                Log.d("QUESTION", questions.get(0).toString());
+                Log.d("ARRAY_LEN", questions.size() + "");
+            }
+
+            @Override
+            public void onFailure(String errMsg) {
+                Toast.makeText(GlobalDrawerLayoutAndBottomNevigation.this,errMsg,Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

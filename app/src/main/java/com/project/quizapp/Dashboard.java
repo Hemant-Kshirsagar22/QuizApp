@@ -24,7 +24,9 @@ import com.project.quizapp.database.FirebaseDBHelper;
 
 import com.project.quizapp.database.entities.Question;
 import com.project.quizapp.database.entities.User;
+import com.project.quizapp.databinding.ActivityDashboardBinding;
 import com.project.quizapp.databinding.ActivityMainBinding;
+import com.project.quizapp.databinding.SampleDialogBinding;
 
 
 import java.util.List;
@@ -32,35 +34,27 @@ import java.util.Objects;
 
 public class Dashboard extends GlobalDrawerLayoutAndBottomNevigation {
 
-
-    private NavigationView navigationView = null;
-
-    private TextView userName = null;
-    private TextView userEmail = null;
-
-    ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+         ActivityDashboardBinding binding;
         super.onCreate(savedInstanceState);
-        getLayoutInflater().inflate(R.layout.activity_dashboard, findViewById(R.id.content_frame));
+        View view = getLayoutInflater().inflate(R.layout.activity_dashboard, findViewById(R.id.content_frame));
 
+        binding = ActivityDashboardBinding.bind(view);
 
         //Get card view
-        CardView getStartCard = findViewById(R.id.get_start);
-        getStartCard.setOnClickListener(new View.OnClickListener() {
+//        CardView getStartCard = findViewById(R.id.get_start);
+        binding.getStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Let's Start Clicked", Toast.LENGTH_SHORT).show();
-                //customised AlertDialog box
-                View view = LayoutInflater.from(Dashboard.this).inflate(R.layout.sample_dialog,null);
-
-                Button companyWise = view.findViewById(R.id.company_wise);
-                Button topicWise = view.findViewById(R.id.topic_wise);
-
-                AlertDialog dialog = new AlertDialog.Builder(Dashboard.this).setView(view).create();
+                AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
+                //Get binding with sample_dialog
+                SampleDialogBinding dialogBinding = SampleDialogBinding.inflate(LayoutInflater.from(Dashboard.this));
+                builder.setView(dialogBinding.getRoot());
+                AlertDialog dialog = builder.create();
                 dialog.show();
 
-                companyWise.setOnClickListener(new View.OnClickListener() {
+                dialogBinding.companyWise.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Toast.makeText(Dashboard.this, "companyWise", Toast.LENGTH_SHORT).show();
@@ -69,7 +63,7 @@ public class Dashboard extends GlobalDrawerLayoutAndBottomNevigation {
                     }
                 });
 
-                topicWise.setOnClickListener(new View.OnClickListener() {
+                dialogBinding.topicWise.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Toast.makeText(Dashboard.this, "TopicWise", Toast.LENGTH_SHORT).show();
@@ -77,64 +71,15 @@ public class Dashboard extends GlobalDrawerLayoutAndBottomNevigation {
                         startActivity(intent);
                     }
                 });
-
-                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-                // You can start a new activity here if needed
+                if (dialog.getWindow() != null) {
+                    dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                }
 
             }
         });
-        //binding
-//        binding = ActivityMainBinding.inflate((getLayoutInflater()));
 
 
 
-
-        navigationView = findViewById(R.id.nav_view);
-        // Initialize Views
-        navigationView = findViewById(R.id.nav_view);
-
-        // Accessing the header view inside NavigationView
-        View headerView = navigationView.getHeaderView(0);
-
-        userName = headerView.findViewById(R.id.userName);
-        userEmail = headerView.findViewById(R.id.userEmail);
-
-        if(FirebaseDBHelper.isUserLoggedIn())
-        {
-            FirebaseDBHelper.getUser(new FirebaseDBHelper.UserQueryCallback()
-            {
-                @Override
-                public void onSuccess(User user) {
-
-                        userName.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
-                        userEmail.setText(user.getEmail());
-                }
-
-                @Override
-                public void onFailure(String errMsg) {
-                    Toast.makeText(Dashboard.this, errMsg,Toast.LENGTH_SHORT).show();
-                }
-            });
-
-        }
-        else
-        {
-            userName.setText(R.string.defautl_user_name);
-        }
-
-        FirebaseDBHelper.getQuestionByCategory("Logical-Reasoning/Analogies", new FirebaseDBHelper.QuestionQueryCallback() {
-            @Override
-            public void onSuccess(List<Question> questions) {
-                Log.d("QUESTION", questions.get(0).toString());
-                Log.d("ARRAY_LEN", questions.size() + "");
-            }
-
-            @Override
-            public void onFailure(String errMsg) {
-                Toast.makeText(Dashboard.this,errMsg,Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
 }
