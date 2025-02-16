@@ -135,17 +135,17 @@ public class GlobalDrawerLayoutAndBottomNevigation extends AppCompatActivity {
             userName.setText(R.string.defautl_user_name);
         }
 
-        FirebaseDBHelper.getQuestionByCategory("Logical-Reasoning/Analogies", new FirebaseDBHelper.QuestionQueryCallback() {
-            @Override
-            public void onSuccess(List<Question> questions) {
-                Log.d("QUESTION", questions.get(0).toString());
-                Log.d("ARRAY_LEN", questions.size() + "");
-            }
-
-            @Override
-            public void onFailure(String errMsg) {
-                Toast.makeText(GlobalDrawerLayoutAndBottomNevigation.this,errMsg,Toast.LENGTH_SHORT).show();
-            }
-        });
+//        FirebaseDBHelper.getQuestionByCategory("Logical-Reasoning/Analogies", new FirebaseDBHelper.QuestionQueryCallback() {
+//            @Override
+//            public void onSuccess(List<Question> questions) {
+//                Log.d("QUESTION", questions.get(0).toString());
+//                Log.d("ARRAY_LEN", questions.size() + "");
+//            }
+//
+//            @Override
+//            public void onFailure(String errMsg) {
+//                Toast.makeText(GlobalDrawerLayoutAndBottomNevigation.this,errMsg,Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 }
