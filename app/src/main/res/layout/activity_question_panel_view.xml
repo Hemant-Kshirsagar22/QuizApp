@@ -13,7 +13,11 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/tvQuestionNumber"
@@ -46,9 +50,9 @@
                 android:id="@+id/a"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:button="@null"
                 android:layout_margin="10dp"
                 android:background="@drawable/option_background"
+                android:button="@null"
                 android:padding="12dp"
                 android:text="A. "
                 android:textColor="@color/textColorPrimary"
@@ -58,9 +62,9 @@
                 android:id="@+id/b"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:button="@null"
                 android:layout_margin="10dp"
                 android:background="@drawable/option_background"
+                android:button="@null"
                 android:padding="12dp"
                 android:text="B. "
                 android:textColor="@color/textColorPrimary"
@@ -70,9 +74,9 @@
                 android:id="@+id/c"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:button="@null"
                 android:layout_margin="10dp"
                 android:background="@drawable/option_background"
+                android:button="@null"
                 android:padding="12dp"
                 android:text="C. "
                 android:textColor="@color/textColorPrimary"
@@ -100,6 +104,7 @@
             android:textColor="@color/textColorPrimary"
             android:textSize="14sp"
             android:visibility="gone" />
+
     </LinearLayout>
 
     <!-- Bottom Navigation Layout -->
@@ -132,6 +137,13 @@
             android:textColor="@color/textColorPrimary"
             android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/submit"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:src="@drawable/baseline_download_done_24" />
         <ImageView
             android:id="@+id/next"
             android:layout_width="wrap_content"

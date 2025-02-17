@@ -1,16 +1,21 @@
 package com.project.quizapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.project.quizapp.database.FirebaseDBHelper;
 import com.project.quizapp.database.entities.Question;
 import com.project.quizapp.databinding.ActivityQuestionPanelViewBinding;
+import com.project.quizapp.databinding.OnSubmitDailogLayoutBinding;
 
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +47,34 @@ public class QuestionPanelView extends AppCompatActivity {
         radioGroup = (RadioGroup) binding.radioGroup;
         answerList = new HashMap<Integer,String>();
 
+        binding.submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(QuestionPanelView.this);
+                //Get binding with on_submit_dialog
+                OnSubmitDailogLayoutBinding dialogBinding = OnSubmitDailogLayoutBinding.inflate(LayoutInflater.from(QuestionPanelView.this));
+                builder.setView(dialogBinding.getRoot());
+                AlertDialog dialog = builder.create();
+                dialog.setCancelable(false);
+                dialog.show();
+
+                dialogBinding.btnResume.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                dialogBinding.btnSubmit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(QuestionPanelView.this, Dashboard.class);
+                         startActivity(intent);
+                    }
+                });
+
+            }
+        });
         FirebaseDBHelper.getQuestionByCategory("Logical-Reasoning/Analogies", new FirebaseDBHelper.QuestionQueryCallback() {
             @Override
             public void onSuccess(List<Question> question) {
