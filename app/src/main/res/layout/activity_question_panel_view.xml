@@ -40,125 +40,151 @@
         android:layout_marginTop="16dp"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/optionA"
+<!--        <LinearLayout-->
+<!--            android:id="@+id/optionA"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="10dp"-->
+<!--            android:background="@drawable/option_background"-->
+<!--            android:clickable="true"-->
+<!--            android:focusable="true"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:padding="12dp">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="A."-->
+<!--                android:textColor="@color/textColorPrimary"-->
+<!--                android:textSize="16sp" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tvOptionA"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="430"-->
+<!--                android:textColor="@color/textColorPrimary"-->
+<!--                android:textSize="16sp" />-->
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/optionB"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="10dp"-->
+<!--            android:background="@drawable/option_background"-->
+<!--            android:clickable="true"-->
+<!--            android:focusable="true"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:padding="12dp">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="B."-->
+<!--                android:textColor="@color/textColorPrimary"-->
+<!--                android:textSize="16sp" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tvOptionB"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="420"-->
+<!--                android:textColor="@color/textColorPrimary"-->
+<!--                android:textSize="16sp" />-->
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/optionC"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="10dp"-->
+<!--            android:background="@drawable/option_background"-->
+<!--            android:clickable="true"-->
+<!--            android:focusable="true"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:padding="12dp">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="C."-->
+<!--                android:textColor="@color/textColorPrimary"-->
+<!--                android:textSize="16sp" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tvOptionC"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="410"-->
+<!--                android:textColor="@color/textColorPrimary"-->
+<!--                android:textSize="16sp" />-->
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/optionD"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="10dp"-->
+<!--            android:background="@drawable/option_background"-->
+<!--            android:clickable="true"-->
+<!--            android:focusable="true"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:padding="12dp">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="D."-->
+<!--                android:textColor="@color/textColorPrimary"-->
+<!--                android:textSize="16sp" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tvOptionD"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="435"-->
+<!--                android:textColor="@color/textColorPrimary"-->
+<!--                android:textSize="16sp" />-->
+
+<!--        </LinearLayout>-->
+
+        <RadioGroup
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/option_background"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="horizontal"
-            android:padding="12dp">
-
-            <TextView
-                android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/radioGroup">
+            <RadioButton
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="A."
-                android:textColor="@color/textColorPrimary"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tvOptionA"
-                android:layout_width="wrap_content"
+                android:id="@+id/a"
+                android:text="A. "/>
+            <RadioButton
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="430"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/optionB"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/option_background"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="horizontal"
-            android:padding="12dp">
-
-            <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/b"
+                android:text="B. "/>
+            <RadioButton
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="B."
-                android:textColor="@color/textColorPrimary"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tvOptionB"
-                android:layout_width="wrap_content"
+                android:id="@+id/c"
+                android:text="C. "/>
+            <RadioButton
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="420"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/optionC"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/option_background"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="horizontal"
-            android:padding="12dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="C."
-                android:textColor="@color/textColorPrimary"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tvOptionC"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="410"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/optionD"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/option_background"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="horizontal"
-            android:padding="12dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="D."
-                android:textColor="@color/textColorPrimary"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tvOptionD"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="435"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="16sp" />
-
-        </LinearLayout>
+                android:id="@+id/d"
+                android:text="D. "/>
+        </RadioGroup>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvExplanation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="sum of first n no = n*(n+1)/2"
-        android:textColor="@color/textColorPrimary"
-        android:textSize="14sp"
-        android:visibility="visible" />
+<!--    <TextView-->
+<!--        android:id="@+id/tvExplanation"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:text="sum of first n no = n*(n+1)/2"-->
+<!--        android:textColor="@color/textColorPrimary"-->
+<!--        android:textSize="14sp"-->
+<!--        android:visibility="visible" />-->
 
 
 
