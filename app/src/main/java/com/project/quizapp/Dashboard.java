@@ -55,6 +55,17 @@ public class Dashboard extends GlobalDrawerLayoutAndBottomNavigation {
 //                }
 //
             }
+
+
+        });
+
+        binding.LogicalReasoning.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(Dashboard.this, "LogicalReasoning", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Dashboard.this, QuestionPanelView.class);
+                startActivity(intent);
+            }
         });
 
     }
