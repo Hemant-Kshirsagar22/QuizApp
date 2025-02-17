@@ -67,6 +67,14 @@ public class Dashboard extends GlobalDrawerLayoutAndBottomNavigation {
                 startActivity(intent);
             }
         });
+        binding.QuantitativeAptitude.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(Dashboard.this, "QuantitativeAptitude", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Dashboard.this, LogicalReasoning.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
