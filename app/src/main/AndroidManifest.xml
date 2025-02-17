@@ -21,7 +21,7 @@
             android:name=".QuestionPanelView"
             android:exported="false" />
         <activity
-            android:name=".GlobalDrawerLayoutAndBottomNevigation"
+            android:name=".GlobalDrawerLayoutAndBottomNavigation"
             android:exported="false" />
         <activity
             android:name=".TopicWise"

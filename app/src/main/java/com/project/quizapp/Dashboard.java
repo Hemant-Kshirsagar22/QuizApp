@@ -2,37 +2,12 @@ package com.project.quizapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import androidx.cardview.widget.CardView;
-import androidx.drawerlayout.widget.DrawerLayout;
-
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.navigation.NavigationView;
-import com.project.quizapp.database.FirebaseDBHelper;
-
-import com.project.quizapp.database.entities.Question;
-import com.project.quizapp.database.entities.User;
 import com.project.quizapp.databinding.ActivityDashboardBinding;
-import com.project.quizapp.databinding.ActivityMainBinding;
-import com.project.quizapp.databinding.SampleDialogBinding;
 
-
-import java.util.List;
-import java.util.Objects;
-
-public class Dashboard extends GlobalDrawerLayoutAndBottomNevigation {
+public class Dashboard extends GlobalDrawerLayoutAndBottomNavigation {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
