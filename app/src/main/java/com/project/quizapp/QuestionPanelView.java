@@ -1,7 +1,9 @@
 package com.project.quizapp;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import com.project.quizapp.databinding.ActivityQuestionPanelViewBinding;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class QuestionPanelView extends AppCompatActivity {
 
@@ -25,6 +28,11 @@ public class QuestionPanelView extends AppCompatActivity {
     private List<Question> questions = null;
 
     private RadioGroup radioGroup = null;
+    private final String A = "A";
+    private final String B = "B";
+    private final String C = "C";
+    private final String D = "D";
+
 
     private int currentQuetionPosition = 0;
 
@@ -46,7 +54,7 @@ public class QuestionPanelView extends AppCompatActivity {
                 if(questions != null)
                 {
                     binding.tvQuestion.setText(questions.get(currentQuetionPosition).getQuestion());
-                    binding.tvQuestionNumber.setText(currentQuetionPosition + 1 + "");
+                    binding.tvQuestionNumber.append(currentQuetionPosition + 1 + "");
 
                     List options = questions.get(currentQuetionPosition).getOptions();
 
@@ -61,19 +69,23 @@ public class QuestionPanelView extends AppCompatActivity {
                         public void onCheckedChanged(RadioGroup radioGroup, int i) {
                             if(binding.a.isChecked())
                             {
-                                Toast.makeText(getApplicationContext(), "A", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getApplicationContext(), "A", Toast.LENGTH_SHORT).show();
+                                setupOptionSelection(binding.a, A);
                             }
                             else if(binding.b.isChecked())
                             {
-                                Toast.makeText(getApplicationContext(), "B", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getApplicationContext(), "B", Toast.LENGTH_SHORT).show();
+                                setupOptionSelection(binding.b, B);
                             }
                             else if(binding.c.isChecked())
                             {
-                                Toast.makeText(getApplicationContext(), "C", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getApplicationContext(), "C", Toast.LENGTH_SHORT).show();
+                                setupOptionSelection(binding.c, C);
                             }
                             else if(binding.d.isChecked())
                             {
-                                Toast.makeText(getApplicationContext(), "D", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getApplicationContext(), "D", Toast.LENGTH_SHORT).show();
+                                setupOptionSelection(binding.d, D);
                             }
 
                         }
@@ -95,14 +107,45 @@ public class QuestionPanelView extends AppCompatActivity {
 //        setupOptionSelection(binding.optionD, "435"); // Correct Answer
     }
 
-    private void setupOptionSelection(LinearLayout option, String answer) {
-        option.setOnClickListener(v -> {
+    private void setupOptionSelection(RadioButton option, String answer) {
+        if(Objects.equals(option, binding.a))
+        {
             option.setBackgroundResource(R.drawable.option_background_selected);
-            if (answer.equals("435")) {
-                Toast.makeText(this, "Correct Answer!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Wrong Answer!", Toast.LENGTH_SHORT).show();
-            }
-        });
+            binding.b.setBackgroundResource(R.drawable.option_background);
+            binding.c.setBackgroundResource(R.drawable.option_background);
+            binding.d.setBackgroundResource(R.drawable.option_background);
+        }
+
+        if(Objects.equals(option, binding.b))
+        {
+            option.setBackgroundResource(R.drawable.option_background_selected);
+            binding.a.setBackgroundResource(R.drawable.option_background);
+            binding.c.setBackgroundResource(R.drawable.option_background);
+            binding.d.setBackgroundResource(R.drawable.option_background);
+        }
+
+        if(Objects.equals(option, binding.c))
+        {
+            option.setBackgroundResource(R.drawable.option_background_selected);
+            binding.a.setBackgroundResource(R.drawable.option_background);
+            binding.b.setBackgroundResource(R.drawable.option_background);
+            binding.d.setBackgroundResource(R.drawable.option_background);
+        }
+
+        if(Objects.equals(option, binding.d))
+        {
+            option.setBackgroundResource(R.drawable.option_background_selected);
+            binding.a.setBackgroundResource(R.drawable.option_background);
+            binding.b.setBackgroundResource(R.drawable.option_background);
+            binding.c.setBackgroundResource(R.drawable.option_background);
+        }
+
+
+
+        if (answer.equals(questions.get(currentQuetionPosition).getAnswer())) {
+            Toast.makeText(this, "Correct Answer", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Wrong Answer", Toast.LENGTH_SHORT).show();
+        }
     }
 }
