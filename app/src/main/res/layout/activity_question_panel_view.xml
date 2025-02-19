@@ -1,189 +1,217 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+
+
+<androidx.drawerlayout.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     tools:context=".QuestionPanelView">
 
-    <LinearLayout
+    <!-- Main content layout -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="top"
-        android:weightSum="5"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBaseline_toTopOf="@id/questionLinearLayout">
+        android:layout_height="match_parent"
+        android:padding="16dp">
 
-        <CheckBox
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="2"
-            android:id="@+id/reviewCheck"
-            android:layout_gravity="start"
-            android:text="Mark As Review" />
 
-        <TextView
-            android:id="@+id/timeValue"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:text="00:00:00"
-            android:textAlignment="center"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-        <ImageView
-            android:id="@+id/submit"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:layout_gravity="end"
-            android:src="@drawable/baseline_download_done_24" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/questionLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/tvQuestionNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Question - "
-            android:textColor="#BE29EC"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvQuestion"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="What is the sum of First 29 natural numbers?"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:gravity="top"
+            android:weightSum="5"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBaseline_toTopOf="@id/questionLinearLayout">
 
-        <!-- Implementing RadioGroup for Options -->
-        <RadioGroup
-            android:id="@+id/radioGroup"
+            <ImageView
+                android:id="@+id/menu_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="Menu Button"
+                android:padding="8dp"
+                android:layout_gravity="start"
+                android:src="@drawable/baseline_menu_24" />
+            <CheckBox
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="2"
+                android:id="@+id/reviewCheck"
+
+                android:text="Mark As Review" />
+
+            <TextView
+                android:id="@+id/timeValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:text="00:00:00"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/submit"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:layout_gravity="end"
+                android:src="@drawable/baseline_download_done_24" />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/questionLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="vertical">
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <RadioButton
-                android:id="@+id/a"
+            <TextView
+                android:id="@+id/tvQuestionNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Question - "
+                android:textColor="#BE29EC"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvQuestion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/option_background"
-                android:button="@null"
-                android:padding="12dp"
-                android:text="A. "
+                android:layout_marginTop="8dp"
+                android:text="What is the sum of First 29 natural numbers?"
                 android:textColor="@color/textColorPrimary"
-                android:textSize="16sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-            <RadioButton
-                android:id="@+id/b"
+            <!-- Implementing RadioGroup for Options -->
+            <RadioGroup
+                android:id="@+id/radioGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/option_background"
-                android:button="@null"
-                android:padding="12dp"
-                android:text="B. "
-                android:textColor="@color/textColorPrimary"
-                android:textSize="16sp" />
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
 
-            <RadioButton
-                android:id="@+id/c"
+                <RadioButton
+                    android:id="@+id/a"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/option_background"
+                    android:button="@null"
+                    android:padding="12dp"
+                    android:text="A. "
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/b"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/option_background"
+                    android:button="@null"
+                    android:padding="12dp"
+                    android:text="B. "
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/c"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/option_background"
+                    android:button="@null"
+                    android:padding="12dp"
+                    android:text="C. "
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/d"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/option_background"
+                    android:button="@null"
+                    android:padding="12dp"
+                    android:text="D. "
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="16sp" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/tvExplanation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/option_background"
-                android:button="@null"
-                android:padding="12dp"
-                android:text="C. "
+                android:layout_marginTop="16dp"
+                android:text="Sum of first n numbers = n*(n+1)/2"
                 android:textColor="@color/textColorPrimary"
-                android:textSize="16sp" />
+                android:textSize="14sp"
+                android:visibility="gone" />
 
-            <RadioButton
-                android:id="@+id/d"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/option_background"
-                android:button="@null"
-                android:padding="12dp"
-                android:text="D. "
-                android:textColor="@color/textColorPrimary"
-                android:textSize="16sp" />
-        </RadioGroup>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvExplanation"
+        <!-- Bottom Navigation Layout -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Sum of first n numbers = n*(n+1)/2"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="14sp"
-            android:visibility="gone" />
+            android:layout_marginBottom="16dp"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_editor_absoluteX="16dp">
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/Previous"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:src="@drawable/baseline_navigate_before_24" />
 
-    <!-- Bottom Navigation Layout -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:gravity="bottom"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="16dp">
+            <Button
+                android:id="@+id/clearResponse"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/gray"
+                android:text="Clear Response"
+                android:textColor="@color/textColorPrimary"
+                android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/Previous"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/baseline_navigate_before_24" />
+            <ImageView
+                android:id="@+id/next"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:src="@drawable/baseline_navigate_next_24" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
-            android:id="@+id/clearResponse"
-            android:layout_width="wrap_content"
-            android:layout_height="55dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:backgroundTint="@color/gray"
-            android:text="Clear Response"
-            android:textColor="@color/textColorPrimary"
-            android:textStyle="bold" />
+    <!-- Navigation Drawer Layout -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/question_panel_drawer_header_view"
+       />
 
-
-        <ImageView
-            android:id="@+id/next"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/baseline_navigate_next_24" />
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

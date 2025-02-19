@@ -28,7 +28,7 @@
 
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/tcs"
+                android:id="@+id/row1"
                 android:layout_width="128dp"
                 android:layout_height="128dp"
                 android:layout_margin="8dp"

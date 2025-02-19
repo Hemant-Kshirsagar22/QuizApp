@@ -66,6 +66,13 @@ public class QuestionPanelView extends AppCompatActivity {
 
         radioGroup = (RadioGroup) binding.radioGroup;
 
+
+        // Handle Menu Button Click
+        binding.menuButton.setOnClickListener(view -> {
+            binding.drawerLayout.openDrawer(binding.navigationView);
+        });
+
+
         // alert box related code
         dialogBinding.btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
