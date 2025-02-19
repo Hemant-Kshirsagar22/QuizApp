@@ -1,7 +1,7 @@
 package com.project.quizapp;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +35,7 @@ public class QuestionPanelView extends AppCompatActivity {
     private final String C = "C";
     private final String D = "D";
 
-    private int numberOfAnswerdQuestions = 0;
+    private int numberOfAnsweredQuestions = 0;
     private  int numberOfNotAnsweredQuestions = 0;
     private int numberOfReviewLetterQuestions = 0;
     private int numberOfNotVisitedQuestions = 0;
@@ -66,6 +66,21 @@ public class QuestionPanelView extends AppCompatActivity {
 
         radioGroup = (RadioGroup) binding.radioGroup;
 
+        // alert box related code
+        dialogBinding.btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                float marks = getMarks();
+                IntentManager.toDashboardActivity(QuestionPanelView.this);
+            }
+        });
+
+        dialogBinding.btnResume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
         binding.submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,23 +88,9 @@ public class QuestionPanelView extends AppCompatActivity {
                 // set the questions status
                 setQuestionsStatus();
                 dialog.show();
-
-                dialogBinding.btnResume.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-                dialogBinding.btnSubmit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        float marks = getMarks();
-                        IntentManager.toDashboardActivity(getApplicationContext());
-                    }
-                });
-
             }
         });
+
         FirebaseDBHelper.getQuestionByCategory("aptitude/Area", new FirebaseDBHelper.QuestionQueryCallback() {
             @Override
             public void onSuccess(List<Question> question) {
@@ -102,6 +103,31 @@ public class QuestionPanelView extends AppCompatActivity {
 
                 // set fetched question
                 changeQuestion();
+
+                // timer related code
+                new CountDownTimer( question.size() * (1000 * 60),1000)
+                {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        int hours = (int) (millisUntilFinished / (1000 * 60 * 60));
+                        int minutes = (int) (millisUntilFinished % (1000 * 60 * 60)) / (1000 * 60);
+                        int seconds = (int) (millisUntilFinished % (1000 * 60)) / 1000;
+
+                        binding.timeValue.setText(String.format("%02d:%02d:%02d",hours,minutes,seconds));
+                        // timer for alert box
+                        dialogBinding.timeValue.setText(String.format("%02d:%02d:%02d",hours,minutes,seconds));
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        dialogBinding.btnResume.setVisibility(View.GONE);
+                        dialogBinding.dialogMessage.setText("TIME UP !!! SUBMIT THE ANSWERS");
+                        dialog.show();
+
+                    }
+                }.start();
             }
 
             @Override
@@ -150,7 +176,6 @@ public class QuestionPanelView extends AppCompatActivity {
                     Log.d("REVIEW_LETTER_CLEAR", "" + numberOfReviewLetterQuestions);
                 }
             }
-
 
             // Clear Selected Answer
             answerList.put(currentQuestionPosition,null);
@@ -216,13 +241,13 @@ public class QuestionPanelView extends AppCompatActivity {
 
     private void setQuestionsStatus()
     {
-        numberOfAnswerdQuestions = getNumberOfAnsweredQuestions();
+        numberOfAnsweredQuestions = getNumberOfAnsweredQuestions();
 
-        numberOfNotAnsweredQuestions = questions.size() - numberOfAnswerdQuestions;
+        numberOfNotAnsweredQuestions = questions.size() - numberOfAnsweredQuestions;
 
         numberOfNotVisitedQuestions = getNumberOfNotVisitedQuestions();
 
-        dialogBinding.answered.setText("" + numberOfAnswerdQuestions);
+        dialogBinding.answered.setText("" + numberOfAnsweredQuestions);
         dialogBinding.notAns.setText("" + numberOfNotAnsweredQuestions);
         dialogBinding.notVisited.setText("" + numberOfNotVisitedQuestions);
         dialogBinding.reviewLetter.setText("" + numberOfReviewLetterQuestions);
@@ -314,7 +339,6 @@ public class QuestionPanelView extends AppCompatActivity {
 
         if (answer.equals(questions.get(currentQuestionPosition).getAnswer())) {
             Toast.makeText(this, "Correct Answer", Toast.LENGTH_SHORT).show();
-        } else {
         }
     }
 
