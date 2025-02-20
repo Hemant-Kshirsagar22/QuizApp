@@ -5,7 +5,10 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -17,7 +20,9 @@ import com.project.quizapp.database.FirebaseDBHelper;
 import com.project.quizapp.database.entities.Question;
 import com.project.quizapp.databinding.ActivityQuestionPanelViewBinding;
 import com.project.quizapp.databinding.OnSubmitDailogLayoutBinding;
+import com.project.quizapp.databinding.QuestionPanelDrawerHeaderViewBinding;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +31,8 @@ import java.util.Objects;
 public class QuestionPanelView extends AppCompatActivity {
 
     private ActivityQuestionPanelViewBinding binding;
+    private QuestionPanelDrawerHeaderViewBinding drawerHeaderViewBinding;
+
     private OnSubmitDailogLayoutBinding dialogBinding;
     private List<Question> questions = null;
 
@@ -45,9 +52,11 @@ public class QuestionPanelView extends AppCompatActivity {
 
     private int currentQuestionPosition = 0;
 
+    private AlertDialog dialog = null;
     // Questions Status
     private static final String QUESTION_MARK_AS_REVIEW = "REVIEW";
 
+    private List<Button> buttonList = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,14 +65,10 @@ public class QuestionPanelView extends AppCompatActivity {
         binding = ActivityQuestionPanelViewBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // submit alert dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(QuestionPanelView.this);
-        //Get binding with on_submit_dialog
-        dialogBinding = OnSubmitDailogLayoutBinding.inflate(LayoutInflater.from(QuestionPanelView.this));
-        builder.setView(dialogBinding.getRoot());
-        AlertDialog dialog = builder.create();
-        dialog.setCancelable(false);
-
+        // initialize Question Drawer Binding
+        drawerHeaderViewBinding = QuestionPanelDrawerHeaderViewBinding.bind(binding.navigationView.getHeaderView(0));
+        // initialize Submit Alert Dialog
+        initAlertDialog();
         radioGroup = (RadioGroup) binding.radioGroup;
 
 
@@ -72,22 +77,7 @@ public class QuestionPanelView extends AppCompatActivity {
             binding.drawerLayout.openDrawer(binding.navigationView);
         });
 
-
         // alert box related code
-        dialogBinding.btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                float marks = getMarks();
-                IntentManager.toDashboardActivity(QuestionPanelView.this);
-            }
-        });
-
-        dialogBinding.btnResume.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
         binding.submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,6 +85,7 @@ public class QuestionPanelView extends AppCompatActivity {
                 // set the questions status
                 setQuestionsStatus();
                 dialog.show();
+
             }
         });
 
@@ -105,9 +96,12 @@ public class QuestionPanelView extends AppCompatActivity {
                 answerList = new HashMap<Integer,String>(question.size());
                 answerStatusList = new HashMap<Integer,String>(question.size());
                 questionsVisitedList = new HashMap<Integer,Boolean>(question.size());
+                buttonList = new ArrayList<Button>(question.size());
+
                 // set the values to 0
                 initializeQuestionsStatus();
 
+                updateDrawerQuestionSelector();
                 // set fetched question
                 changeQuestion();
 
@@ -131,6 +125,9 @@ public class QuestionPanelView extends AppCompatActivity {
 
                         dialogBinding.btnResume.setVisibility(View.GONE);
                         dialogBinding.dialogMessage.setText("TIME UP !!! SUBMIT THE ANSWERS");
+
+                        // set the questions status
+                        setQuestionsStatus();
                         dialog.show();
 
                     }
@@ -142,7 +139,6 @@ public class QuestionPanelView extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), errMsg, Toast.LENGTH_SHORT).show();
             }
         });
-
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -225,7 +221,8 @@ public class QuestionPanelView extends AppCompatActivity {
                 }
             }
 
-            Log.d("REVIEW_LETTER", numberOfReviewLetterQuestions + answerStatusList.toString());
+            // change drawer button colors
+            changeDrawerButtonColor();
         });
     }
 
@@ -308,6 +305,9 @@ public class QuestionPanelView extends AppCompatActivity {
                     binding.reviewCheck.setChecked(true);
                 }
             }
+
+            // change drawer button colors
+            changeDrawerButtonColor();
         }
     }
     private void selectOption(RadioButton option, String answer) {
@@ -344,6 +344,9 @@ public class QuestionPanelView extends AppCompatActivity {
             binding.c.setBackgroundResource(R.drawable.option_background);
         }
 
+        // change drawer button colors
+        changeDrawerButtonColor();
+
         if (answer.equals(questions.get(currentQuestionPosition).getAnswer())) {
             Toast.makeText(this, "Correct Answer", Toast.LENGTH_SHORT).show();
         }
@@ -358,6 +361,9 @@ public class QuestionPanelView extends AppCompatActivity {
 
         // clear the review letter checkbox
         binding.reviewCheck.setChecked(false);
+
+        // change drawer button colors
+        changeDrawerButtonColor();
     }
 
     private int getNumberOfAnsweredQuestions()
@@ -405,5 +411,70 @@ public class QuestionPanelView extends AppCompatActivity {
         Log.d("TOTAL_MARKS", "correct Questions : " + numberOfCorrectAnswers + " percentage : " + percentage);
         return(percentage);
     }
+
+    private void initAlertDialog()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(QuestionPanelView.this);
+        //Get binding with on_submit_dialog
+        dialogBinding = OnSubmitDailogLayoutBinding.inflate(LayoutInflater.from(QuestionPanelView.this));
+        builder.setView(dialogBinding.getRoot());
+        dialog = builder.create();
+        dialog.setCancelable(false);
+        dialogBinding.btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                float marks = getMarks();
+                IntentManager.toDashboardActivity(QuestionPanelView.this);
+            }
+        });
+
+        dialogBinding.btnResume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+    private void updateDrawerQuestionSelector()
+    {
+        drawerHeaderViewBinding.questionGrid.removeAllViews();
+
+        for(int i = 0; i < questions.size();i++)
+        {
+            Button button = new Button(this);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(10, 20, 10, 20);
+            button.setLayoutParams(layoutParams);
+            button.setText("" + (i + 1));
+            button.setBackgroundColor(getResources().getColor(R.color.gray));
+
+            button.setOnClickListener(view -> {
+                currentQuestionPosition = Integer.parseInt(((Button)view).getText().toString().trim()) - 1;
+                changeQuestion();
+
+                binding.drawerLayout.close();
+            });
+
+            buttonList.add(button);
+            drawerHeaderViewBinding.questionGrid.addView(button);
+        }
+    }
+
+    private void changeDrawerButtonColor()
+    {
+        if(questionsVisitedList.get(currentQuestionPosition) == true)
+        {
+            buttonList.get(currentQuestionPosition).setBackgroundColor(getResources().getColor(R.color.red));
+        }
+        if(answerList.get(currentQuestionPosition) != null)
+        {
+            buttonList.get(currentQuestionPosition).setBackgroundColor(getResources().getColor(R.color.green));
+        }
+        if(Objects.equals(answerStatusList.get(currentQuestionPosition), QUESTION_MARK_AS_REVIEW))
+        {
+            buttonList.get(currentQuestionPosition).setBackgroundColor(getResources().getColor(R.color.blue));
+        }
+    }
+
 
 }
