@@ -50,7 +50,7 @@
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:text="00:00:00"
                 android:textAlignment="center"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@color/green"
                 android:textSize="22sp"
                 android:textStyle="bold" />
             <ImageView
@@ -59,7 +59,7 @@
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:layout_gravity="end"
-                android:src="@drawable/baseline_download_done_24" />
+                android:src="@drawable/baseline_done_24" />
 
         </LinearLayout>
 

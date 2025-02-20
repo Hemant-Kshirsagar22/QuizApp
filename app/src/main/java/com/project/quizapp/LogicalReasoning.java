@@ -1,6 +1,7 @@
 package com.project.quizapp;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Adapter;
 
 import androidx.activity.EdgeToEdge;
@@ -11,9 +12,12 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.project.quizapp.databinding.ActivityDashboardBinding;
+import com.project.quizapp.databinding.ActivityLogicalReasoningBinding;
+
 import java.util.ArrayList;
 
-public class LogicalReasoning extends AppCompatActivity {
+public class LogicalReasoning extends GlobalDrawerLayoutAndBottomNavigation {
 
 
     AdapterForCardViewTestList adapter;
@@ -21,13 +25,15 @@ public class LogicalReasoning extends AppCompatActivity {
     ArrayList<String> item;
     ArrayList<String> Descitem;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+    ActivityLogicalReasoningBinding binding;
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_logical_reasoning);
-        recyclerView = findViewById(R.id.recycleView);
+        View view = getLayoutInflater().inflate(R.layout.activity_logical_reasoning, findViewById(R.id.content_frame));
+
+        binding = ActivityLogicalReasoningBinding.bind(view);
+        //recyclerView = findViewById(R.id.recycleView);
 
         item = new ArrayList<>();
         item.add("Test1");
@@ -48,8 +54,8 @@ public class LogicalReasoning extends AppCompatActivity {
         Descitem.add("Duration:20min   Quetion:15    15M");
         Descitem.add("Duration:20min   Quetion:15    15M");
         Descitem.add("Duration:20min   Quetion:15    15M");
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AdapterForCardViewTestList(this, item,Descitem);
-        recyclerView.setAdapter(adapter);
+        binding.recycleView.setAdapter(adapter);
     }
 }
