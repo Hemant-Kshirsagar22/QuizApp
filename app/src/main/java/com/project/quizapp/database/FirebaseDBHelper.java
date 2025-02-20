@@ -25,8 +25,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.project.quizapp.database.entities.Question;
 import com.project.quizapp.database.entities.User;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,13 +50,17 @@ public class FirebaseDBHelper {
         void onFailure(String errMsg);
     }
 
-
     public interface QuestionQueryCallback
     {
         void onSuccess(List<Question> question);
         void onFailure(String errMsg);
     }
 
+    public interface GetQuestionsCategoriesCallback
+    {
+        void onSuccess(List<String> categories);
+        void onFailure(String errMsg);
+    }
 
     private FirebaseDBHelper() {}
 
@@ -523,5 +525,50 @@ public class FirebaseDBHelper {
         });
 
         // admin creation end
+    }
+
+    public static void getQuestionsCategories(String path, GetQuestionsCategoriesCallback callback)
+    {
+        List<String> categories = new ArrayList<String>();
+
+        questionRef = getQuestionRef();
+
+
+        if(path != null) // get subcategories of particular topics
+        {
+            questionRef.child(path).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot snap : snapshot.getChildren()) {
+                        categories.add(snap.getKey());
+                    }
+
+                    callback.onSuccess(categories);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    callback.onFailure(error.getMessage());
+                }
+            });
+        }
+        else // if path is null then get Questions root subcategories
+        {
+            questionRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot snap : snapshot.getChildren()) {
+                        categories.add(snap.getKey());
+                    }
+
+                    callback.onSuccess(categories);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    callback.onFailure(error.getMessage());
+                }
+            });
+        }
     }
 }
