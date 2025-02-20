@@ -35,7 +35,7 @@ public class FirebaseDBHelper {
 
     private static FirebaseAuth firebaseAuth = null;
     private static String USER_COLLECTION_NAME = "Users";
-    private static String QUETION_COLLECTION_NAME = "Questions";
+    private static String QUESTION_COLLECTION_NAME = "Questions";
 
     public static String ADMIN_USERNAME = "admin@gmail.com";
 
@@ -92,7 +92,7 @@ public class FirebaseDBHelper {
     private static DatabaseReference getQuestionRef() {
         if(questionRef == null)
         {
-            questionRef = getRootRef().child(QUETION_COLLECTION_NAME);
+            questionRef = getRootRef().child(QUESTION_COLLECTION_NAME);
         }
         return(questionRef);
     }
@@ -149,7 +149,7 @@ public class FirebaseDBHelper {
 
             @Override
             public void onFailure(String errMsg) {
-                Log.d("ADMIN_CREATETION", errMsg);
+                Log.d("ADMIN_CREATION", errMsg);
             }
         });
     }
@@ -164,16 +164,16 @@ public class FirebaseDBHelper {
 
             @Override
             public void onFailure(String errMsg) {
-                Log.d("ADMIN_CREATETION", errMsg);
+                Log.d("ADMIN_CREATION", errMsg);
             }
         });
 
         firebaseAuth = getFirebaseAuth();
-        Log.d("GOOGLE_SIGNIN", "firebaseAuthWithGoogle:" + account.getId());
+        Log.d("GOOGLE_SIGNING", "firebaseAuthWithGoogle:" + account.getId());
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         if(credential == null)
         {
-            Log.d("CREDITIAL","NULL");
+            Log.d("CREDENTIAL","NULL");
         }
 
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -500,13 +500,13 @@ public class FirebaseDBHelper {
                                 }
                                 else
                                 {
-                                    callback.onFailure("ERROR WHILE CREATEING ADMIN ");
+                                    callback.onFailure("ERROR WHILE CREATING ADMIN ");
                                 }
                             }
                             else
                             {
                                 Log.d("ADMIN_ERR", task.getException().getMessage());
-                                callback.onFailure("ERROR WHILE CREATEING ADMIN ");
+                                callback.onFailure("ERROR WHILE CREATING ADMIN ");
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {

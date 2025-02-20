@@ -43,8 +43,8 @@
 
     </LinearLayout>
     <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:padding="10dp">
 
@@ -55,6 +55,14 @@
             android:columnCount="3"
             android:id="@+id/questionGrid"
             android:padding="10dp">
+
+            <Button/>
+            <Button/>
+            <Button/><Button/><Button/><Button/><Button/>
+
+
+
+
 
             <!-- Add buttons dynamically via Java/Kotlin for remaining questions -->
         </GridLayout>

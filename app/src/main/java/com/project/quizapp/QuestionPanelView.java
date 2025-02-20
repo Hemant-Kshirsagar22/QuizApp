@@ -442,11 +442,12 @@ public class QuestionPanelView extends AppCompatActivity {
         for(int i = 0; i < questions.size();i++)
         {
             Button button = new Button(this);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(10, 20, 10, 20);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(200, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(10, 10, 10, 10);
             button.setLayoutParams(layoutParams);
             button.setText("" + (i + 1));
-            button.setBackgroundColor(getResources().getColor(R.color.gray));
+            button.setTextColor(getResources().getColor(R.color.textColorPrimary));
+            button.setBackground(getDrawable(R.drawable.option_background));
 
             button.setOnClickListener(view -> {
                 currentQuestionPosition = Integer.parseInt(((Button)view).getText().toString().trim()) - 1;
@@ -464,15 +465,15 @@ public class QuestionPanelView extends AppCompatActivity {
     {
         if(questionsVisitedList.get(currentQuestionPosition) == true)
         {
-            buttonList.get(currentQuestionPosition).setBackgroundColor(getResources().getColor(R.color.red));
+            buttonList.get(currentQuestionPosition).setBackground(getDrawable(R.drawable.not_visited_background));
         }
         if(answerList.get(currentQuestionPosition) != null)
         {
-            buttonList.get(currentQuestionPosition).setBackgroundColor(getResources().getColor(R.color.green));
+            buttonList.get(currentQuestionPosition).setBackground(getDrawable(R.drawable.answered_background));
         }
         if(Objects.equals(answerStatusList.get(currentQuestionPosition), QUESTION_MARK_AS_REVIEW))
         {
-            buttonList.get(currentQuestionPosition).setBackgroundColor(getResources().getColor(R.color.blue));
+            buttonList.get(currentQuestionPosition).setBackground(getDrawable(R.drawable.review_background));
         }
     }
 
