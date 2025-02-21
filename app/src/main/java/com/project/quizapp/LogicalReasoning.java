@@ -1,8 +1,10 @@
 package com.project.quizapp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,50 +14,78 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.project.quizapp.database.FirebaseDBHelper;
+import com.project.quizapp.database.entities.QuestionCategory;
 import com.project.quizapp.databinding.ActivityDashboardBinding;
 import com.project.quizapp.databinding.ActivityLogicalReasoningBinding;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class LogicalReasoning extends GlobalDrawerLayoutAndBottomNavigation {
-
-
-    AdapterForCardViewTestList adapter;
-    RecyclerView recyclerView;
-    ArrayList<String> item;
-    ArrayList<String> Descitem;
-
+    private ActivityLogicalReasoningBinding binding;
+    private QuestionSubCategoryRecyclerViewAdapter subCategoryRecyclerViewAdapter;
+    private Map<String,Long> subCategoryList =  new HashMap<>();;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-    ActivityLogicalReasoningBinding binding;
         super.onCreate(savedInstanceState);
         View view = getLayoutInflater().inflate(R.layout.activity_logical_reasoning, findViewById(R.id.content_frame));
 
         binding = ActivityLogicalReasoningBinding.bind(view);
-        //recyclerView = findViewById(R.id.recycleView);
 
-        item = new ArrayList<>();
-        item.add("Test1");
-        item.add("Test2");
-        item.add("Test3");
-        item.add("Test4");
-        item.add("Test5");
-        item.add("Test6");
-        item.add("Test7");
-        item.add("Test8");
+        FirebaseDBHelper.getQuestionsCategories("/", new FirebaseDBHelper.GetQuestionsCategoriesCallback() {
+            @Override
+            public void onSuccess(List<QuestionCategory> categories) {
+//                binding.recycleView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+////                adapter = new AdapterForCardViewTestList(getApplicationContext(), categories);
+//                binding.recycleView.setAdapter(adapter);
+                binding.recyclerViewBaseCategories.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                QuestionBaseCategoryRecyclerViewAdapter baseCategoryRecyclerViewAdapter = new QuestionBaseCategoryRecyclerViewAdapter(getApplicationContext(), categories, new QuestionBaseCategoryRecyclerViewAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(QuestionCategory questionCategory) {
+                        subCategoryList.clear();
+                        subCategoryList.putAll(questionCategory.getSubCategory());
+                        subCategoryRecyclerViewAdapter.notifyDataSetChanged();
 
-        Descitem = new ArrayList<>();
-        Descitem.add("Duration:20min   Quetion:15    15M");
-        Descitem.add("Duration:20min   Quetion:15    15M");
-        Descitem.add("Duration:20min   Quetion:15    15M");
-        Descitem.add("Duration:20min   Quetion:15    15M");
-        Descitem.add("Duration:20min   Quetion:15    15M");
-        Descitem.add("Duration:20min   Quetion:15    15M");
-        Descitem.add("Duration:20min   Quetion:15    15M");
-        Descitem.add("Duration:20min   Quetion:15    15M");
-        binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new AdapterForCardViewTestList(this, item,Descitem);
-        binding.recycleView.setAdapter(adapter);
+                        if(binding.recyclerViewSubCategories.getVisibility() == View.VISIBLE)
+                        {
+                           binding.recyclerViewSubCategories.setVisibility(View.GONE);
+                        }
+                        else
+                        {
+                            binding.recyclerViewSubCategories.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+
+                binding.recyclerViewBaseCategories.setAdapter(baseCategoryRecyclerViewAdapter);
+
+                binding.recyclerViewSubCategories.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                subCategoryRecyclerViewAdapter = new QuestionSubCategoryRecyclerViewAdapter(getApplicationContext(),subCategoryList);
+                binding.recyclerViewSubCategories.setAdapter(subCategoryRecyclerViewAdapter);
+
+            }
+
+            @Override
+            public void onFailure(String errMsg) {
+                Toast.makeText(LogicalReasoning.this, errMsg, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+    @Override
+    public void onBackPressed() {
+        // Check if the subcategories RecyclerView is visible
+        if (binding.recyclerViewSubCategories.getVisibility() == View.VISIBLE) {
+            // If it's visible, hide the subcategories view and show the base categories view
+            binding.recyclerViewSubCategories.setVisibility(View.GONE);
+            binding.recyclerViewBaseCategories.setVisibility(View.VISIBLE);
+        } else {
+            // If subcategories view is not visible, call the default onBackPressed to finish the activity
+            super.onBackPressed();
+        }
+    }
+
 }

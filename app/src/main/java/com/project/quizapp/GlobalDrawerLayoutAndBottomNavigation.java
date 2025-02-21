@@ -109,8 +109,11 @@ public class GlobalDrawerLayoutAndBottomNavigation extends AppCompatActivity{
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if(Objects.equals(item.getTitle(), "Home"))
                 {
-                    Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this,"Home",Toast.LENGTH_SHORT).show();
-                    IntentManager.toDashboardActivity(getApplicationContext());
+                    String currentActivity = this.getClass().getSimpleName();
+                    if(!currentActivity.equals("Dashboard")) {
+                        Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this, "Home", Toast.LENGTH_SHORT).show();
+                        IntentManager.toDashboardActivity(getApplicationContext());
+                    }
                     return (true);
                 }
                 else if(Objects.equals(item.getTitle(), "Test"))
@@ -147,18 +150,5 @@ public class GlobalDrawerLayoutAndBottomNavigation extends AppCompatActivity{
         {
             userName.setText(R.string.defautl_user_name);
         }
-
-//        FirebaseDBHelper.getQuestionByCategory("Logical-Reasoning/Analogies", new FirebaseDBHelper.QuestionQueryCallback() {
-//            @Override
-//            public void onSuccess(List<Question> questions) {
-//                Log.d("QUESTION", questions.get(0).toString());
-//                Log.d("ARRAY_LEN", questions.size() + "");
-//            }
-//
-//            @Override
-//            public void onFailure(String errMsg) {
-//                Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this,errMsg,Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 }

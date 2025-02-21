@@ -1,3 +1,4 @@
+
 package com.project.quizapp;
 
 import android.content.Context;
@@ -54,7 +55,7 @@ public class AdapterForCardViewTestList extends RecyclerView.Adapter<AdapterForC
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-TextView textTitle,textDescriptor;
+        TextView textTitle,textDescriptor;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -23,10 +23,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.quizapp.database.entities.Question;
+import com.project.quizapp.database.entities.QuestionCategory;
 import com.project.quizapp.database.entities.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 public class FirebaseDBHelper {
     private static DatabaseReference rootRef = null;
@@ -58,7 +62,7 @@ public class FirebaseDBHelper {
 
     public interface GetQuestionsCategoriesCallback
     {
-        void onSuccess(List<String> categories);
+        void onSuccess(List<QuestionCategory> categories);
         void onFailure(String errMsg);
     }
 
@@ -529,46 +533,38 @@ public class FirebaseDBHelper {
 
     public static void getQuestionsCategories(String path, GetQuestionsCategoriesCallback callback)
     {
-        List<String> categories = new ArrayList<String>();
-
+        List<QuestionCategory> questionCategoryList = new ArrayList<>();
         questionRef = getQuestionRef();
 
-
-        if(path != null) // get subcategories of particular topics
+        questionRef.child(path).addListenerForSingleValueEvent(new ValueEventListener()
         {
-            questionRef.child(path).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot snap : snapshot.getChildren()) {
-                        categories.add(snap.getKey());
+                        QuestionCategory qCategory = new QuestionCategory();
+                        qCategory.setBaseCategory(snap.getKey());
+
+                        Map<String,Long> temp = new HashMap<>();
+                        for(DataSnapshot dataSnapshot : snap.getChildren())
+                        {
+                            String key = dataSnapshot.getKey();
+                            if(!key.startsWith("-"))
+                            {
+                                temp.put(key,dataSnapshot.getChildrenCount());
+                            }
+                        }
+
+                        qCategory.setSubCategory(temp);
+                        questionCategoryList.add(qCategory);
                     }
 
-                    callback.onSuccess(categories);
+                    callback.onSuccess(questionCategoryList);
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                     callback.onFailure(error.getMessage());
                 }
-            });
-        }
-        else // if path is null then get Questions root subcategories
-        {
-            questionRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot snap : snapshot.getChildren()) {
-                        categories.add(snap.getKey());
-                    }
-
-                    callback.onSuccess(categories);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    callback.onFailure(error.getMessage());
-                }
-            });
-        }
+        });
     }
 }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.project.quizapp.database.FirebaseDBHelper;
+import com.project.quizapp.database.entities.QuestionCategory;
 import com.project.quizapp.databinding.ActivityDashboardBinding;
 
 import java.util.List;
@@ -79,19 +80,6 @@ public class Dashboard extends GlobalDrawerLayoutAndBottomNavigation {
                 startActivity(intent);
             }
         });
-
-        FirebaseDBHelper.getQuestionsCategories("aptitude/", new FirebaseDBHelper.GetQuestionsCategoriesCallback() {
-            @Override
-            public void onSuccess(List<String> categories) {
-                Log.d("Categories", categories.toString());
-            }
-
-            @Override
-            public void onFailure(String errMsg) {
-                Toast.makeText(Dashboard.this, errMsg, Toast.LENGTH_SHORT).show();
-            }
-        });
-
     }
 
 }
