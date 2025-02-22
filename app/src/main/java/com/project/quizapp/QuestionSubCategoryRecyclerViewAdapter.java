@@ -33,11 +33,17 @@ public class QuestionSubCategoryRecyclerViewAdapter extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(QuestionSubCategoryRecyclerViewHolder holder, int position) {
+
+        // Clear
+        holder.textTitle.setText("");
+        holder.textDescriptor.setText("");
+        holder.imageView.setImageDrawable(null);
+
         Object[] keyList = subCategoryMap.keySet().toArray();
         String subCategoryName = (String) keyList[position];
         Long numberOfQuestions = subCategoryMap.get(subCategoryName);
         holder.textTitle.setText(subCategoryName);
-        holder.textDescriptor.setText( "Number Of Questions : "+ subCategoryMap.get(subCategoryName) + "\nTime : " + numberOfQuestions+" min");
+        holder.textDescriptor.setText( "Number Of Questionfs : "+ subCategoryMap.get(subCategoryName) + "\nTime : " + numberOfQuestions+" min");
         Drawable drawable = ContextCompat.getDrawable(context, R.drawable.foreground);
         holder.imageView.setImageDrawable(drawable);
 

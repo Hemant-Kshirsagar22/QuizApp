@@ -38,6 +38,12 @@ public class QuestionBaseCategoryRecyclerViewAdapter extends RecyclerView.Adapte
 
     @Override
     public void onBindViewHolder(QuestionBaseCategoryRecyclerViewHolder holder, int position) {
+
+        // Clear
+        holder.textTitle.setText("");
+        holder.textDescriptor.setText("");
+        holder.imageView.setImageDrawable(null);
+
         QuestionCategory questionCategory = baseCategoryList.get(position);
         holder.textTitle.setText(questionCategory.getBaseCategory());
         holder.textDescriptor.setText( "Number Of Tests : "+ questionCategory.getSubCategory().size());

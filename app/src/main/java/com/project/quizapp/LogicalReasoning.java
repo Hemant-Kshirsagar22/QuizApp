@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import com.project.quizapp.database.FirebaseDBHelper;
 import com.project.quizapp.database.entities.QuestionCategory;
@@ -45,9 +46,11 @@ public class LogicalReasoning extends GlobalDrawerLayoutAndBottomNavigation {
                 QuestionBaseCategoryRecyclerViewAdapter baseCategoryRecyclerViewAdapter = new QuestionBaseCategoryRecyclerViewAdapter(getApplicationContext(), categories, new QuestionBaseCategoryRecyclerViewAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(QuestionCategory questionCategory) {
+
                         subCategoryList.clear();
                         subCategoryList.putAll(questionCategory.getSubCategory());
                         subCategoryRecyclerViewAdapter.notifyDataSetChanged();
+                        binding.recyclerViewBaseCategories.setVisibility(View.GONE);
 
                         if(binding.recyclerViewSubCategories.getVisibility() == View.VISIBLE)
                         {
