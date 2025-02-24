@@ -39,7 +39,7 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_black"
-                android:text="Select Test - CompanyWise/TopicWise"
+                android:text="Do You Want To Start The Test?"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -51,21 +51,21 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/company_wise"
+                    android:id="@+id/cancelTest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:text="CompanyWise"
+                    android:text="cancel"
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/topic_wise"
+                    android:id="@+id/startTest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:text="TopicWise"
+                    android:text="Start"
                     android:textStyle="bold" />
             </LinearLayout>
 

@@ -2,11 +2,13 @@ package com.project.quizapp;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import com.project.quizapp.database.FirebaseDBHelper;
 import com.project.quizapp.database.entities.QuestionCategory;
+import com.project.quizapp.databinding.ActivityAlertBoxForTestStartBinding;
 import com.project.quizapp.databinding.ActivityDashboardBinding;
 import com.project.quizapp.databinding.ActivityLogicalReasoningBinding;
 
@@ -69,8 +72,21 @@ public class LogicalReasoning extends GlobalDrawerLayoutAndBottomNavigation {
                     @Override
                     public void OnSubCategorySelected(String subCategory) {
                         String selectedCategory = questionCategory.getBaseCategory() + "/" +subCategory;
-                        Toast.makeText(LogicalReasoning.this, questionCategory.getBaseCategory() + "/" +subCategory, Toast.LENGTH_SHORT).show();
-                        IntentManager.toQuestionPanelView(getApplicationContext(), selectedCategory);
+
+                        // show alert to start the test
+                        AlertDialog.Builder builder = new AlertDialog.Builder(LogicalReasoning.this);
+                        ActivityAlertBoxForTestStartBinding alertBoxForTestStartBinding = ActivityAlertBoxForTestStartBinding.inflate(LayoutInflater.from(LogicalReasoning.this));
+                        builder.setView(alertBoxForTestStartBinding.getRoot());
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+
+                        alertBoxForTestStartBinding.startTest.setOnClickListener(v -> {
+                            IntentManager.toQuestionPanelView(getApplicationContext(), selectedCategory);
+                        });
+
+                        alertBoxForTestStartBinding.cancelTest.setOnClickListener(v -> {
+                            dialog.cancel();
+                        });
 
                     }
                 });
@@ -97,5 +113,13 @@ public class LogicalReasoning extends GlobalDrawerLayoutAndBottomNavigation {
             super.onBackPressed();
         }
     }
+
+    public void showTestStartAlert()
+    {
+
+
+
+    }
+
 
 }

@@ -56,15 +56,8 @@
             android:id="@+id/questionGrid"
             android:padding="10dp">
 
-            <Button/>
-            <Button/>
-            <Button/><Button/><Button/><Button/><Button/>
-
-
-
-
-
             <!-- Add buttons dynamically via Java/Kotlin for remaining questions -->
+            <TextView/>
         </GridLayout>
     </ScrollView>
 
