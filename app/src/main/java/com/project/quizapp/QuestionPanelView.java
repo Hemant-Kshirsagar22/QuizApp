@@ -61,6 +61,9 @@ public class QuestionPanelView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // get the selected category
+        String selectedCategory = getIntent().getStringExtra("selectedCategory");
+
         // Initialize View Binding
         binding = ActivityQuestionPanelViewBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -89,7 +92,7 @@ public class QuestionPanelView extends AppCompatActivity {
             }
         });
 
-        FirebaseDBHelper.getQuestionByCategory("aptitude/Area", new FirebaseDBHelper.QuestionQueryCallback() {
+        FirebaseDBHelper.getQuestionByCategory(selectedCategory, new FirebaseDBHelper.QuestionQueryCallback() {
             @Override
             public void onSuccess(List<Question> question) {
                 questions = question;
@@ -266,10 +269,10 @@ public class QuestionPanelView extends AppCompatActivity {
 
             List<String> options = questions.get(currentQuestionPosition).getOptions();
 
-            binding.a.setText(A + " " + options.get(0));
-            binding.b.setText(B + " " + options.get(1));
-            binding.c.setText(C + " " + options.get(2));
-            binding.d.setText(D + " " + options.get(3));
+            binding.a.setText(A + ". " + options.get(0));
+            binding.b.setText(B + ". " + options.get(1));
+            binding.c.setText(C + ". " + options.get(2));
+            binding.d.setText(D + ". " + options.get(3));
 
             clearOptions();
 
@@ -424,6 +427,7 @@ public class QuestionPanelView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 float marks = getMarks();
+                Toast.makeText(QuestionPanelView.this, String.format("Marks : %.2f", marks), Toast.LENGTH_SHORT).show();
                 IntentManager.toDashboardActivity(QuestionPanelView.this);
             }
         });

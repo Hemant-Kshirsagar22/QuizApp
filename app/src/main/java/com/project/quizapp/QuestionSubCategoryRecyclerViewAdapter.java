@@ -20,9 +20,15 @@ public class QuestionSubCategoryRecyclerViewAdapter extends RecyclerView.Adapter
     private Context context;
     private Map<String,Long> subCategoryMap;
 
-    public QuestionSubCategoryRecyclerViewAdapter(Context context, Map<String,Long> subCategoryMap) {
+    private QuestionSubCategoryOnClickCallback callback;
+    public interface QuestionSubCategoryOnClickCallback
+    {
+        void OnSubCategorySelected(String subCategory);
+    }
+    public QuestionSubCategoryRecyclerViewAdapter(Context context, Map<String,Long> subCategoryMap, QuestionSubCategoryOnClickCallback callback) {
         this.context = context;
         this.subCategoryMap = subCategoryMap;
+        this.callback = callback;
     }
 
     @Override
@@ -40,12 +46,17 @@ public class QuestionSubCategoryRecyclerViewAdapter extends RecyclerView.Adapter
         holder.imageView.setImageDrawable(null);
 
         Object[] keyList = subCategoryMap.keySet().toArray();
+
         String subCategoryName = (String) keyList[position];
         Long numberOfQuestions = subCategoryMap.get(subCategoryName);
+
         holder.textTitle.setText(subCategoryName);
-        holder.textDescriptor.setText( "Number Of Questionfs : "+ subCategoryMap.get(subCategoryName) + "\nTime : " + numberOfQuestions+" min");
+        holder.textDescriptor.setText( "Number Of Questions : "+ subCategoryMap.get(subCategoryName) + "\nTime : " + numberOfQuestions+" min");
         Drawable drawable = ContextCompat.getDrawable(context, R.drawable.foreground);
         holder.imageView.setImageDrawable(drawable);
+
+        // setting listener to start the test
+        holder.itemView.setOnClickListener(view -> {callback.OnSubCategorySelected(subCategoryName);});
 
 
     }

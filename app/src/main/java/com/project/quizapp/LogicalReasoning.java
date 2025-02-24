@@ -28,6 +28,7 @@ import java.util.Map;
 public class LogicalReasoning extends GlobalDrawerLayoutAndBottomNavigation {
     private ActivityLogicalReasoningBinding binding;
     private QuestionSubCategoryRecyclerViewAdapter subCategoryRecyclerViewAdapter;
+    private static QuestionCategory questionCategory = null;
     private Map<String,Long> subCategoryList =  new HashMap<>();;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +40,13 @@ public class LogicalReasoning extends GlobalDrawerLayoutAndBottomNavigation {
         FirebaseDBHelper.getQuestionsCategories("/", new FirebaseDBHelper.GetQuestionsCategoriesCallback() {
             @Override
             public void onSuccess(List<QuestionCategory> categories) {
-//                binding.recycleView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-////                adapter = new AdapterForCardViewTestList(getApplicationContext(), categories);
-//                binding.recycleView.setAdapter(adapter);
                 binding.recyclerViewBaseCategories.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 QuestionBaseCategoryRecyclerViewAdapter baseCategoryRecyclerViewAdapter = new QuestionBaseCategoryRecyclerViewAdapter(getApplicationContext(), categories, new QuestionBaseCategoryRecyclerViewAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(QuestionCategory questionCategory) {
 
                         subCategoryList.clear();
+                        LogicalReasoning.questionCategory = questionCategory;
                         subCategoryList.putAll(questionCategory.getSubCategory());
                         subCategoryRecyclerViewAdapter.notifyDataSetChanged();
                         binding.recyclerViewBaseCategories.setVisibility(View.GONE);
@@ -66,7 +65,15 @@ public class LogicalReasoning extends GlobalDrawerLayoutAndBottomNavigation {
                 binding.recyclerViewBaseCategories.setAdapter(baseCategoryRecyclerViewAdapter);
 
                 binding.recyclerViewSubCategories.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                subCategoryRecyclerViewAdapter = new QuestionSubCategoryRecyclerViewAdapter(getApplicationContext(),subCategoryList);
+                subCategoryRecyclerViewAdapter = new QuestionSubCategoryRecyclerViewAdapter(getApplicationContext(), subCategoryList, new QuestionSubCategoryRecyclerViewAdapter.QuestionSubCategoryOnClickCallback() {
+                    @Override
+                    public void OnSubCategorySelected(String subCategory) {
+                        String selectedCategory = questionCategory.getBaseCategory() + "/" +subCategory;
+                        Toast.makeText(LogicalReasoning.this, questionCategory.getBaseCategory() + "/" +subCategory, Toast.LENGTH_SHORT).show();
+                        IntentManager.toQuestionPanelView(getApplicationContext(), selectedCategory);
+
+                    }
+                });
                 binding.recyclerViewSubCategories.setAdapter(subCategoryRecyclerViewAdapter);
 
             }

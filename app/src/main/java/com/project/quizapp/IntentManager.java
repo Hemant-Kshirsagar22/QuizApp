@@ -41,5 +41,11 @@ public class IntentManager {
         context.startActivity(intent);
     }
 
+    public static void toQuestionPanelView(Context context, String selectedCategory){
+        Intent intent = new Intent(context, QuestionPanelView.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("selectedCategory", selectedCategory);
+        context.startActivity(intent);
+    }
 
 }
