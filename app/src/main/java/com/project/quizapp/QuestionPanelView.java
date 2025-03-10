@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.project.quizapp.database.FirebaseDBHelper;
 import com.project.quizapp.database.entities.Question;
+import com.project.quizapp.database.entities.User;
 import com.project.quizapp.databinding.ActivityQuestionPanelViewBinding;
 import com.project.quizapp.databinding.OnSubmitDailogLayoutBinding;
 import com.project.quizapp.databinding.QuestionPanelDrawerHeaderViewBinding;
@@ -57,12 +58,14 @@ public class QuestionPanelView extends AppCompatActivity {
     private static final String QUESTION_MARK_AS_REVIEW = "REVIEW";
 
     private List<Button> buttonList = null;
+
+    private String selectedCategory = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // get the selected category
-        String selectedCategory = getIntent().getStringExtra("selectedCategory");
+        selectedCategory = getIntent().getStringExtra("selectedCategory");
 
         // Initialize View Binding
         binding = ActivityQuestionPanelViewBinding.inflate(getLayoutInflater());
@@ -429,11 +432,38 @@ public class QuestionPanelView extends AppCompatActivity {
                 float marks = getMarks();
 
                 // get a previous map of attempted Test Marks
+                FirebaseDBHelper.getMarksMap(new FirebaseDBHelper.GetMarksMapCallback() {
+                    @Override
+                    public void onSuccess(Map<String, Object> marksMap) {
+                        if(marksMap == null)
+                        {
+                            marksMap = new HashMap<>();
+                        }
+
+                        marksMap.put( "TestAttempted/" +selectedCategory, marks);
+
+                        FirebaseDBHelper.updateMarksMap(marksMap, new FirebaseDBHelper.UserQueryCallback() {
+                            @Override
+                            public void onSuccess(User user) {
+                                Toast.makeText(QuestionPanelView.this, String.format("Marks : %.2f", marks), Toast.LENGTH_SHORT).show();
+                                IntentManager.toDashboardActivity(QuestionPanelView.this);
+                            }
+
+                            @Override
+                            public void onFailure(String errMsg) {
+                                Toast.makeText(QuestionPanelView.this, "UPDATE_MAP_ERR" + errMsg, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(String errMsg) {
+                        Toast.makeText(QuestionPanelView.this, "ERR_GET_MARKS_MAP : " + errMsg, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
 
 
-                Toast.makeText(QuestionPanelView.this, String.format("Marks : %.2f", marks), Toast.LENGTH_SHORT).show();
-                IntentManager.toDashboardActivity(QuestionPanelView.this);
             }
         });
 
