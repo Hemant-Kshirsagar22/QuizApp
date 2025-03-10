@@ -194,7 +194,7 @@ public class FirebaseDBHelper {
                         String[] name = username.split(" ");
                         Log.d("NAME LENGTH", name.length + "");
                         if(name.length >= 2) {
-                            user = new User(name[0], name[1], firebaseUser.getEmail(), null);
+                            user = new User(name[0], name[name.length], firebaseUser.getEmail(), null);
                         }
                         else
                         {
@@ -204,6 +204,8 @@ public class FirebaseDBHelper {
                         user.setUserId(userId);
                         user.setGoogleUser(true);
                         Log.d("GOOGLE_LOGIN",user.toString());
+
+
                         userRef = getUserRef();
                         userRef.child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -445,6 +447,22 @@ public class FirebaseDBHelper {
         // remove firebase authentication
 
     }
+
+    public static void getMarksMap()
+    {
+        getUser(new UserQueryCallback() {
+            @Override
+            public void onSuccess(User user) {
+
+            }
+
+            @Override
+            public void onFailure(String errMsg) {
+                Log.d("MARKS_MAP_FUNC", "ERR WHILE GETTING USER : " + errMsg);
+            }
+        });
+    }
+
 
 
     // for questions

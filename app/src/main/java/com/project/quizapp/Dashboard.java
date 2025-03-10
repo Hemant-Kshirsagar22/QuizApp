@@ -1,77 +1,114 @@
 package com.project.quizapp;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.project.quizapp.database.FirebaseDBHelper;
 import com.project.quizapp.database.entities.QuestionCategory;
-import com.project.quizapp.databinding.ActivityDashboardBinding;
+import com.project.quizapp.databinding.ActivityAlertBoxForTestStartBinding;
+import com.project.quizapp.databinding.ActivityLogicalReasoningBinding;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Dashboard extends GlobalDrawerLayoutAndBottomNavigation {
-
+    private ActivityLogicalReasoningBinding binding;
+    private QuestionSubCategoryRecyclerViewAdapter subCategoryRecyclerViewAdapter;
+    private static QuestionCategory questionCategory = null;
+    private Map<String,Long> subCategoryList =  new HashMap<>();;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-         ActivityDashboardBinding binding;
         super.onCreate(savedInstanceState);
-        View view = getLayoutInflater().inflate(R.layout.activity_dashboard, findViewById(R.id.content_frame));
+        View view = getLayoutInflater().inflate(R.layout.activity_logical_reasoning, findViewById(R.id.content_frame));
 
-        binding = ActivityDashboardBinding.bind(view);
+        binding = ActivityLogicalReasoningBinding.bind(view);
 
-        //Get card view
-//        CardView getStartCard = findViewById(R.id.get_start);
-        binding.CompanyWise.setOnClickListener(new View.OnClickListener() {
+        FirebaseDBHelper.getQuestionsCategories("/", new FirebaseDBHelper.GetQuestionsCategoriesCallback() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(Dashboard.this, "companyWise", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Dashboard.this, CompanyWise.class);
-                startActivity(intent);
+            public void onSuccess(List<QuestionCategory> categories) {
+                binding.recyclerViewBaseCategories.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                QuestionBaseCategoryRecyclerViewAdapter baseCategoryRecyclerViewAdapter = new QuestionBaseCategoryRecyclerViewAdapter(getApplicationContext(), categories, new QuestionBaseCategoryRecyclerViewAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(QuestionCategory questionCategory) {
 
-//                AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
-//                //Get binding with sample_dialog
-//                SampleDialogBinding dialogBinding = SampleDialogBinding.inflate(LayoutInflater.from(Dashboard.this));
-//                builder.setView(dialogBinding.getRoot());
-//                AlertDialog dialog = builder.create();
-//                dialog.show();
-//
-//                dialogBinding.companyWise.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Toast.makeText(Dashboard.this, "companyWise", Toast.LENGTH_SHORT).show();
-//                         Intent intent = new Intent(Dashboard.this, CompanyWise.class);
-//                         startActivity(intent);
-//                    }
-//                });
-//
-//                dialogBinding.topicWise.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Toast.makeText(Dashboard.this, "TopicWise", Toast.LENGTH_SHORT).show();
-//                        Intent intent = new Intent(Dashboard.this, TopicWise.class);
-//                        startActivity(intent);
-//                    }
-//                });
-//                if (dialog.getWindow() != null) {
-//                    dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-//                }
-//
+                        subCategoryList.clear();
+                        Dashboard.questionCategory = questionCategory;
+                        subCategoryList.putAll(questionCategory.getSubCategory());
+                        subCategoryRecyclerViewAdapter.notifyDataSetChanged();
+                        binding.recyclerViewBaseCategories.setVisibility(View.GONE);
+
+                        if(binding.recyclerViewSubCategories.getVisibility() == View.VISIBLE)
+                        {
+                           binding.recyclerViewSubCategories.setVisibility(View.GONE);
+                        }
+                        else
+                        {
+                            binding.recyclerViewSubCategories.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+
+                binding.recyclerViewBaseCategories.setAdapter(baseCategoryRecyclerViewAdapter);
+
+                binding.recyclerViewSubCategories.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                subCategoryRecyclerViewAdapter = new QuestionSubCategoryRecyclerViewAdapter(getApplicationContext(), subCategoryList, new QuestionSubCategoryRecyclerViewAdapter.QuestionSubCategoryOnClickCallback() {
+                    @Override
+                    public void OnSubCategorySelected(String subCategory) {
+                        String selectedCategory = questionCategory.getBaseCategory() + "/" +subCategory;
+
+                        // show alert to start the test
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
+                        ActivityAlertBoxForTestStartBinding alertBoxForTestStartBinding = ActivityAlertBoxForTestStartBinding.inflate(LayoutInflater.from(Dashboard.this));
+                        builder.setView(alertBoxForTestStartBinding.getRoot());
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+
+                        alertBoxForTestStartBinding.startTest.setOnClickListener(v -> {
+                            IntentManager.toQuestionPanelView(getApplicationContext(), selectedCategory);
+                        });
+
+                        alertBoxForTestStartBinding.cancelTest.setOnClickListener(v -> {
+                            dialog.cancel();
+                        });
+
+                    }
+                });
+                binding.recyclerViewSubCategories.setAdapter(subCategoryRecyclerViewAdapter);
+
             }
 
-
-        });
-
-        binding.QuantitativeAptitude.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Toast.makeText(Dashboard.this, "QuantitativeAptitude", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Dashboard.this, LogicalReasoning.class);
-                startActivity(intent);
+            public void onFailure(String errMsg) {
+                Toast.makeText(Dashboard.this, errMsg, Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        // Check if the subcategories RecyclerView is visible
+        if (binding.recyclerViewSubCategories.getVisibility() == View.VISIBLE) {
+            // If it's visible, hide the subcategories view and show the base categories view
+            binding.recyclerViewSubCategories.setVisibility(View.GONE);
+            binding.recyclerViewBaseCategories.setVisibility(View.VISIBLE);
+        } else {
+            // If subcategories view is not visible, call the default onBackPressed to finish the activity
+            super.onBackPressed();
+        }
+    }
+
+    public void showTestStartAlert()
+    {
+
+
+
+    }
+
 
 }

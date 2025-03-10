@@ -26,8 +26,6 @@ import java.util.TimerTask;
 
 
 public class MainActivity extends AppCompatActivity {
-    //    Button loginButton;
-//    Button registerButton;
     ProgressBar progress=null;
     int counter=0;
     @Override
@@ -57,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onSuccess(User user) {
                             if(user != null) {
                                 if (user.getEmail().equals("admin@gmail.com")) {
-                                    Log.d("LOGGEDIN", user.toString());
+                                    Log.d("LOGGED_IN", user.toString());
                                     IntentManager.toAdminMainActivity(MainActivity.this);
                                     finish();
 
@@ -85,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                     finish(); // Close the current activity
                 }
             }
-        }, 3000);
+        }, 2000);
 
     }
 
@@ -144,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onSuccess(User user) {
                             if(user != null) {
                                 if (user.getEmail().equals("admin@gmail.com")) {
-                                    Log.d("LOGGEDIN", user.toString());
+                                    Log.d("LOGGED_IN", user.toString());
                                     IntentManager.toAdminMainActivity(MainActivity.this);
                                     finish();
 
