@@ -1,6 +1,7 @@
 package com.project.quizapp.database.entities;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class User {
     private String userId;
@@ -9,7 +10,7 @@ public class User {
     private String email;
     private String password;
     private Boolean isGoogleUser = false;
-    private Map<String, Map<String, Float>> MarksMap = null; // it is a map of <Category, <SubCategory, Marks>
+    private Map<String, Object> MarksMap = null; // it is a map of <Category, <SubCategory, Marks>
 
     public User()
     {
@@ -81,11 +82,11 @@ public class User {
         isGoogleUser = googleUser;
     }
 
-    public Map<String, Map<String, Float>> getMarksMap() {
+    public Map<String, Object> getMarksMap() {
         return MarksMap;
     }
 
-    public void setMarksMap(Map<String, Map<String, Float>> marksMap) {
+    public void setMarksMap(Map<String, Object> marksMap) {
         MarksMap = marksMap;
     }
 }

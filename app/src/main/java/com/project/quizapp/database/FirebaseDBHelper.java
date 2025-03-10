@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class FirebaseDBHelper {
     private static DatabaseReference rootRef = null;
@@ -51,6 +52,12 @@ public class FirebaseDBHelper {
     public interface GetAllUsers
     {
         void onSuccess(List<User> user);
+        void onFailure(String errMsg);
+    }
+
+    public interface GetMarksMapCallback
+    {
+        void onSuccess(Map<String, Object> marksMap);
         void onFailure(String errMsg);
     }
 
@@ -448,12 +455,12 @@ public class FirebaseDBHelper {
 
     }
 
-    public static void getMarksMap()
+    public static void getMarksMap(GetMarksMapCallback callback)
     {
         getUser(new UserQueryCallback() {
             @Override
             public void onSuccess(User user) {
-
+                callback.onSuccess(user.getMarksMap());
             }
 
             @Override
@@ -463,6 +470,25 @@ public class FirebaseDBHelper {
         });
     }
 
+    public static void updateMarksMap(Map<String, Object> map,UserQueryCallback callback)
+    {
+        firebaseAuth = getFirebaseAuth();
+
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        if(currentUser != null)
+        {
+            userRef = getUserRef();
+
+            userRef.child(currentUser.getUid()).updateChildren(map)
+                    .addOnCompleteListener(task -> {
+                        callback.onSuccess(null);
+                    })
+                    .addOnFailureListener(exception -> {
+                        callback.onFailure(exception.getMessage());
+                    });
+        }
+    }
 
 
     // for questions
