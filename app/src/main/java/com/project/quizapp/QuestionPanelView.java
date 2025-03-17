@@ -2,10 +2,12 @@ package com.project.quizapp;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -73,16 +75,15 @@ public class QuestionPanelView extends AppCompatActivity {
 
         // initialize Question Drawer Binding
         drawerHeaderViewBinding = QuestionPanelDrawerHeaderViewBinding.bind(binding.navigationView.getHeaderView(0));
+
         // initialize Submit Alert Dialog
         initAlertDialog();
         radioGroup = (RadioGroup) binding.radioGroup;
-
 
         // Handle Menu Button Click
         binding.menuButton.setOnClickListener(view -> {
             binding.drawerLayout.openDrawer(binding.navigationView);
         });
-
         // alert box related code
         binding.submit.setOnClickListener(new View.OnClickListener() {
             @Override
