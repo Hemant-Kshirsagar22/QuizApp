@@ -66,11 +66,13 @@ public class Dashboard extends GlobalDrawerLayoutAndBottomNavigation {
                         AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
                         ActivityAlertBoxForTestStartBinding alertBoxForTestStartBinding = ActivityAlertBoxForTestStartBinding.inflate(LayoutInflater.from(Dashboard.this));
                         builder.setView(alertBoxForTestStartBinding.getRoot());
+                        alertBoxForTestStartBinding.head.setText("Do You Want To Start The Test?");
                         AlertDialog dialog = builder.create();
                         dialog.show();
 
                         alertBoxForTestStartBinding.startTest.setOnClickListener(v -> {
-                            IntentManager.toQuestionPanelView(getApplicationContext(), selectedCategory);
+                            dialog.dismiss();
+                            IntentManager.toQuestionPanelView(getApplicationContext(), selectedCategory, false);
                         });
 
                         alertBoxForTestStartBinding.cancelTest.setOnClickListener(v -> {
@@ -102,13 +104,5 @@ public class Dashboard extends GlobalDrawerLayoutAndBottomNavigation {
             super.onBackPressed();
         }
     }
-
-    public void showTestStartAlert()
-    {
-
-
-
-    }
-
 
 }
