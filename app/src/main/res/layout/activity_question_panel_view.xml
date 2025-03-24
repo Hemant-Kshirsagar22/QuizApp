@@ -103,7 +103,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:background="@drawable/question_background"
                         android:padding="10dp"
                         android:text="What is the sum of First 29 natural numbers?"
                         android:textColor="@color/textColorPrimary"

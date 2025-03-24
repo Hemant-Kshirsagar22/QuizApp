@@ -39,7 +39,7 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_black"
-                android:text="Do You Want To Start The Test?"
+                android:text=""
                 android:textColor="@color/textColorPrimary"
                 android:textSize="20dp"
                 android:textStyle="bold" />

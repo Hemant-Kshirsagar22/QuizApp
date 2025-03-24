@@ -41,11 +41,19 @@ public class IntentManager {
         context.startActivity(intent);
     }
 
-    public static void toQuestionPanelView(Context context, String selectedCategory){
+    public static void toQuestionPanelView(Context context, String selectedCategory,Boolean resumeTest){
         Intent intent = new Intent(context, QuestionPanelView.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
         intent.putExtra("selectedCategory", selectedCategory);
+        intent.putExtra("resumeTest", resumeTest);
+
         context.startActivity(intent);
     }
 
+    public static void toPerformanceView(Context context)
+    {
+        Intent intent = new Intent(context, Performance.class);
+        context.startActivity(intent);
+    }
 }
