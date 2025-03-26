@@ -179,5 +179,14 @@ public class SessionManager {
         return sharedPreference.getInt(varName,0);
     }
 
+    public void setLongValue(String varName, long value)
+    {
+        editor.putLong(varName, value).commit();
+    }
+
+    public long getLongValue(String varName)
+    {
+        return sharedPreference.getLong(varName,0L);
+    }
 
 }

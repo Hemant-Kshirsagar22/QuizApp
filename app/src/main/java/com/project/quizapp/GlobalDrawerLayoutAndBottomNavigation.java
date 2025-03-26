@@ -155,7 +155,7 @@ public class GlobalDrawerLayoutAndBottomNavigation extends AppCompatActivity{
                     }
                     else
                     {
-                        Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this,"No Test To Resume", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this,"NO TEST TO RESUME", Toast.LENGTH_SHORT).show();
                     }
 
                     return (true);
