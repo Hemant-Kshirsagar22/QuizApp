@@ -133,11 +133,10 @@ public class GlobalDrawerLayoutAndBottomNavigation extends AppCompatActivity{
                         AlertDialog.Builder builder = new AlertDialog.Builder(GlobalDrawerLayoutAndBottomNavigation.this);
                         ActivityAlertBoxForTestStartBinding alertBoxForTestStartBinding = ActivityAlertBoxForTestStartBinding.inflate(LayoutInflater.from(GlobalDrawerLayoutAndBottomNavigation.this));
                         builder.setView(alertBoxForTestStartBinding.getRoot());
-                        alertBoxForTestStartBinding.head.setText("Do You Want To Resume The Test?");
                         AlertDialog dialog = builder.create();
                         dialog.show();
 
-                        alertBoxForTestStartBinding.startTest.setOnClickListener(v -> {
+                        alertBoxForTestStartBinding.next.setOnClickListener(v -> {
                             dialog.dismiss();
                             String selectedCategory = sessionManager.getPausedStateQuestionCategory();
                             if(selectedCategory == null)

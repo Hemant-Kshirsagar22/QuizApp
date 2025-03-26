@@ -28,6 +28,12 @@ public class IntentManager {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
+    public static void toActivityResultView(Context context)
+    {
+        Intent intent = new Intent(context, ActivityResultView.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
 
     public static void toAdminMainActivity(Context context)
     {

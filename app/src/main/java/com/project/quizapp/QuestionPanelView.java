@@ -482,7 +482,7 @@ public class QuestionPanelView extends AppCompatActivity {
                             @Override
                             public void onSuccess(User user) {
                                 Toast.makeText(QuestionPanelView.this, String.format("Marks : %.2f", marks), Toast.LENGTH_SHORT).show();
-                                IntentManager.toDashboardActivity(QuestionPanelView.this);
+                                IntentManager.toActivityResultView(QuestionPanelView.this);
                             }
 
                             @Override
