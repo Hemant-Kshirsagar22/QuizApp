@@ -19,6 +19,7 @@ import com.project.quizapp.database.FirebaseDBHelper;
 import com.project.quizapp.database.entities.Question;
 import com.project.quizapp.database.entities.User;
 import com.project.quizapp.databinding.ActivityQuestionPanelViewBinding;
+import com.project.quizapp.databinding.ActivityResultViewBinding;
 import com.project.quizapp.databinding.OnSubmitDailogLayoutBinding;
 import com.project.quizapp.databinding.QuestionPanelDrawerHeaderViewBinding;
 import com.project.quizapp.session.SessionManager;
@@ -35,6 +36,8 @@ public class QuestionPanelView extends AppCompatActivity {
     private QuestionPanelDrawerHeaderViewBinding drawerHeaderViewBinding;
 
     private OnSubmitDailogLayoutBinding dialogBinding;
+
+    private ActivityResultViewBinding resultViewBinding;
     private List<Question> questions = null;
 
     private RadioGroup radioGroup = null;
@@ -482,7 +485,9 @@ public class QuestionPanelView extends AppCompatActivity {
                             @Override
                             public void onSuccess(User user) {
                                 Toast.makeText(QuestionPanelView.this, String.format("Marks : %.2f", marks), Toast.LENGTH_SHORT).show();
-                                IntentManager.toActivityResultView(QuestionPanelView.this);
+//                                IntentManager.toActivityResultView(QuestionPanelView.this);
+                                resultAlertDialog();
+
                             }
 
                             @Override
@@ -490,6 +495,7 @@ public class QuestionPanelView extends AppCompatActivity {
                                 Toast.makeText(QuestionPanelView.this, "UPDATE_MAP_ERR" + errMsg, Toast.LENGTH_SHORT).show();
                             }
                         });
+
                     }
 
                     @Override
@@ -508,6 +514,22 @@ public class QuestionPanelView extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+    }
+
+    private void resultAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(QuestionPanelView.this);
+        //Get binding with resultViewBinding
+        resultViewBinding = com.project.quizapp.databinding.ActivityResultViewBinding.inflate(LayoutInflater.from(QuestionPanelView.this));
+        builder.setView(resultViewBinding.getRoot());
+        dialog = builder.create();
+        dialog.setCancelable(false);
+        resultViewBinding.home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IntentManager.toDashboardActivity(QuestionPanelView.this);
+            }
+        });
+
     }
     private void updateDrawerQuestionSelector()
     {

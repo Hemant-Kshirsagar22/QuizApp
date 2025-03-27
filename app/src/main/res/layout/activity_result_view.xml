@@ -201,11 +201,12 @@
             android:textColor="@color/white" />
 
         <Button
+            android:id="@+id/home"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/red"
-            android:text="EXIT"
+            android:text="HOME"
             android:textColor="@color/white" />
     </LinearLayout>
 
