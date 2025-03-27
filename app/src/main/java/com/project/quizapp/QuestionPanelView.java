@@ -34,10 +34,9 @@ public class QuestionPanelView extends AppCompatActivity {
 
     private ActivityQuestionPanelViewBinding binding;
     private QuestionPanelDrawerHeaderViewBinding drawerHeaderViewBinding;
-
     private OnSubmitDailogLayoutBinding dialogBinding;
-
     private ActivityResultViewBinding resultViewBinding;
+
     private List<Question> questions = null;
 
     private RadioGroup radioGroup = null;
@@ -71,7 +70,7 @@ public class QuestionPanelView extends AppCompatActivity {
     private Boolean resumeTestStatus = false;
 
     // timer value
-    private long timerValue = 0L;
+    private long totalTestTime = 0L;
     private long currentTime = 0L;
 
     @Override
@@ -128,7 +127,7 @@ public class QuestionPanelView extends AppCompatActivity {
 
                 updateDrawerQuestionSelector();
 
-                timerValue = question.size() * (1000 * 60); // set timer value to the number of questions * 1 min i.e. 1 min for 1 question
+                totalTestTime = question.size() * (1000 * 60); // set timer value to the number of questions * 1 min i.e. 1 min for 1 question
 
                 if(resumeTestStatus)
                 {
@@ -140,7 +139,7 @@ public class QuestionPanelView extends AppCompatActivity {
                     numberOfReviewLetterQuestions = sessionManager.getValue("numberOfReviewLetterQuestions");
                     numberOfNotVisitedQuestions = sessionManager.getValue("numberOfNotVisitedQuestions");
 
-                    timerValue = sessionManager.getLongValue("timerValue");
+                    totalTestTime = sessionManager.getLongValue("timerValue");
 
                     // update question drawer
                     updateDrawerButtonsForResumeTest();
@@ -150,7 +149,7 @@ public class QuestionPanelView extends AppCompatActivity {
                 changeQuestion();
 
                 // timer related code
-                new CountDownTimer(timerValue,1000)
+                new CountDownTimer(totalTestTime,1000)
                 {
                     @Override
                     public void onTick(long millisUntilFinished) {
@@ -158,13 +157,9 @@ public class QuestionPanelView extends AppCompatActivity {
                         // set current count down value to global variable to store it if test is paused
                         currentTime = millisUntilFinished;
 
-                        int hours = (int) (millisUntilFinished / (1000 * 60 * 60));
-                        int minutes = (int) (millisUntilFinished % (1000 * 60 * 60)) / (1000 * 60);
-                        int seconds = (int) (millisUntilFinished % (1000 * 60)) / 1000;
-
-                        binding.timeValue.setText(String.format("%02d:%02d:%02d",hours,minutes,seconds));
+                        binding.timeValue.setText(getCurrentTimeString(millisUntilFinished));
                         // timer for alert box
-                        dialogBinding.timeValue.setText(String.format("%02d:%02d:%02d",hours,minutes,seconds));
+                        dialogBinding.timeValue.setText(getCurrentTimeString(millisUntilFinished));
 
                     }
 
@@ -356,6 +351,7 @@ public class QuestionPanelView extends AppCompatActivity {
             changeDrawerButtonColor();
         }
     }
+
     private void selectOption(RadioButton option, String answer) {
         if(Objects.equals(option, binding.a))
         {
@@ -484,7 +480,7 @@ public class QuestionPanelView extends AppCompatActivity {
                         FirebaseDBHelper.updateMarksMap(marksMap, new FirebaseDBHelper.UserQueryCallback() {
                             @Override
                             public void onSuccess(User user) {
-                                Toast.makeText(QuestionPanelView.this, String.format("Marks : %.2f", marks), Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(QuestionPanelView.this, String.format("Marks : %.2f", marks), Toast.LENGTH_SHORT).show();
 //                                IntentManager.toActivityResultView(QuestionPanelView.this);
                                 resultAlertDialog();
 
@@ -521,16 +517,34 @@ public class QuestionPanelView extends AppCompatActivity {
         //Get binding with resultViewBinding
         resultViewBinding = com.project.quizapp.databinding.ActivityResultViewBinding.inflate(LayoutInflater.from(QuestionPanelView.this));
         builder.setView(resultViewBinding.getRoot());
-        dialog = builder.create();
-        dialog.setCancelable(false);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+
+        resultViewBinding.tvScore.setText(String.format("%.2f", getMarks()));
+        resultViewBinding.timeTaken.setText(getCurrentTimeString(totalTestTime - currentTime)); // set the time required to solve the test
+        resultViewBinding.totalQuestions.setText(String.format("%d", questions.size()));
+
+        // set answer status counts
+        Integer count[] = getTotalCorrectWrongSkipAnswers();
+        resultViewBinding.correctAnsCount.setText(String.format("%d", count[0]));
+        resultViewBinding.wrongAnsCount.setText(String.format("%d", count[1]));
+        resultViewBinding.skipAnsCount.setText(String.format("%d", count[2]));
+
         resultViewBinding.home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                alertDialog.dismiss();
                 IntentManager.toDashboardActivity(QuestionPanelView.this);
             }
         });
 
+        resultViewBinding.reAttempt.setOnClickListener(view -> {
+            alertDialog.dismiss();
+            IntentManager.toQuestionPanelView(this, selectedCategory, false);
+        });
+        alertDialog.show();
     }
+
     private void updateDrawerQuestionSelector()
     {
         drawerHeaderViewBinding.questionGrid.removeAllViews();
@@ -573,6 +587,40 @@ public class QuestionPanelView extends AppCompatActivity {
         }
     }
 
+    private String getCurrentTimeString(long millisUntilFinished)
+    {
+        int hours = (int) (millisUntilFinished / (1000 * 60 * 60));
+        int minutes = (int) (millisUntilFinished % (1000 * 60 * 60)) / (1000 * 60);
+        int seconds = (int) (millisUntilFinished % (1000 * 60)) / 1000;
+
+        return(String.format("%02d:%02d:%02d",hours,minutes,seconds));
+    }
+
+    private Integer[] getTotalCorrectWrongSkipAnswers()
+    {
+        Integer count[] = new Integer[3];
+        count[0] = 0; // for correct Answer
+        count[1] = 0; // for wrong Answer
+        count[2] = 0; // for skip Answers
+
+        for(int i = 0; i < answerList.size(); i++)
+        {
+            if(answerList.get(i) == null)
+            {
+                count[2]++;
+            }
+            else if(answerList.get(i).equals(questions.get(i).getAnswer()))
+            {
+                count[0]++;
+            }
+            else
+            {
+                count[1]++;
+            }
+        }
+
+        return(count);
+    }
 
     // for pause test
     @Override

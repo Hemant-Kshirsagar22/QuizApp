@@ -137,14 +137,20 @@ public class GlobalDrawerLayoutAndBottomNavigation extends AppCompatActivity{
                         dialog.show();
 
                         alertBoxForTestStartBinding.next.setOnClickListener(v -> {
-                            dialog.dismiss();
-                            String selectedCategory = sessionManager.getPausedStateQuestionCategory();
-                            if(selectedCategory == null)
-                            {
-                                Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this, "CATEGORY IS EMPTY", Toast.LENGTH_SHORT).show();
+                            if(alertBoxForTestStartBinding.checkInstruction.isChecked()) {
+                                dialog.dismiss();
+                                String selectedCategory = sessionManager.getPausedStateQuestionCategory();
+                                if(selectedCategory == null)
+                                {
+                                    Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this, "CATEGORY IS EMPTY", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    IntentManager.toQuestionPanelView(getApplicationContext(), selectedCategory, true);
+                                }
                             }
-                            else {
-                                IntentManager.toQuestionPanelView(getApplicationContext(), selectedCategory, true);
+                            else
+                            {
+                                Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this, "PLEASE MARK CHECKBOX", Toast.LENGTH_SHORT).show();
                             }
                         });
 

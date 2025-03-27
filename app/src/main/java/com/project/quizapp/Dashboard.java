@@ -71,8 +71,14 @@ public class Dashboard extends GlobalDrawerLayoutAndBottomNavigation {
                         dialog.show();
 
                         alertBoxForTestStartBinding.next.setOnClickListener(v -> {
-                            dialog.dismiss();
-                            IntentManager.toQuestionPanelView(getApplicationContext(), selectedCategory, false);
+                            if(alertBoxForTestStartBinding.checkInstruction.isChecked()) {
+                                dialog.dismiss();
+                                IntentManager.toQuestionPanelView(getApplicationContext(), selectedCategory, false);
+                            }
+                            else
+                            {
+                                Toast.makeText(Dashboard.this, "PLEASE MARK CHECKBOX", Toast.LENGTH_SHORT).show();
+                            }
                         });
 
                         alertBoxForTestStartBinding.cancelTest.setOnClickListener(v -> {
