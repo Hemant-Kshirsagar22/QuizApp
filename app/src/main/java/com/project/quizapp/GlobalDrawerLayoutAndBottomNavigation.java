@@ -72,19 +72,9 @@ public class GlobalDrawerLayoutAndBottomNavigation extends AppCompatActivity{
                     Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this,"REFRESH",Toast.LENGTH_SHORT).show();
                     return (true);
                 }
-                else if(Objects.equals(item.getTitle(), "Help and Support"))
-                {
-                    Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this,"Help and Support",Toast.LENGTH_SHORT).show();
-                    return (true);
-                }
                 else if(Objects.equals(item.getTitle(), "About Us"))
                 {
                     Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this,"About Us",Toast.LENGTH_SHORT).show();
-                    return (true);
-                }
-                else if(Objects.equals(item.getTitle(), "Updates"))
-                {
-                    Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this,"Updates",Toast.LENGTH_SHORT).show();
                     return (true);
                 }
                 else if(Objects.equals(item.getTitle(), "Performance"))
@@ -118,11 +108,7 @@ public class GlobalDrawerLayoutAndBottomNavigation extends AppCompatActivity{
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if(Objects.equals(item.getTitle(), "Home"))
                 {
-                    String currentActivity = this.getClass().getSimpleName();
-                    if(!currentActivity.equals("Dashboard")) {
-                        Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this, "Home", Toast.LENGTH_SHORT).show();
-                        IntentManager.toDashboardActivity(GlobalDrawerLayoutAndBottomNavigation.this);
-                    }
+                    IntentManager.toDashboardActivity(GlobalDrawerLayoutAndBottomNavigation.this);
                     return (true);
                 }
                 else if(Objects.equals(item.getTitle(), "Test"))

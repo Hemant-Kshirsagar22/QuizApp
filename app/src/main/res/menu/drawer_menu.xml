@@ -7,20 +7,20 @@
         android:title="Refresh" />
 
 
-    <item
-        android:id="@+id/nav_help_support"
-        android:icon="@drawable/baseline_help_outline_24"
-        android:title="Help and Support" />
+<!--    <item-->
+<!--        android:id="@+id/nav_help_support"-->
+<!--        android:icon="@drawable/baseline_help_outline_24"-->
+<!--        android:title="Help and Support" />-->
 
     <item
         android:id="@+id/nav_about_us"
         android:icon="@drawable/baseline_home_24"
         android:title="About Us" />
 
-    <item
-        android:id="@+id/updates"
-        android:icon="@drawable/baseline_security_update_24"
-        android:title="Updates" />
+<!--    <item-->
+<!--        android:id="@+id/updates"-->
+<!--        android:icon="@drawable/baseline_security_update_24"-->
+<!--        android:title="Updates" />-->
  <item
         android:id="@+id/performance"
         android:icon="@drawable/baseline_graphic_eq_24"

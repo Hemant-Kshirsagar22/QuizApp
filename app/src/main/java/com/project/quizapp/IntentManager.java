@@ -24,9 +24,13 @@ public class IntentManager {
 
     public static void toDashboardActivity(Context context)
     {
-        Intent intent = new Intent(context, Dashboard.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        Class<?> currentActivityClass = context.getClass();
+
+        if(!currentActivityClass.equals(Dashboard.class)) {
+            Intent intent = new Intent(context, Dashboard.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
     }
     public static void toActivityResultView(Context context)
     {
