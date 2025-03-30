@@ -39,11 +39,12 @@ public class FirebaseDBHelper {
     private static DatabaseReference questionRef = null;
 
     private static FirebaseAuth firebaseAuth = null;
-    private static String USER_COLLECTION_NAME = "Users";
-    private static String QUESTION_COLLECTION_NAME = "Questions";
+    private static final String USER_COLLECTION_NAME = "Users";
+    private static final String QUESTION_COLLECTION_NAME = "Questions";
 
-    public static String ADMIN_USERNAME = "admin@gmail.com";
+    public static final String ADMIN_USERNAME = "admin@gmail.com";
 
+    public static final String USR_MARKS_ROOT = "TestAttempted";
     public interface UserQueryCallback
     {
         void onSuccess(User user);
@@ -457,15 +458,46 @@ public class FirebaseDBHelper {
 
     public static void getMarksMap(GetMarksMapCallback callback)
     {
-        getUser(new UserQueryCallback() {
+        firebaseAuth = getFirebaseAuth();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        userRef = getUserRef();
+
+        if(currentUser == null)
+        {
+            callback.onFailure("DB::getMarksMap() ERR USR NOT FOUND");
+        }
+
+        String uid = currentUser.getUid();
+        userRef.child(uid).child(USR_MARKS_ROOT).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onSuccess(User user) {
-                callback.onSuccess(user.getMarksMap());
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Map<String, Object> marksMap = new HashMap<>();
+
+                StringBuilder key = new StringBuilder();
+                for(DataSnapshot category : snapshot.getChildren())
+                {
+
+
+                    if(category.hasChildren())
+                    {
+                        for(DataSnapshot subCategory : category.getChildren())
+                        {
+                            key.setLength(0);
+                            key.append(USR_MARKS_ROOT).append("/").append(category.getKey()).append("/").append(subCategory.getKey());
+                            Object value = subCategory.getValue();
+                            marksMap.put(key.toString(), Float.parseFloat(value.toString()));
+                        }
+                    }
+                }
+
+                Log.d("MARKS_MAP : ", marksMap.toString());
+                callback.onSuccess(marksMap);
             }
 
             @Override
-            public void onFailure(String errMsg) {
-                Log.d("MARKS_MAP_FUNC", "ERR WHILE GETTING USER : " + errMsg);
+            public void onCancelled(@NonNull DatabaseError error) {
+                callback.onFailure(error.getMessage());
             }
         });
     }
@@ -487,6 +519,10 @@ public class FirebaseDBHelper {
                     .addOnFailureListener(exception -> {
                         callback.onFailure(exception.getMessage());
                     });
+        }
+        else
+        {
+            callback.onFailure("CANT FOUND CURRENT USER");
         }
     }
 
@@ -588,7 +624,7 @@ public class FirebaseDBHelper {
                         QuestionCategory qCategory = new QuestionCategory();
                         qCategory.setBaseCategory(snap.getKey());
 
-                        Map<String,Long> temp = new HashMap<>();
+                        Map<String, Long> temp = new HashMap<>();
                         for(DataSnapshot dataSnapshot : snap.getChildren())
                         {
                             String key = dataSnapshot.getKey();

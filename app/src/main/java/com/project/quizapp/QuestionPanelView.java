@@ -475,7 +475,7 @@ public class QuestionPanelView extends AppCompatActivity {
                             marksMap = new HashMap<>();
                         }
 
-                        marksMap.put( "TestAttempted/" +selectedCategory, marks);
+                        marksMap.put( FirebaseDBHelper.USR_MARKS_ROOT + "/" +selectedCategory, marks);
 
                         FirebaseDBHelper.updateMarksMap(marksMap, new FirebaseDBHelper.UserQueryCallback() {
                             @Override
