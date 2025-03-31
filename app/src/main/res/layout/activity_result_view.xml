@@ -10,7 +10,7 @@
     <!-- Score Card -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:background="@color/white"
         android:elevation="4dp"
@@ -29,13 +29,13 @@
 
         <TextView
             android:id="@+id/tv_score"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
             android:background="@drawable/score_circle"
             android:gravity="center"
-            android:text="56"
+            android:text="0"
             android:textColor="@color/black"
             android:textSize="22sp" />
     </LinearLayout>
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end"
-            android:text="TextView"
+            android:text="00:00:00"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end"
-            android:text="TextView"
+            android:text="00:00:00"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
@@ -127,7 +127,7 @@
                 android:id="@+id/correctAnsCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="8"
+                android:text="0"
                 android:textColor="@color/green"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -155,7 +155,7 @@
                 android:id="@+id/wrongAnsCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="8"
+                android:text="0"
                 android:textColor="@color/red"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -182,7 +182,7 @@
                 android:id="@+id/skipAnsCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2"
+                android:text="0"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />

@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -132,7 +133,6 @@ public class QuestionPanelView extends AppCompatActivity {
 
                 if(resumeTestStatus)
                 {
-
                     answerList = sessionManager.getAnswerMap();
                     answerStatusList = sessionManager.getAnswerStatusMap();
                     questionsVisitedList = sessionManager.getQuestionVisitedMap();
@@ -266,6 +266,21 @@ public class QuestionPanelView extends AppCompatActivity {
 
             // change drawer button colors
             changeDrawerButtonColor();
+        });
+
+        // pause button handling
+        binding.pause.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view)
+            {
+                pauseAlertDialogue();
+            }
+        });
+        // handling back-press
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                pauseAlertDialogue();
+            }
         });
     }
 
@@ -482,8 +497,6 @@ public class QuestionPanelView extends AppCompatActivity {
                         FirebaseDBHelper.updateMarksMap(marksMap, new FirebaseDBHelper.UserQueryCallback() {
                             @Override
                             public void onSuccess(User user) {
-//                                Toast.makeText(QuestionPanelView.this, String.format("Marks : %.2f", marks), Toast.LENGTH_SHORT).show();
-//                                IntentManager.toActivityResultView(QuestionPanelView.this);
                                 resultAlertDialog();
 
                             }
@@ -514,7 +527,7 @@ public class QuestionPanelView extends AppCompatActivity {
         });
     }
 
-    private  void  pauseAlertDialogue()
+    private void pauseAlertDialogue()
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Pause Test");
@@ -524,7 +537,9 @@ public class QuestionPanelView extends AppCompatActivity {
         builder.setPositiveButton("Pause", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                IntentManager.toActivityResultView(QuestionPanelView.this);
+                dialog.dismiss();
+                finish();
+                IntentManager.toDashboardActivity(QuestionPanelView.this);
             }
         });
 
@@ -532,7 +547,7 @@ public class QuestionPanelView extends AppCompatActivity {
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss(); // Close dialog and continue test
+                dialog.cancel(); // Close dialog and continue test
             }
         });
 
@@ -547,7 +562,7 @@ public class QuestionPanelView extends AppCompatActivity {
         AlertDialog alertDialog = builder.create();
         alertDialog.setCancelable(false);
 
-        resultViewBinding.tvScore.setText(String.format("%.2f", getMarks()));
+        resultViewBinding.tvScore.setText(String.format("%.2f%%", getMarks()));
         resultViewBinding.timeTaken.setText(getCurrentTimeString(totalTestTime - currentTime)); // set the time required to solve the test
         resultViewBinding.totalQuestions.setText(String.format("%d", questions.size()));
 
@@ -561,6 +576,7 @@ public class QuestionPanelView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 alertDialog.dismiss();
+                finish();
                 IntentManager.toDashboardActivity(QuestionPanelView.this);
             }
         });
@@ -656,7 +672,6 @@ public class QuestionPanelView extends AppCompatActivity {
 
         if(testSubmitStatus == false) {
             if (!sessionManager.getTestPauseStatus()) {
-//                pauseAlertDialogue();
                 sessionManager.setTestPauseStatus(true);
                 Toast.makeText(this, "TEST IS PAUSED", Toast.LENGTH_SHORT).show();
             }

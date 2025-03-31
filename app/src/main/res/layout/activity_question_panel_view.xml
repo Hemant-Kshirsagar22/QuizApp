@@ -11,45 +11,50 @@
     tools:context=".QuestionPanelView">
 
     <!-- Main content layout -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:weightSum="3"
+        android:orientation="vertical">
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.3"
             android:gravity="top"
-            android:weightSum="5"
+            android:weightSum="6"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBaseline_toTopOf="@id/questionLinearLayout">
 
             <ImageView
                 android:id="@+id/menu_button"
-                android:layout_width="40dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="40dp"
                 android:contentDescription="Menu Button"
-                android:padding="8dp"
+                android:padding="3dp"
                 android:layout_gravity="start|center_vertical"
                 android:src="@drawable/baseline_menu_24" />
             <CheckBox
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:id="@+id/reviewCheck"
-
+                android:text="Marks As Review"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:textSize="12sp"
                  />
 
             <TextView
                 android:id="@+id/pause"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_height="50dp"
+                android:layout_weight="1"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:textAlignment="center"
-                android:textSize="22sp"
                 android:background="@drawable/baseline_pause_circle_24"
                 android:textStyle="bold" />
 
@@ -57,29 +62,35 @@
                 android:id="@+id/timeValue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1.7"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:text="00:00:00"
                 android:textAlignment="center"
                 android:textColor="@color/green"
-                android:textSize="22sp"
+                android:textSize="23sp"
                 android:textStyle="bold" />
             <ImageView
                 android:id="@+id/submit"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_weight="1"
-                android:layout_gravity="end"
+                android:layout_weight="0.8"
+                android:layout_gravity="end|center_vertical|center_horizontal"
                 android:src="@drawable/baseline_done_24" />
 
         </LinearLayout>
 
 
 
-        <LinearLayout
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2.4"
+            android:gravity="center_horizontal|center"
+            >
+            <LinearLayout
             android:id="@+id/questionLinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="16dp"
@@ -98,16 +109,11 @@
                 android:textStyle="bold" />
 
             <!-- Implementing RadioGroup for Options -->
-            <ScrollView
-                android:layout_marginTop="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                app:layout_constraintBottom_toTopOf="@id/radioGroup"
-                app:layout_constraintTop_toBottomOf="@id/tvQuestionNumber">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:gravity="center_vertical|center_horizontal|center">
 
                     <TextView
                         android:id="@+id/tvQuestion"
@@ -116,22 +122,18 @@
                         android:layout_marginTop="8dp"
                         android:padding="10dp"
                         android:text="What is the sum of First 29 natural numbers?"
-                        android:textColor="@color/textColorPrimary"
+                                               android:textColor="@color/textColorPrimary"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </LinearLayout>
-            </ScrollView>
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginTop="20dp"
-                >
+
                  <RadioGroup
                     android:id="@+id/radioGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                      android:paddingBottom="20dp"
+                     android:gravity="center_vertical|center_horizontal|center"
                     android:orientation="vertical">
 
                     <RadioButton
@@ -182,7 +184,6 @@
                         android:textColor="@color/textColorPrimary"
                         android:textSize="16sp" />
                 </RadioGroup>
-            </ScrollView>
             <TextView
                 android:id="@+id/tvExplanation"
                 android:layout_width="match_parent"
@@ -194,13 +195,16 @@
                 android:visibility="gone" />
 
         </LinearLayout>
+        </ScrollView>
+
 
         <!-- Bottom Navigation Layout -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginBottom="16dp"
-            android:gravity="bottom"
+            android:gravity="end|center_vertical"
+            android:layout_weight="0.3"
             android:orientation="horizontal"
             android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -233,7 +237,7 @@
                 android:layout_weight="1"
                 android:src="@drawable/baseline_navigate_next_24" />
         </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <!-- Navigation Drawer Layout -->
     <com.google.android.material.navigation.NavigationView
