@@ -37,10 +37,21 @@
             <CheckBox
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:id="@+id/reviewCheck"
 
-                android:text="Mark As Review" />
+                 />
+
+            <TextView
+                android:id="@+id/pause"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:textAlignment="center"
+                android:textSize="22sp"
+                android:background="@drawable/baseline_pause_circle_24"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/timeValue"
