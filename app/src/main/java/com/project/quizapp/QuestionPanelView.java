@@ -1,5 +1,6 @@
 package com.project.quizapp;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
@@ -131,6 +132,7 @@ public class QuestionPanelView extends AppCompatActivity {
 
                 if(resumeTestStatus)
                 {
+
                     answerList = sessionManager.getAnswerMap();
                     answerStatusList = sessionManager.getAnswerStatusMap();
                     questionsVisitedList = sessionManager.getQuestionVisitedMap();
@@ -512,6 +514,31 @@ public class QuestionPanelView extends AppCompatActivity {
         });
     }
 
+    private  void  pauseAlertDialogue()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Pause Test");
+        builder.setMessage("Are you sure you want to pause the test?");
+
+        // Positive button (Pause)
+        builder.setPositiveButton("Pause", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                IntentManager.toActivityResultView(QuestionPanelView.this);
+            }
+        });
+
+        // Negative button (Cancel)
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss(); // Close dialog and continue test
+            }
+        });
+
+        // Show the AlertDialog
+        builder.create().show();
+    }
     private void resultAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(QuestionPanelView.this);
         //Get binding with resultViewBinding
@@ -626,8 +653,10 @@ public class QuestionPanelView extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+
         if(testSubmitStatus == false) {
             if (!sessionManager.getTestPauseStatus()) {
+//                pauseAlertDialogue();
                 sessionManager.setTestPauseStatus(true);
                 Toast.makeText(this, "TEST IS PAUSED", Toast.LENGTH_SHORT).show();
             }
