@@ -2,4 +2,5 @@
 <resources>
     <color name="textColorPrimary">#FFFFFF</color> <!-- White for Dark Mode -->
     <color name="questionBackground">#121212</color>
+    <color name="cardBackgroundColor">#121212</color>
 </resources>

@@ -9,4 +9,5 @@
     <color name="blue">#1976D2</color>
     <color name="textColorPrimary">#000000</color> <!-- Black for Light Mode -->
     <color name="questionBackground">#C7C2C2</color><!-- background for Light Mode -->
+    <color name="cardBackgroundColor">#FFFFFF</color>
 </resources>

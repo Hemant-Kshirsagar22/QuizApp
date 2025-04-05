@@ -63,7 +63,7 @@ public class IntentManager {
 
     public static void toPerformanceView(Context context)
     {
-        Intent intent = new Intent(context, Performance.class);
+        Intent intent = new Intent(context, ActivityPerformace.class);
         context.startActivity(intent);
     }
 }
