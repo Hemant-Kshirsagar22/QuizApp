@@ -58,7 +58,7 @@ public class QuestionBaseCategoryRecyclerViewAdapter extends RecyclerView.Adapte
         return baseCategoryList.size();
     }
 
-    public class QuestionBaseCategoryRecyclerViewHolder extends RecyclerView.ViewHolder {
+    public static class QuestionBaseCategoryRecyclerViewHolder extends RecyclerView.ViewHolder {
         TextView textTitle,textDescriptor;
         ImageView imageView;
         public QuestionBaseCategoryRecyclerViewHolder(View itemView) {

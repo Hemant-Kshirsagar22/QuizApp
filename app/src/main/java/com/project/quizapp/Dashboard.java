@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -96,19 +97,20 @@ public class Dashboard extends GlobalDrawerLayoutAndBottomNavigation {
                 Toast.makeText(Dashboard.this, errMsg, Toast.LENGTH_SHORT).show();
             }
         });
-    }
 
-    @Override
-    public void onBackPressed() {
-        // Check if the subcategories RecyclerView is visible
-        if (binding.recyclerViewSubCategories.getVisibility() == View.VISIBLE) {
-            // If it's visible, hide the subcategories view and show the base categories view
-            binding.recyclerViewSubCategories.setVisibility(View.GONE);
-            binding.recyclerViewBaseCategories.setVisibility(View.VISIBLE);
-        } else {
-            // If subcategories view is not visible, call the default onBackPressed to finish the activity
-            super.onBackPressed();
-        }
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Check if the subcategories RecyclerView is visible
+                if (binding.recyclerViewSubCategories.getVisibility() == View.VISIBLE) {
+                    // If it's visible, hide the subcategories view and show the base categories view
+                    binding.recyclerViewSubCategories.setVisibility(View.GONE);
+                    binding.recyclerViewBaseCategories.setVisibility(View.VISIBLE);
+                }
+                else {
+                    finish();
+                }
+            }
+        });
     }
-
 }

@@ -66,7 +66,7 @@ public class QuestionSubCategoryRecyclerViewAdapter extends RecyclerView.Adapter
         return subCategoryMap.size();
     }
 
-    public class QuestionSubCategoryRecyclerViewHolder extends RecyclerView.ViewHolder {
+    public static class QuestionSubCategoryRecyclerViewHolder extends RecyclerView.ViewHolder {
         TextView textTitle,textDescriptor;
         ImageView imageView;
         public QuestionSubCategoryRecyclerViewHolder(View itemView) {
