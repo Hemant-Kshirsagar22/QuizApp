@@ -74,6 +74,7 @@ public class Dashboard extends GlobalDrawerLayoutAndBottomNavigation {
                         alertBoxForTestStartBinding.next.setOnClickListener(v -> {
                             if(alertBoxForTestStartBinding.checkInstruction.isChecked()) {
                                 dialog.dismiss();
+                                finish();
                                 IntentManager.toQuestionPanelView(getApplicationContext(), selectedCategory, false);
                             }
                             else

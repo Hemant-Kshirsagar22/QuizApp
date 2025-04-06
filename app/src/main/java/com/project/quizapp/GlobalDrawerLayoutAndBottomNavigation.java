@@ -81,6 +81,7 @@ public class GlobalDrawerLayoutAndBottomNavigation extends AppCompatActivity{
                 {
                     Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this,"Performance",Toast.LENGTH_SHORT).show();
                     IntentManager.toPerformanceView(GlobalDrawerLayoutAndBottomNavigation.this);
+                    drawerLayout.close();
                     return (true);
                 }
                 else if(Objects.equals(item.getTitle(), "History"))
@@ -90,6 +91,7 @@ public class GlobalDrawerLayoutAndBottomNavigation extends AppCompatActivity{
                 }
                 else if(Objects.equals(item.getTitle(), "Logout"))
                 {
+                    drawerLayout.close();
                     Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this,"Logout",Toast.LENGTH_SHORT).show();
                     FirebaseDBHelper.logout(GlobalDrawerLayoutAndBottomNavigation.this);
                     IntentManager.toLoginActivity(GlobalDrawerLayoutAndBottomNavigation.this);
@@ -131,6 +133,7 @@ public class GlobalDrawerLayoutAndBottomNavigation extends AppCompatActivity{
                                     Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this, "CATEGORY IS EMPTY", Toast.LENGTH_SHORT).show();
                                 }
                                 else {
+                                    finish();
                                     IntentManager.toQuestionPanelView(getApplicationContext(), selectedCategory, true);
                                 }
                             }

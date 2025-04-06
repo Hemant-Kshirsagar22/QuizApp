@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/bg_gradient"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="3dp">
@@ -36,10 +37,11 @@
                 android:textColor="@color/black"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:textStyle="bold"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Sample Card Title"
+                android:text="Test Title"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -50,11 +52,12 @@
             <TextView
                 android:id="@+id/textDesc"
                 android:layout_width="0dp"
+                android:textStyle="bold"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="Sample Card Descriptions"
+                android:text="Date \nmarks/outof"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
