@@ -15,6 +15,8 @@
         android:orientation="vertical">
 
         <!-- User Avatar and Info -->
+
+        <!-- Stats Container -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,23 +27,22 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/aaryan_medhe"
+                android:contentDescription="Profile Picture"
                 android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/RoundedImageView"
-                android:contentDescription="Profile Picture"/>
+                android:src="@drawable/aaryan_medhe"
+                app:shapeAppearanceOverlay="@style/RoundedImageView" />
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:text="Aaryan Medhe"
                 android:textColor="@color/textColorPrimary"
-                android:textStyle="bold"
                 android:textSize="22sp"
-                android:layout_marginTop="2dp" />
+                android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Stats Container -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
