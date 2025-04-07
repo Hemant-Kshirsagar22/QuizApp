@@ -36,7 +36,7 @@
                     android:layout_height="100dp"
                     android:contentDescription="Profile Picture"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/baseline_person_24"
+                    android:src="@drawable/baseline_person_pin_24"
                     app:shapeAppearanceOverlay="@style/RoundedImageView" />
 
 

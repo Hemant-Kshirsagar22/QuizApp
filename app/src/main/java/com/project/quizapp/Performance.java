@@ -221,6 +221,8 @@ public class Performance extends GlobalDrawerLayoutAndBottomNavigation {
         // Set legend label color to textColorPrimary
         Legend legend = barChart.getLegend();
         legend.setTextColor(ContextCompat.getColor(context, R.color.textColorPrimary));
+        legend.setXOffset(33f);
+        legend.setYOffset(10f);
 
         dataSet.setValueTextSize(12f);
 
@@ -237,6 +239,8 @@ public class Performance extends GlobalDrawerLayoutAndBottomNavigation {
         xAxis.setDrawGridLines(false);
         xAxis.setTextColor(Color.WHITE);
         xAxis.setTextSize(12f);
+        xAxis.setYOffset(12f);
+        xAxis.setXOffset(33f);
 
         barChart.getAxisLeft().setTextColor(Color.WHITE);
         barChart.getAxisLeft().setTextSize(12f);

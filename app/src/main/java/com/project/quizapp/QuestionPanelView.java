@@ -6,6 +6,7 @@ import static android.view.View.VISIBLE;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -146,6 +147,8 @@ public class QuestionPanelView extends AppCompatActivity {
                     binding.timeValue.setVisibility(INVISIBLE);
                     binding.pause.setVisibility(INVISIBLE);
                     binding.reviewCheck.setVisibility(INVISIBLE);
+                    binding.clearResponse.setVisibility(INVISIBLE);
+                    answerList = sessionManager.getAnswerMap();
                     // set fetched question
                     changeQuestion();
                     return;
@@ -227,24 +230,24 @@ public class QuestionPanelView extends AppCompatActivity {
 
                 }
             });
-        }
 
-        binding.clearResponse.setOnClickListener(view -> {
-            // clear mark as review
-            if(answerStatusList.get(currentQuestionPosition) != null) {
-                if (answerStatusList.get(currentQuestionPosition).equals(QUESTION_MARK_AS_REVIEW)) {
-                    numberOfReviewLetterQuestions--;
-                    answerStatusList.put(currentQuestionPosition,null);
-                    if (numberOfReviewLetterQuestions < 0) {
-                        numberOfReviewLetterQuestions = 0;
+            binding.clearResponse.setOnClickListener(view -> {
+                // clear mark as review
+                if (answerStatusList.get(currentQuestionPosition) != null) {
+                    if (answerStatusList.get(currentQuestionPosition).equals(QUESTION_MARK_AS_REVIEW)) {
+                        numberOfReviewLetterQuestions--;
+                        answerStatusList.put(currentQuestionPosition, null);
+                        if (numberOfReviewLetterQuestions < 0) {
+                            numberOfReviewLetterQuestions = 0;
+                        }
                     }
                 }
-            }
 
-            // Clear Selected Answer
-            answerList.put(currentQuestionPosition,null);
-            clearOptions();
-        });
+                // Clear Selected Answer
+                answerList.put(currentQuestionPosition, null);
+                clearOptions();
+            });
+        }
 
         binding.next.setOnClickListener(view -> {
             currentQuestionPosition++;
@@ -296,6 +299,12 @@ public class QuestionPanelView extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
+                if(solution)
+                {
+                    finish();
+                    IntentManager.toDashboardActivity(QuestionPanelView.this);
+                    return;
+                }
                 pauseAlertDialogue();
             }
         });
@@ -358,25 +367,42 @@ public class QuestionPanelView extends AppCompatActivity {
 
             // set the previous Selected Questions if selected
             String ans = null;
-            if((ans = answerList.get(currentQuestionPosition)) != null)
+            if(solution)
             {
-                switch (ans)
-                {
-                    case A:
-                        binding.a.setBackgroundResource(R.drawable.option_background_selected);
-                        break;
-                    case B:
-                        binding.b.setBackgroundResource(R.drawable.option_background_selected);
-                        break;
-                    case C:
-                        binding.c.setBackgroundResource(R.drawable.option_background_selected);
-                        break;
-                    case D:
-                        binding.d.setBackgroundResource(R.drawable.option_background_selected);
-                        break;
+                if ((ans = answerList.get(currentQuestionPosition)) != null) {
+                    switch (ans) {
+                        case A:
+                            binding.a.setBackgroundResource(R.drawable.not_answered_background);
+                            break;
+                        case B:
+                            binding.b.setBackgroundResource(R.drawable.not_answered_background);
+                            break;
+                        case C:
+                            binding.c.setBackgroundResource(R.drawable.not_answered_background);
+                            break;
+                        case D:
+                            binding.d.setBackgroundResource(R.drawable.not_answered_background);
+                            break;
+                    }
+                }
+            }else {
+                if ((ans = answerList.get(currentQuestionPosition)) != null) {
+                    switch (ans) {
+                        case A:
+                            binding.a.setBackgroundResource(R.drawable.option_background_selected);
+                            break;
+                        case B:
+                            binding.b.setBackgroundResource(R.drawable.option_background_selected);
+                            break;
+                        case C:
+                            binding.c.setBackgroundResource(R.drawable.option_background_selected);
+                            break;
+                        case D:
+                            binding.d.setBackgroundResource(R.drawable.option_background_selected);
+                            break;
+                    }
                 }
             }
-
             // set check if the question is mark as review
             if((ans = answerStatusList.get(currentQuestionPosition)) != null)
             {
@@ -449,8 +475,10 @@ public class QuestionPanelView extends AppCompatActivity {
             binding.c.setBackgroundResource(R.drawable.option_background);
         }
 
-        // change drawer button colors
-        changeDrawerButtonColor();
+        if(!solution) {
+            // change drawer button colors
+            changeDrawerButtonColor();
+        }
 
         if (answer.equals(questions.get(currentQuestionPosition).getAnswer())) {
                Toast.makeText(this, "Correct Answer", Toast.LENGTH_SHORT).show();
@@ -467,8 +495,10 @@ public class QuestionPanelView extends AppCompatActivity {
         // clear the review letter checkbox
         binding.reviewCheck.setChecked(false);
 
-        // change drawer button colors
-        changeDrawerButtonColor();
+        if(!solution) {
+            // change drawer button colors
+            changeDrawerButtonColor();
+        }
     }
 
     private int getNumberOfAnsweredQuestions()
@@ -635,6 +665,7 @@ public class QuestionPanelView extends AppCompatActivity {
 
         resultViewBinding.solution.setOnClickListener(view -> {
             alertDialog.dismiss();
+            sessionManager.setAnswerMap(answerList);
             IntentManager.toQuestionPanelView(this, selectedCategory, false, true);
         });
         alertDialog.show();
@@ -721,6 +752,10 @@ public class QuestionPanelView extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        if(solution)
+        {
+            return;
+        }
 
         if(testSubmitStatus == false) {
             if (!sessionManager.getTestPauseStatus()) {
@@ -749,6 +784,11 @@ public class QuestionPanelView extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if(solution)
+        {
+            return;
+        }
+
         if(resumeTestStatus) {
             if (sessionManager.getTestPauseStatus()) {
                 sessionManager.setTestPauseStatus(false);
