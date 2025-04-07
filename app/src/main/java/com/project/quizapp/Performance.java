@@ -246,6 +246,7 @@ public class Performance extends GlobalDrawerLayoutAndBottomNavigation {
         barChart.setDrawGridBackground(false);
         barChart.animateY(1500);
 
+
         YAxis leftAxis = barChart.getAxisLeft();
         leftAxis.setDrawLabels(true);                  // ensure labels are drawn
         leftAxis.setTextColor(ContextCompat.getColor(context, R.color.textColorPrimary)); // visible color
@@ -253,6 +254,9 @@ public class Performance extends GlobalDrawerLayoutAndBottomNavigation {
         leftAxis.setGranularity(10f);                  // spacing between labels
         leftAxis.setGranularityEnabled(true);
         leftAxis.setAxisMinimum(0f);                   // start from 0
+        leftAxis.setAxisMaximum(100f);
+        leftAxis.setAxisMinimum(0f);
+        leftAxis.setXOffset(13f);
         leftAxis.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
