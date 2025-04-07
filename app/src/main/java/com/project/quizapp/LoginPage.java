@@ -75,7 +75,7 @@ public class LoginPage extends AppCompatActivity{
                 String password = passwordEditText.getText().toString().trim();
 
                 //PtogressBar
-                ProgressBar();
+                Progress(progressBar);
                 if((!userName.isEmpty()) && (!password.isEmpty()))
                 {
                     FirebaseDBHelper.loginUser(userName, password, new FirebaseDBHelper.UserQueryCallback() {
@@ -145,7 +145,7 @@ public class LoginPage extends AppCompatActivity{
         }
     }
 
-    public void ProgressBar() {
+    public void Progress(ProgressBar progressBar) {
         counter = 0; // Reset counter before starting
         progressBar.setProgress(counter);
         progressBar.setVisibility(View.VISIBLE);
