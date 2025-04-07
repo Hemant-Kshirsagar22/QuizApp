@@ -75,6 +75,7 @@ public class GlobalDrawerLayoutAndBottomNavigation extends AppCompatActivity{
                 if(Objects.equals(item.getTitle(), "Refresh"))
                 {
 
+                    //Refresh
                     Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this,"REFRESH",Toast.LENGTH_SHORT).show();
                     loginPage.Progress(progressBarRefresh);
                     drawerLayout.closeDrawer(GravityCompat.START);
