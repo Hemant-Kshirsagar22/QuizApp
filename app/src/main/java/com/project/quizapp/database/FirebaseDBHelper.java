@@ -74,6 +74,12 @@ public class FirebaseDBHelper {
         void onFailure(String errMsg);
     }
 
+    public interface GetTotalTestCountCallback
+    {
+        void onSuccess(long count);
+        void onFailure(String errMsg);
+    }
+
     private FirebaseDBHelper() {}
 
     private static DatabaseReference getRootRef() {
@@ -526,6 +532,35 @@ public class FirebaseDBHelper {
         }
     }
 
+    public static void getTotalTestCount(String subCategory,GetTotalTestCountCallback callback)
+    {
+        questionRef = getQuestionRef();
+
+        questionRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            long count = 0;
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(subCategory != null) {
+
+                }
+                for(DataSnapshot category : snapshot.getChildren())
+                {
+                    if(category.hasChildren())
+                    {
+                        count = count + category.getChildrenCount();
+                    }
+                }
+
+                Log.d("FB_CNT", count + "");
+                callback.onSuccess(count);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callback.onFailure(error.getMessage());
+            }
+        });
+    }
 
     // for questions
     public static void getQuestionByCategory(String category, QuestionQueryCallback questionQueryCallback)

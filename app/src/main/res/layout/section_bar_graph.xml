@@ -25,6 +25,7 @@
         android:layout_height="300dp"
         android:textSize="18sp"
         android:background="@android:color/transparent"
+        android:layout_marginBottom="20dp"
         />
 
 </LinearLayout>

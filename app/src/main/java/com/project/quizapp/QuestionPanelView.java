@@ -405,9 +405,9 @@ public class QuestionPanelView extends AppCompatActivity {
         // change drawer button colors
         changeDrawerButtonColor();
 
-        if (answer.equals(questions.get(currentQuestionPosition).getAnswer())) {
-            Toast.makeText(this, "Correct Answer", Toast.LENGTH_SHORT).show();
-        }
+//        if (answer.equals(questions.get(currentQuestionPosition).getAnswer())) {
+//            Toast.makeText(this, "Correct Answer", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     private void clearOptions()
@@ -492,7 +492,7 @@ public class QuestionPanelView extends AppCompatActivity {
                             marksMap = new HashMap<>();
                         }
 
-                        marksMap.put( FirebaseDBHelper.USR_MARKS_ROOT + "/" +selectedCategory, marks);
+                        marksMap.put( FirebaseDBHelper.USR_MARKS_ROOT + "/" +selectedCategory, String.format("%.2f", marks));
 
                         FirebaseDBHelper.updateMarksMap(marksMap, new FirebaseDBHelper.UserQueryCallback() {
                             @Override
