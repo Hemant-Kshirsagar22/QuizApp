@@ -4,6 +4,7 @@ import static com.project.quizapp.database.Status.MSG_LOGIN_SUCCESS;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -39,7 +40,8 @@ public class LoginPage extends AppCompatActivity{
 
     private GoogleSignInClient googleLoginClient;
     private static final int RC_SIGN_IN = 9001;
-
+    private boolean doubleBackToExitPressedOnce = false;
+    private Toast exitToast;
     int counter=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +77,7 @@ public class LoginPage extends AppCompatActivity{
                 String password = passwordEditText.getText().toString().trim();
 
                 //PtogressBar
-                ProgressBar();
+                Progress(progressBar);
                 if((!userName.isEmpty()) && (!password.isEmpty()))
                 {
                     FirebaseDBHelper.loginUser(userName, password, new FirebaseDBHelper.UserQueryCallback() {
@@ -145,7 +147,28 @@ public class LoginPage extends AppCompatActivity{
         }
     }
 
-    public void ProgressBar() {
+
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            if (doubleBackToExitPressedOnce) {
+                if (exitToast != null) exitToast.cancel();
+                super.onBackPressed(); // This will exit the app
+                return;
+            }
+
+            doubleBackToExitPressedOnce = true;
+            exitToast = Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT);
+            exitToast.show();
+
+            new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+        }
+    }
+
+    public void Progress(ProgressBar progressBar) {
         counter = 0; // Reset counter before starting
         progressBar.setProgress(counter);
         progressBar.setVisibility(View.VISIBLE);

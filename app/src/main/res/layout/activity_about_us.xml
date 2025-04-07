@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="16dp"
+    android:scrollbars="none"
+    tools:context=".AboutUs">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <!-- App Logo -->
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="App Logo"
+            android:src="@drawable/foreground" />
+
+        <!-- App Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="About Our App"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/textColorPrimary"
+            android:layout_marginBottom="16dp" />
+
+        <!-- App Description -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This Android application is designed to help Computer Science and IT students prepare for aptitude exams. The app offers multiple-choice quizzes that enhance logical reasoning, verbal ability, and quantitative skills through an easy-to-use mobile interface."
+            android:textSize="16sp"
+            android:textColor="@color/textColorPrimary"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Current Features -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="✓ Current Features"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/textColorPrimary"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="• User Login and Registration\n• General Aptitude Quizzes\n• Real-time Scoring\n• Performance Tracking\n• Clean and Interactive UI"
+            android:textSize="16sp"
+            android:textColor="@color/textColorPrimary"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Upcoming Features -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🚀 Upcoming Features"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/textColorPrimary"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="• Company-wise Test Categories\n• Company-specific Progress Reports\n• Leaderboards and Ranking System\n• Personalized Practice Sets\n• Coding and Technical Question Bank"
+            android:textSize="16sp"
+            android:textColor="@color/textColorPrimary"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Team Info -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="👨‍💻 Developed By"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/textColorPrimary"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="We are a group of passionate Computer Science students dedicated to solving real-world learning challenges through mobile applications."
+            android:textSize="16sp"
+            android:textColor="@color/textColorPrimary"
+            android:layout_marginBottom="32dp" />
+    </LinearLayout>
+</ScrollView>

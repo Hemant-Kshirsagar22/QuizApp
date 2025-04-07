@@ -66,4 +66,9 @@ public class IntentManager {
         Intent intent = new Intent(context, Performance.class);
         context.startActivity(intent);
     }
+    public static void toAboutUs(Context context)
+    {
+        Intent intent = new Intent(context, AboutUs.class);
+        context.startActivity(intent);
+    }
 }
