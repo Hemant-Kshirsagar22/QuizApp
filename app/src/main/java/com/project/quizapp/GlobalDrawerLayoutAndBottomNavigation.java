@@ -148,7 +148,7 @@ public class GlobalDrawerLayoutAndBottomNavigation extends AppCompatActivity{
                                 }
                                 else {
                                     finish();
-                                    IntentManager.toQuestionPanelView(getApplicationContext(), selectedCategory, true);
+                                    IntentManager.toQuestionPanelView(getApplicationContext(), selectedCategory, true, false);
                                 }
                             }
                             else

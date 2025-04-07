@@ -1,5 +1,8 @@
 package com.project.quizapp;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -75,6 +78,7 @@ public class QuestionPanelView extends AppCompatActivity {
     private long totalTestTime = 0L;
     private long currentTime = 0L;
 
+    private boolean solution = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +86,7 @@ public class QuestionPanelView extends AppCompatActivity {
         // get the selected category
         selectedCategory = getIntent().getStringExtra("selectedCategory");
         resumeTestStatus = getIntent().getBooleanExtra("resumeTest", false); // get resumeTest Status
+        solution = getIntent().getBooleanExtra("solution", false);
 
         // session related code
         sessionManager = new SessionManager(QuestionPanelView.this);
@@ -108,7 +113,13 @@ public class QuestionPanelView extends AppCompatActivity {
 
                 // set the questions status
                 setQuestionsStatus();
-                dialog.show();
+                if(solution)
+                {
+                    IntentManager.toDashboardActivity(QuestionPanelView.this);
+                }
+                else {
+                    dialog.show();
+                }
             }
         });
 
@@ -129,54 +140,65 @@ public class QuestionPanelView extends AppCompatActivity {
 
                 updateDrawerQuestionSelector();
 
-                totalTestTime = question.size() * (1000 * 60); // set timer value to the number of questions * 1 min i.e. 1 min for 1 question
-
-                if(resumeTestStatus)
+                if(solution == true)
                 {
-                    answerList = sessionManager.getAnswerMap();
-                    answerStatusList = sessionManager.getAnswerStatusMap();
-                    questionsVisitedList = sessionManager.getQuestionVisitedMap();
-                    numberOfAnsweredQuestions = sessionManager.getValue("numberOfAnsweredQuestions");
-                    numberOfNotAnsweredQuestions = sessionManager.getValue("numberOfNotAnsweredQuestions");
-                    numberOfReviewLetterQuestions = sessionManager.getValue("numberOfReviewLetterQuestions");
-                    numberOfNotVisitedQuestions = sessionManager.getValue("numberOfNotVisitedQuestions");
-
-                    totalTestTime = sessionManager.getLongValue("timerValue");
-
-                    // update question drawer
-                    updateDrawerButtonsForResumeTest();
+                    binding.tvExplanation.setVisibility(VISIBLE);
+                    binding.timeValue.setVisibility(INVISIBLE);
+                    binding.pause.setVisibility(INVISIBLE);
+                    binding.reviewCheck.setVisibility(INVISIBLE);
+                    // set fetched question
+                    changeQuestion();
+                    return;
                 }
-
-                // set fetched question
-                changeQuestion();
-
-                // timer related code
-                new CountDownTimer(totalTestTime,1000)
+                else
                 {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
+                    totalTestTime = question.size() * (1000 * 60); // set timer value to the number of questions * 1 min i.e. 1 min for 1 question
 
-                        // set current count down value to global variable to store it if test is paused
-                        currentTime = millisUntilFinished;
+                    if (resumeTestStatus) {
+                        answerList = sessionManager.getAnswerMap();
+                        answerStatusList = sessionManager.getAnswerStatusMap();
+                        questionsVisitedList = sessionManager.getQuestionVisitedMap();
+                        numberOfAnsweredQuestions = sessionManager.getValue("numberOfAnsweredQuestions");
+                        numberOfNotAnsweredQuestions = sessionManager.getValue("numberOfNotAnsweredQuestions");
+                        numberOfReviewLetterQuestions = sessionManager.getValue("numberOfReviewLetterQuestions");
+                        numberOfNotVisitedQuestions = sessionManager.getValue("numberOfNotVisitedQuestions");
 
-                        binding.timeValue.setText(getCurrentTimeString(millisUntilFinished));
-                        // timer for alert box
-                        dialogBinding.timeValue.setText(getCurrentTimeString(millisUntilFinished));
+                        totalTestTime = sessionManager.getLongValue("timerValue");
 
+                        // update question drawer
+                        updateDrawerButtonsForResumeTest();
                     }
 
-                    @Override
-                    public void onFinish() {
+                    // set fetched question
+                    changeQuestion();
 
-                        dialogBinding.btnResume.setVisibility(View.GONE);
-                        dialogBinding.dialogMessage.setText("TIME UP !!! SUBMIT THE ANSWERS");
+                    // timer related code
+                    new CountDownTimer(totalTestTime, 1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
 
-                        // set the questions status
-                        setQuestionsStatus();
-                        dialog.show();
+                            // set current count down value to global variable to store it if test is paused
+                            currentTime = millisUntilFinished;
 
-                    }
-                }.start();
+                            binding.timeValue.setText(getCurrentTimeString(millisUntilFinished));
+                            // timer for alert box
+                            dialogBinding.timeValue.setText(getCurrentTimeString(millisUntilFinished));
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+                            dialogBinding.btnResume.setVisibility(View.GONE);
+                            dialogBinding.dialogMessage.setText("TIME UP !!! SUBMIT THE ANSWERS");
+
+                            // set the questions status
+                            setQuestionsStatus();
+                            dialog.show();
+
+                        }
+                    }.start();
+                }
             }
 
             @Override
@@ -185,32 +207,27 @@ public class QuestionPanelView extends AppCompatActivity {
             }
         });
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if(binding.a.isChecked())
-                {
-                    answerList.put(currentQuestionPosition, A);
-                    selectOption(binding.a, A);
-                }
-                else if(binding.b.isChecked())
-                {
-                    answerList.put(currentQuestionPosition, B);
-                    selectOption(binding.b, B);
-                }
-                else if(binding.c.isChecked())
-                {
-                    answerList.put(currentQuestionPosition, C);
-                    selectOption(binding.c, C);
-                }
-                else if(binding.d.isChecked())
-                {
-                    answerList.put(currentQuestionPosition, D);
-                    selectOption(binding.d, D);
-                }
+        if(!solution) {
+            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                    if (binding.a.isChecked()) {
+                        answerList.put(currentQuestionPosition, A);
+                        selectOption(binding.a, A);
+                    } else if (binding.b.isChecked()) {
+                        answerList.put(currentQuestionPosition, B);
+                        selectOption(binding.b, B);
+                    } else if (binding.c.isChecked()) {
+                        answerList.put(currentQuestionPosition, C);
+                        selectOption(binding.c, C);
+                    } else if (binding.d.isChecked()) {
+                        answerList.put(currentQuestionPosition, D);
+                        selectOption(binding.d, D);
+                    }
 
-            }
-        });
+                }
+            });
+        }
 
         binding.clearResponse.setOnClickListener(view -> {
             // clear mark as review
@@ -319,6 +336,11 @@ public class QuestionPanelView extends AppCompatActivity {
     {
         if(questions != null)
         {
+            if(solution)
+            {
+                binding.tvExplanation.setText(questions.get(currentQuestionPosition).getExplanation());
+            }
+
             binding.tvQuestion.setText(questions.get(currentQuestionPosition).getQuestion());
             binding.tvQuestionNumber.setText("Question : " + (currentQuestionPosition + 1));
 
@@ -364,12 +386,37 @@ public class QuestionPanelView extends AppCompatActivity {
                 }
             }
 
-            // change drawer button colors
-            changeDrawerButtonColor();
+            if(solution) {
+                switch (questions.get(currentQuestionPosition).getAnswer()) {
+                    case "A":
+                        binding.a.setBackgroundResource(R.drawable.answered_background);
+                        break;
+
+                    case "B":
+                        binding.b.setBackgroundResource(R.drawable.answered_background);
+                        break;
+
+                    case "C":
+                        binding.c.setBackgroundResource(R.drawable.answered_background);
+                        break;
+
+                    case "D":
+                        binding.d.setBackgroundResource(R.drawable.answered_background);
+                        break;
+
+                    default:
+                        Toast.makeText(this, "ERR SOLUTION", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }else {
+                // change drawer button colors
+                changeDrawerButtonColor();
+            }
         }
     }
 
     private void selectOption(RadioButton option, String answer) {
+
         if(Objects.equals(option, binding.a))
         {
             option.setBackgroundResource(R.drawable.option_background_selected);
@@ -406,7 +453,7 @@ public class QuestionPanelView extends AppCompatActivity {
         changeDrawerButtonColor();
 
         if (answer.equals(questions.get(currentQuestionPosition).getAnswer())) {
-            Toast.makeText(this, "Correct Answer", Toast.LENGTH_SHORT).show();
+               Toast.makeText(this, "Correct Answer", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -583,7 +630,12 @@ public class QuestionPanelView extends AppCompatActivity {
 
         resultViewBinding.reAttempt.setOnClickListener(view -> {
             alertDialog.dismiss();
-            IntentManager.toQuestionPanelView(this, selectedCategory, false);
+            IntentManager.toQuestionPanelView(this, selectedCategory, false, false);
+        });
+
+        resultViewBinding.solution.setOnClickListener(view -> {
+            alertDialog.dismiss();
+            IntentManager.toQuestionPanelView(this, selectedCategory, false, true);
         });
         alertDialog.show();
     }

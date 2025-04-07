@@ -51,12 +51,13 @@ public class IntentManager {
         context.startActivity(intent);
     }
 
-    public static void toQuestionPanelView(Context context, String selectedCategory,Boolean resumeTest){
+    public static void toQuestionPanelView(Context context, String selectedCategory,Boolean resumeTest, boolean solution){
         Intent intent = new Intent(context, QuestionPanelView.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         intent.putExtra("selectedCategory", selectedCategory);
         intent.putExtra("resumeTest", resumeTest);
+        intent.putExtra("solution", solution);
 
         context.startActivity(intent);
     }
