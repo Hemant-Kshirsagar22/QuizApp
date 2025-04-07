@@ -99,6 +99,8 @@ public class GlobalDrawerLayoutAndBottomNavigation extends AppCompatActivity{
                 }
                 else if(Objects.equals(item.getTitle(), "History"))
                 {
+                    IntentManager.toHistory(GlobalDrawerLayoutAndBottomNavigation.this);
+                    drawerLayout.close();
                     Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this,"History",Toast.LENGTH_SHORT).show();
                     return (true);
                 }

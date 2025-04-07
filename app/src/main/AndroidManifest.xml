@@ -30,6 +30,9 @@
             android:name=".Dashboard"
             android:exported="false" />
         <activity
+            android:name=".History"
+            android:exported="false" />
+        <activity
             android:name=".QuestionPanelView"
             android:exported="false" />
         <activity

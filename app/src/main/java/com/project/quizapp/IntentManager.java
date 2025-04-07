@@ -72,4 +72,10 @@ public class IntentManager {
         Intent intent = new Intent(context, AboutUs.class);
         context.startActivity(intent);
     }
+
+    public static void toHistory(Context context)
+    {
+        Intent intent = new Intent(context, History.class);
+        context.startActivity(intent);
+    }
 }
