@@ -21,6 +21,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.project.quizapp.database.FirebaseDBHelper;
 import com.project.quizapp.database.entities.QuestionCategory;
+import com.project.quizapp.database.entities.User;
 import com.project.quizapp.databinding.PerformanceActivityBinding;
 
 import java.util.ArrayList;
@@ -55,6 +56,18 @@ public class Performance extends GlobalDrawerLayoutAndBottomNavigation {
         binding = PerformanceActivityBinding.bind(view);
         barChart = findViewById(R.id.barChart);
 
+        FirebaseDBHelper.getUser(new FirebaseDBHelper.UserQueryCallback() {
+            @Override
+            public void onSuccess(User user) {
+                binding.userName.setText(user.getFirstName() + " " + user.getLastName());
+            }
+
+            @Override
+            public void onFailure(String errMsg) {
+                Toast.makeText(getApplicationContext(), errMsg, Toast.LENGTH_SHORT).show();
+            }
+        });
+
         FirebaseDBHelper.getMarksMap(new FirebaseDBHelper.GetMarksMapCallback() {
             @Override
             public void onSuccess(Map<String, Object> marksMap) {
@@ -63,12 +76,22 @@ public class Performance extends GlobalDrawerLayoutAndBottomNavigation {
                 verbalReasoning = new HashMap<>();
                 aptitude = new HashMap<>();
 
+                int quizPassed = 0;
+                int quizFailed = 0;
 
                 for (Map.Entry<String, Object> entry : marksMap.entrySet()) {
                     String key = entry.getKey();
                     Object marks = entry.getValue();
                     String[] path = key.split("/");
 
+                    if(Float.parseFloat(marks.toString()) > 35.0f)
+                    {
+                        quizPassed++;
+                    }
+                    else
+                    {
+                        quizFailed++;
+                    }
                     if(path[1].equals("Logical-Reasoning"))
                     {
                         logicalReasoning.put(path[2], Float.parseFloat(marks.toString()));
@@ -83,9 +106,9 @@ public class Performance extends GlobalDrawerLayoutAndBottomNavigation {
                     }
                 }
 
-                Log.d("PERF_Logi", logicalReasoning.toString());
-                Log.d("PERF_Verb", verbalReasoning.toString());
-                Log.d("PERF_Apt", aptitude.toString());
+                binding.quizPass.setText("" + quizPassed);
+                binding.quizFailed.setText("" + quizFailed);
+                binding.totalTestAttepmted.setText("" + marksMap.size());
 
                 calculateAvgCategoryMarks();
             }

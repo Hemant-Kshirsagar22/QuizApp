@@ -215,5 +215,13 @@
             android:text="HOME"
             android:textColor="@color/white" />
     </LinearLayout>
+    <Button
+        android:id="@+id/solution"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/blue"
+        android:text="Solutions"
+        android:textColor="@color/white" />
 
 </LinearLayout>

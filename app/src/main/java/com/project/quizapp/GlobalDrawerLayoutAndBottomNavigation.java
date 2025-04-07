@@ -1,9 +1,9 @@
 package com.project.quizapp;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -34,6 +35,7 @@ public class GlobalDrawerLayoutAndBottomNavigation extends AppCompatActivity{
     private TextView userName = null;
     private TextView userEmail = null;
 
+    private ProgressBar progressBarRefresh;
     private SessionManager sessionManager = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,17 +66,28 @@ public class GlobalDrawerLayoutAndBottomNavigation extends AppCompatActivity{
         userName = headerView.findViewById(R.id.userName);
         userEmail = headerView.findViewById(R.id.userEmail);
 
+        LoginPage loginPage = new LoginPage();
+        //progressBar
+        progressBarRefresh = findViewById(R.id.progressBarRefresh);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if(Objects.equals(item.getTitle(), "Refresh"))
                 {
+
+                    //Refresh
                     Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this,"REFRESH",Toast.LENGTH_SHORT).show();
+                    loginPage.Progress(progressBarRefresh);
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    IntentManager.toDashboardActivity(GlobalDrawerLayoutAndBottomNavigation.this);
+
                     return (true);
                 }
                 else if(Objects.equals(item.getTitle(), "About Us"))
                 {
                     Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this,"About Us",Toast.LENGTH_SHORT).show();
+                    IntentManager.toAboutUs(GlobalDrawerLayoutAndBottomNavigation.this);
+
                     return (true);
                 }
                 else if(Objects.equals(item.getTitle(), "Performance"))
@@ -111,6 +124,7 @@ public class GlobalDrawerLayoutAndBottomNavigation extends AppCompatActivity{
                 if(Objects.equals(item.getTitle(), "Home"))
                 {
                     IntentManager.toDashboardActivity(GlobalDrawerLayoutAndBottomNavigation.this);
+                    Toast.makeText(getApplicationContext(), "Dashboard", Toast.LENGTH_SHORT).show();
                     return (true);
                 }
                 else if(Objects.equals(item.getTitle(), "Test"))
@@ -185,3 +199,4 @@ public class GlobalDrawerLayoutAndBottomNavigation extends AppCompatActivity{
         }
     }
 }
+

@@ -36,7 +36,7 @@
                     android:layout_height="100dp"
                     android:contentDescription="Profile Picture"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/aaryan_medhe"
+                    android:src="@drawable/baseline_person_24"
                     app:shapeAppearanceOverlay="@style/RoundedImageView" />
 
 
@@ -145,7 +145,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/totalTestAttepmted"
-                    android:text="25/50"
+                    android:text="0"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_marginTop="8dp" />
@@ -172,7 +172,8 @@
                         style="@style/StatsValue"
                         android:layout_width="wrap_content"
                         android:layout_height="24dp"
-                        android:text="25/50" />
+                        android:id="@+id/quizPass"
+                        android:text="0" />
                     <TextView
                         style="@style/StatsTitle"
                         android:layout_width="wrap_content"
@@ -194,7 +195,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="24dp"
-                        android:text="21/25"
+                        android:text="0"
+                        android:id="@+id/quizFailed"
                         style="@style/StatsValue"
 
                         />

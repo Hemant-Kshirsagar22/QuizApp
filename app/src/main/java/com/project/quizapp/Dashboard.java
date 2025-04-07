@@ -1,6 +1,7 @@
 package com.project.quizapp;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -22,7 +23,9 @@ public class Dashboard extends GlobalDrawerLayoutAndBottomNavigation {
     private ActivityLogicalReasoningBinding binding;
     private QuestionSubCategoryRecyclerViewAdapter subCategoryRecyclerViewAdapter;
     private static QuestionCategory questionCategory = null;
-    private Map<String,Long> subCategoryList =  new HashMap<>();;
+    private Map<String,Long> subCategoryList =  new HashMap<>();
+    private boolean doubleBackToExitPressedOnce = false;
+    private Toast exitToast;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,14 +105,26 @@ public class Dashboard extends GlobalDrawerLayoutAndBottomNavigation {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                // Check if the subcategories RecyclerView is visible
-                if (binding.recyclerViewSubCategories.getVisibility() == View.VISIBLE) {
-                    // If it's visible, hide the subcategories view and show the base categories view
-                    binding.recyclerViewSubCategories.setVisibility(View.GONE);
-                    binding.recyclerViewBaseCategories.setVisibility(View.VISIBLE);
-                }
-                else {
-                    finish();
+
+                if (getFragmentManager().getBackStackEntryCount() > 0) {
+                    getFragmentManager().popBackStack();
+                } else {
+                    if (doubleBackToExitPressedOnce) {
+                        if (exitToast != null) exitToast.cancel();
+                        return;
+                    }
+
+                    // Check if the subcategories RecyclerView is visible
+                    if (binding.recyclerViewSubCategories.getVisibility() == View.VISIBLE) {
+                        // If it's visible, hide the subcategories view and show the base categories view
+                        binding.recyclerViewSubCategories.setVisibility(View.GONE);
+                        binding.recyclerViewBaseCategories.setVisibility(View.VISIBLE);
+                    }
+                    doubleBackToExitPressedOnce = true;
+                    exitToast = Toast.makeText(Dashboard.this, "Press again to exit", Toast.LENGTH_SHORT);
+                    exitToast.show();
+
+                    new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
                 }
             }
         });

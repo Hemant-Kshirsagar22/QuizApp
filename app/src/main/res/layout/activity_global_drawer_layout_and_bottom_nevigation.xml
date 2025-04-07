@@ -35,6 +35,15 @@
                 app:title="@string/app_name"
                 android:background="@color/purple"
                 app:titleTextColor="@color/textColorPrimary" />
+            <ProgressBar
+                android:id="@+id/progressBarRefresh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:visibility="gone"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="top"
+                />
             <!-- Fragment/Activity Content Area -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/content_frame"
