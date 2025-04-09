@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                                     finish();
 
                                 } else {
-                                    IntentManager.toDashboardActivity(MainActivity.this);
+                                    IntentManager.toDashboardActivity(MainActivity.this, true);
                                     finish();
                                 }
                             }
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(String errMsg) {
-                            IntentManager.toDashboardActivity(MainActivity.this);
+                            IntentManager.toDashboardActivity(MainActivity.this, true);
                             finish();
                         }
                     });
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                                     finish();
 
                                 } else {
-                                    IntentManager.toDashboardActivity(MainActivity.this);
+                                    IntentManager.toDashboardActivity(MainActivity.this, true);
                                     finish();
                                 }
                             }
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(String errMsg) {
-                            IntentManager.toDashboardActivity(MainActivity.this);
+                            IntentManager.toDashboardActivity(MainActivity.this, true);
                             finish();
                         }
                     });

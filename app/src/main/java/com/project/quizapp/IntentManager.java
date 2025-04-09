@@ -22,11 +22,11 @@ public class IntentManager {
         context.startActivity(intent);
     }
 
-    public static void toDashboardActivity(Context context)
+    public static void toDashboardActivity(Context context, boolean flag)
     {
         Class<?> currentActivityClass = context.getClass();
 
-        if(!currentActivityClass.equals(Dashboard.class)) {
+        if(!currentActivityClass.equals(Dashboard.class) || flag) {
             Intent intent = new Intent(context, Dashboard.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);

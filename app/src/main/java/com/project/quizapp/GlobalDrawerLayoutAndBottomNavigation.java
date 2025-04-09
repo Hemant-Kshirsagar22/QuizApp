@@ -79,7 +79,7 @@ public class GlobalDrawerLayoutAndBottomNavigation extends AppCompatActivity{
                     Toast.makeText(GlobalDrawerLayoutAndBottomNavigation.this,"REFRESH",Toast.LENGTH_SHORT).show();
                     loginPage.Progress(progressBarRefresh);
                     drawerLayout.closeDrawer(GravityCompat.START);
-                    IntentManager.toDashboardActivity(GlobalDrawerLayoutAndBottomNavigation.this);
+                    IntentManager.toDashboardActivity(GlobalDrawerLayoutAndBottomNavigation.this, true);
 
                     return (true);
                 }
@@ -125,7 +125,7 @@ public class GlobalDrawerLayoutAndBottomNavigation extends AppCompatActivity{
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if(Objects.equals(item.getTitle(), "Home"))
                 {
-                    IntentManager.toDashboardActivity(GlobalDrawerLayoutAndBottomNavigation.this);
+                    IntentManager.toDashboardActivity(GlobalDrawerLayoutAndBottomNavigation.this, false);
                     Toast.makeText(getApplicationContext(), "Dashboard", Toast.LENGTH_SHORT).show();
                     return (true);
                 }

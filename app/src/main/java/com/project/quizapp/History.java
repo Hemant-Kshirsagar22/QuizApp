@@ -25,13 +25,9 @@ import java.util.Set;
 
 public class History extends GlobalDrawerLayoutAndBottomNavigation{
     private HistoryTestMarksRecyclerView historyTestMarksRecyclerView;
-    private static QuestionCategory questionCategory = null;
     private Map<String,Object> subMarksMap =  new HashMap<>();
     private HistoryActivityBinding binding = null;
     private List<String> subCategory = null;
-
-    private boolean doubleBackToExitPressedOnce = false;
-    private Toast exitToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,78 +92,6 @@ public class History extends GlobalDrawerLayoutAndBottomNavigation{
                 binding.recyclerViewBaseCategories.setAdapter(historyQuestionBaseCategoryRecyclerView);
 
                 binding.recyclerViewTestMarks.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-
-
-//                binding.recyclerViewSubCategories.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-//                subCategoryRecyclerViewAdapter = new QuestionSubCategoryRecyclerViewAdapter(getApplicationContext(), subCategoryList, new QuestionSubCategoryRecyclerViewAdapter.QuestionSubCategoryOnClickCallback() {
-//                    @Override
-//                    public void OnSubCategorySelected(String subCategory) {
-//                        String selectedCategory = questionCategory.getBaseCategory() + "/" +subCategory;
-//
-//
-//                    }
-//                });
-//
-//                binding.recyclerViewSubCategories.setAdapter(subCategoryRecyclerViewAdapter);
-//                binding.recyclerViewBaseCategories.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-//                QuestionBaseCategoryRecyclerViewAdapter baseCategoryRecyclerViewAdapter = new QuestionBaseCategoryRecyclerViewAdapter(getApplicationContext(), categories, new QuestionBaseCategoryRecyclerViewAdapter.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(QuestionCategory questionCategory) {
-//
-//                        subCategoryList.clear();
-//                        History.questionCategory = questionCategory;
-//                        subCategoryList.putAll(questionCategory.getSubCategory());
-//                        subCategoryRecyclerViewAdapter.notifyDataSetChanged();
-//                        binding.recyclerViewBaseCategories.setVisibility(View.GONE);
-//
-//                        if(binding.recyclerViewSubCategories.getVisibility() == View.VISIBLE)
-//                        {
-//                            binding.recyclerViewSubCategories.setVisibility(View.GONE);
-//                        }
-//                        else
-//                        {
-//                            binding.recyclerViewSubCategories.setVisibility(View.VISIBLE);
-//                        }
-//                    }
-//                });
-//
-//                binding.recyclerViewBaseCategories.setAdapter(baseCategoryRecyclerViewAdapter);
-//
-//                binding.recyclerViewSubCategories.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-//                subCategoryRecyclerViewAdapter = new QuestionSubCategoryRecyclerViewAdapter(getApplicationContext(), subCategoryList, new QuestionSubCategoryRecyclerViewAdapter.QuestionSubCategoryOnClickCallback() {
-//                    @Override
-//                    public void OnSubCategorySelected(String subCategory) {
-//                        String selectedCategory = questionCategory.getBaseCategory() + "/" +subCategory;
-//
-//                        // show alert to start the test
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(History.this);
-//                        ActivityAlertBoxForTestStartBinding alertBoxForTestStartBinding = ActivityAlertBoxForTestStartBinding.inflate(LayoutInflater.from(History.this));
-//                        builder.setView(alertBoxForTestStartBinding.getRoot());
-//
-//                        AlertDialog dialog = builder.create();
-//                        dialog.show();
-//
-//                        alertBoxForTestStartBinding.next.setOnClickListener(v -> {
-//                            if(alertBoxForTestStartBinding.checkInstruction.isChecked()) {
-//                                dialog.dismiss();
-//                                finish();
-//                                IntentManager.toQuestionPanelView(getApplicationContext(), selectedCategory, false, false);
-//                            }
-//                            else
-//                            {
-//                                Toast.makeText(History.this, "PLEASE MARK CHECKBOX", Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//
-//                        alertBoxForTestStartBinding.cancelTest.setOnClickListener(v -> {
-//                            dialog.cancel();
-//                        });
-//
-//                    }
-//                });
-//                binding.recyclerViewSubCategories.setAdapter(subCategoryRecyclerViewAdapter);
-
             }
 
             @Override
@@ -179,26 +103,11 @@ public class History extends GlobalDrawerLayoutAndBottomNavigation{
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-
-                if (getFragmentManager().getBackStackEntryCount() > 0) {
-                    getFragmentManager().popBackStack();
-                } else {
-                    if (doubleBackToExitPressedOnce) {
-                        if (exitToast != null) exitToast.cancel();
-                        return;
-                    }
-
-                    // Check if the subcategories RecyclerView is visible
-                    if (binding.recyclerViewTestMarks.getVisibility() == View.VISIBLE) {
-                        // If it's visible, hide the subcategories view and show the base categories view
-                        binding.recyclerViewTestMarks.setVisibility(View.GONE);
-                        binding.recyclerViewBaseCategories.setVisibility(View.VISIBLE);
-                    }
-                    doubleBackToExitPressedOnce = true;
-                    exitToast = Toast.makeText(History.this, "Press again to exit", Toast.LENGTH_SHORT);
-                    exitToast.show();
-
-                    new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+                // Check if the subcategories RecyclerView is visible
+                if (binding.recyclerViewTestMarks.getVisibility() == View.VISIBLE) {
+                    // If it's visible, hide the subcategories view and show the base categories view
+                    binding.recyclerViewTestMarks.setVisibility(View.GONE);
+                    binding.recyclerViewBaseCategories.setVisibility(View.VISIBLE);
                 }
             }
         });

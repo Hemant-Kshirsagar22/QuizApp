@@ -116,7 +116,7 @@ public class QuestionPanelView extends AppCompatActivity {
                 setQuestionsStatus();
                 if(solution)
                 {
-                    IntentManager.toDashboardActivity(QuestionPanelView.this);
+                    IntentManager.toDashboardActivity(QuestionPanelView.this, true);
                 }
                 else {
                     dialog.show();
@@ -149,6 +149,11 @@ public class QuestionPanelView extends AppCompatActivity {
                     binding.reviewCheck.setVisibility(INVISIBLE);
                     binding.clearResponse.setVisibility(INVISIBLE);
                     answerList = sessionManager.getAnswerMap();
+
+                    if(answerList == null)
+                    {
+                        answerList = new HashMap<>();
+                    }
                     // set fetched question
                     changeQuestion();
                     return;
@@ -302,7 +307,7 @@ public class QuestionPanelView extends AppCompatActivity {
                 if(solution)
                 {
                     finish();
-                    IntentManager.toDashboardActivity(QuestionPanelView.this);
+                    IntentManager.toDashboardActivity(QuestionPanelView.this, true);
                     return;
                 }
                 pauseAlertDialogue();
@@ -569,7 +574,7 @@ public class QuestionPanelView extends AppCompatActivity {
                             marksMap = new HashMap<>();
                         }
 
-                        marksMap.put( FirebaseDBHelper.USR_MARKS_ROOT + "/" +selectedCategory, String.format("%.2f", marks));
+                        marksMap.put( FirebaseDBHelper.USR_MARKS_ROOT + "/" +selectedCategory, String.format("%.2f", marks).toString());
 
                         FirebaseDBHelper.updateMarksMap(marksMap, new FirebaseDBHelper.UserQueryCallback() {
                             @Override
@@ -616,7 +621,7 @@ public class QuestionPanelView extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 finish();
-                IntentManager.toDashboardActivity(QuestionPanelView.this);
+                IntentManager.toDashboardActivity(QuestionPanelView.this,true);
             }
         });
 
@@ -654,7 +659,7 @@ public class QuestionPanelView extends AppCompatActivity {
             public void onClick(View view) {
                 alertDialog.dismiss();
                 finish();
-                IntentManager.toDashboardActivity(QuestionPanelView.this);
+                IntentManager.toDashboardActivity(QuestionPanelView.this,true);
             }
         });
 

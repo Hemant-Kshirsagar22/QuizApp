@@ -89,7 +89,7 @@ public class LoginPage extends AppCompatActivity{
                                 IntentManager.toAdminMainActivity(LoginPage.this);
                             }
                             else {
-                                IntentManager.toDashboardActivity(LoginPage.this);
+                                IntentManager.toDashboardActivity(LoginPage.this, true);
                             }
                         }
 
@@ -130,7 +130,7 @@ public class LoginPage extends AppCompatActivity{
                 FirebaseDBHelper.insertUserWithGoogle(account, new FirebaseDBHelper.UserQueryCallback() {
                     public void onSuccess(User user) {
                         Toast.makeText(LoginPage.this, MSG_LOGIN_SUCCESS, Toast.LENGTH_SHORT).show();
-                        IntentManager.toDashboardActivity(LoginPage.this);
+                        IntentManager.toDashboardActivity(LoginPage.this, true);
                         finish();
                     }
 

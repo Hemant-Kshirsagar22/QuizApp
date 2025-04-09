@@ -30,7 +30,7 @@ public class AdminMainActivity extends AppCompatActivity {
         homeCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentManager.toDashboardActivity(AdminMainActivity.this);
+                IntentManager.toDashboardActivity(AdminMainActivity.this, true);
                 finish();
             }
         });
