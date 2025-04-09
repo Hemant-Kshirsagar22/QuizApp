@@ -221,19 +221,28 @@ public class FirebaseDBHelper {
 
 
                         userRef = getUserRef();
-                        userRef.child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful())
-                                {
-                                    callback.onSuccess(user);
-                                }
-                                else
-                                {
-                                    callback.onFailure(Status.MSG_INSERT_FAILED);
-                                }
+                        userRef.child(userId).get().addOnCompleteListener(task1 -> {
+                            if(task1.getResult().getChildrenCount() <= 0) {
+                                Log.d("GOOGLE_LOGIN","New Data");
+                                userRef.child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            callback.onSuccess(user);
+                                        } else {
+                                            callback.onFailure(Status.MSG_INSERT_FAILED);
+                                        }
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                Log.d("GOOGLE_LOGIN","Old Data Data");
+                                callback.onSuccess(user);
                             }
                         });
+
+
                     }
                     else
                     {

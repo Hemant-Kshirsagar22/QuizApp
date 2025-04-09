@@ -306,8 +306,8 @@ public class QuestionPanelView extends AppCompatActivity {
             public void handleOnBackPressed() {
                 if(solution)
                 {
-                    finish();
                     IntentManager.toDashboardActivity(QuestionPanelView.this, true);
+                    finish();
                     return;
                 }
                 pauseAlertDialogue();
@@ -620,8 +620,8 @@ public class QuestionPanelView extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                finish();
                 IntentManager.toDashboardActivity(QuestionPanelView.this,true);
+                finish();
             }
         });
 
@@ -658,8 +658,8 @@ public class QuestionPanelView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 alertDialog.dismiss();
-                finish();
                 IntentManager.toDashboardActivity(QuestionPanelView.this,true);
+                finish();
             }
         });
 
