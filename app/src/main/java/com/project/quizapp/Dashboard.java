@@ -111,6 +111,7 @@ public class Dashboard extends GlobalDrawerLayoutAndBottomNavigation {
                 } else {
                     if (doubleBackToExitPressedOnce) {
                         if (exitToast != null) exitToast.cancel();
+                        finish();
                         return;
                     }
 

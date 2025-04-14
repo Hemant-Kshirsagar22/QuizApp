@@ -109,6 +109,10 @@ public class History extends GlobalDrawerLayoutAndBottomNavigation{
                     binding.recyclerViewTestMarks.setVisibility(View.GONE);
                     binding.recyclerViewBaseCategories.setVisibility(View.VISIBLE);
                 }
+                else
+                {
+                    finish();
+                }
             }
         });
 
