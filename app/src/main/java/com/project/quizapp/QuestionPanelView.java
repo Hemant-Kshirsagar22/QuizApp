@@ -485,9 +485,7 @@ public class QuestionPanelView extends AppCompatActivity {
             changeDrawerButtonColor();
         }
 
-        if (answer.equals(questions.get(currentQuestionPosition).getAnswer())) {
-               Toast.makeText(this, "Correct Answer", Toast.LENGTH_SHORT).show();
-        }
+
     }
 
     private void clearOptions()
