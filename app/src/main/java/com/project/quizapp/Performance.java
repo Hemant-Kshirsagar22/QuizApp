@@ -233,11 +233,11 @@ public class Performance extends GlobalDrawerLayoutAndBottomNavigation {
         // X-Axis labels
         final String[] categories = new String[]{"Verbal", "Logical", "Aptitude"};
         XAxis xAxis = barChart.getXAxis();
+        xAxis.setTextColor(ContextCompat.getColor(context, R.color.textColorPrimary));
         xAxis.setValueFormatter(new IndexAxisValueFormatter(categories));
         xAxis.setGranularity(1f);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
-        xAxis.setTextColor(Color.WHITE);
         xAxis.setTextSize(12f);
         xAxis.setYOffset(12f);
         xAxis.setXOffset(33f);
@@ -245,10 +245,10 @@ public class Performance extends GlobalDrawerLayoutAndBottomNavigation {
         barChart.getAxisLeft().setTextColor(Color.WHITE);
         barChart.getAxisLeft().setTextSize(12f);
         barChart.getAxisRight().setEnabled(false);
-
+        barChart.setExtraBottomOffset(20f); // Add extra offset below X-axis
         barChart.getDescription().setEnabled(false);
         barChart.setDrawGridBackground(false);
-        barChart.animateY(1500);
+        barChart.animateY(1000);
 
 
         YAxis leftAxis = barChart.getAxisLeft();
