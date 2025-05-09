@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QuizApp</string>
+    <string name="app_name">AptitudeAce</string>
     <string name="enter_password_one">Enter Password</string>
     <string name="enter_password_two">Confirm Password</string>
     <string name="enter_email">Enter Email</string>
